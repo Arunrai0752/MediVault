@@ -4,7 +4,6 @@ import { FaHandHoldingMedical } from "react-icons/fa";
 import About from '../components/About';
 
 
-
 const Home = () => {
   const navigate = useNavigate();
 
@@ -14,7 +13,7 @@ const Home = () => {
 
   return (
     <>
-      <main className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100  pt-40 '>
+      <main className='min-h-screen bg-gradient-to-br from-blue-50 to-blue-100  pt-20 '>
 
 
         <span className="w-full max-w-4xl text-center mb-8 md:mb-12">

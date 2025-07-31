@@ -1,8 +1,11 @@
 import React from 'react'
 import { IoMdCloseCircleOutline } from "react-icons/io";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const Register = () => {
+
+  const navigate = useNavigate();
   return (
     <main className='min-h-screen bg-blue-500/40 w-full flex justify-center items-center p-4'>
       <div className='h-auto min-h-[85vh] w-full md:w-[50vw] bg-white/70 rounded-lg mt-10 p-6 flex flex-col shadow-xl'>
@@ -11,6 +14,7 @@ const Register = () => {
             Patient <span className='text-blue-600'>Registration</span>
           </h1>
           <button 
+          onClick={() => {navigate("/")}}
             className='text-2xl text-gray-500 hover:text-red-600 transition-all duration-300 transform hover:rotate-90'
             aria-label="Close registration form"
           >
@@ -79,7 +83,7 @@ const Register = () => {
           
           <p className='text-gray-600'>
             Already have an account?{' '}
-            <Link to="/login" className='text-blue-600 hover:text-blue-800 font-medium'>
+            <Link to="/" className='text-blue-600 hover:text-blue-800 font-medium'>
               Login
             </Link>
           </p>  

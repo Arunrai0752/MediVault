@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useLocation, useNavigate } from 'react-router-dom';
+import api from '../../Configs/api';
 
 const Login = () => {
-    const location = useLocation();
-    const isDoctorDefault = location.state?.isDoctorDefault || false;
+
+    const navigate = useNavigate()
+   
     
-    const [isDoctor, setIsDoctor] = useState(isDoctorDefault);
+    const [isDoctor, setIsDoctor] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -19,13 +22,32 @@ const Login = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Logging in as:', isDoctor ? 'Doctor' : 'Patient', formData);
-        setFormData({
-            email: '',
-            password: ''
-        });
+        try {
+
+            const res= await api.post("/auth/login" , formData);
+            toast.success(res.data.message);
+            setFormData({
+                email: "",
+                password:"",
+            });
+            sessionStorage.setItem("LoginUser" , JSON.stringify(res.data.data))
+            if(res.data.data.role === "Doctor"){
+                navigate("/doctordash")
+            }
+            else{
+                navigate("/")
+            }
+            
+        } catch (error) {
+            toast.error(error.message)
+            
+        }
+
+
+
+        
     };
 
     useEffect(() => {
