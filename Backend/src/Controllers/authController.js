@@ -1,13 +1,12 @@
 import Doctor from "../Models/DoctorModel.js"
 import bcrypt from "bcrypt";
+import Patient from "../Models/PatientsModel.js";
 
 
 export const DocRegister = async (req, res, next) => {
   try {
 
     const { fullName, email, phone, specialization, experience, licenseNumber, fee, password } = req.body;
-
-    console.log({ fullName, email, phone, specialization, experience, licenseNumber, fee, password });
 
 
     if (!fullName || !specialization || !email || !phone || !experience || !licenseNumber || !fee || !password) {
@@ -59,7 +58,7 @@ export const DocRegister = async (req, res, next) => {
         experience: experience,
         licenseNumber: licenseNumber,
         fee: fee,
-        role:"Doctor",
+        role: "Doctor",
         experience: experience,
       });
     }
@@ -70,24 +69,24 @@ export const DocRegister = async (req, res, next) => {
 
   } catch (error) {
 
-      res.status(404).json({ message: "Dostor Register failed" })
+    res.status(404).json({ message: "Dostor Register failed" })
     next(error);
   }
 }
 
 
-export const userLogin = async ( req , res , next) => {
-try {
-  
-  const {email , password} = req.body;
+export const DoctorLogin = async (req, res, next) => {
+  try {
 
-  if (!email || !password) {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
       const error = new Error("All Fields Required");
       error.statusCode = 409;
       return next(error);
     }
 
-    
+
     const user = await Doctor.findOne({ email });
     if (!user) {
       const error = new Error("User Not registered");
@@ -95,7 +94,7 @@ try {
       return next(error);
     }
 
-  const isVerified = await bcrypt.compare(password, user.password);
+    const isVerified = await bcrypt.compare(password, user.password);
 
 
     if (!isVerified) {
@@ -104,18 +103,187 @@ try {
       return next(error);
     }
 
-  res.status(200).json({
+    res.status(200).json({
       message: `WelcomeBack ${user.fullName} `,
       data: user,
     });
 
 
-} catch (error) {
+  } catch (error) {
 
-   next(error);
-  
+    next(error);
+
+  }
 }
-  } 
+
+
+export const PetientRegister = async (req, res, next) => {
+
+  try {
+
+    const { fullName, aadharNumber, email, dob, password } = req.body;
+
+    console.log({ fullName, aadharNumber, email, dob, password });
 
 
 
+    if (!fullName || !email || !aadharNumber || !dob || !password) {
+      const error = new Error("All Fields Requeried");
+      error.statusCode = 400;
+      return next(error);
+    }
+
+
+
+    const existingpatients = await Patient.findOne({ aadharNumber });
+
+
+    if (existingpatients) {
+      return res.status(409).json({ message: "Patient is already registered with this Aadhaar." });
+    }
+
+
+
+    const hassPassword = await bcrypt.hash(password, 10);
+
+    const newPatient = await Patient.create({
+
+      fullName,
+      aadharNumber,
+      email,
+      dob,
+      password: hassPassword,
+      role: "Patient",
+
+    })
+
+
+    res.status(200).json({ message: "Patients Registered Succesfuly", data: newPatient });
+  } catch (error) {
+
+
+    console.error("Patient registration error:", error);
+    res.status(500).json({ message: "Patient registration failed", error: error.message });
+
+  }
+
+}
+
+
+export const PatientLogin = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      const error = new Error("Email and password are required");
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    const user = await Patient.findOne({ email }).select('+password');
+
+    if (!user) {
+      const error = new Error("Patient not registered");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    if (!user.password) {
+      const error = new Error("Authentication error - no password set");
+      error.statusCode = 500;
+      return next(error);
+    }
+
+    const isVerified = await bcrypt.compare(password, user.password);
+
+    if (!isVerified) {
+      const error = new Error("Invalid email or password");
+      error.statusCode = 401
+      return next(error);
+    }
+
+    user.password = undefined;
+
+    res.status(200).json({
+      success: true,
+      message: `Welcome back ${user.fullName}`,
+      data: user
+    });
+
+  } catch (error) {
+    console.error("Login error:", error);
+
+    if (error.message.includes("data and hash arguments required")) {
+      error.message = "Authentication error - invalid password comparison";
+      error.statusCode = 500;
+    }
+
+    next(error);
+  }
+};
+
+
+export const UpdatePatients = async (req, res, next) => {
+
+
+  try {
+
+
+
+    const   {
+      fullName,
+      gender,
+      dob,
+      email,
+      phone,
+      address,
+      aadharNumber,
+      bloodGroup
+    } = req.body;
+    const id = req.params.Pid;
+
+
+    console.log(    fullName,
+      gender,
+      dob,
+      email,
+      phone,
+      address,
+      aadharNumber,
+      bloodGroup);
+    
+
+    if (!id) {
+      const error = new Error("User Not Found !! Login Again");
+      error.statusCode = 401;
+      return next(error);
+
+    }
+
+
+
+    const updatedUser = await Patient.findByIdAndUpdate(id, {
+      fullName,
+      gender,
+      dob,
+      email,
+      phone,
+      address,
+      aadharNumber,
+      bloodGroup,
+    }, { new: true })
+
+    res.status(200).json({ message: "Updated Successfully", data: updatedUser });
+    return;
+
+
+  } catch (error) {
+
+    next(error);
+
+  }
+
+
+
+
+}

@@ -16,7 +16,7 @@ app.use(cookieParser());
 
 app.use("/auth", AuthRoute )
 app.use("/doctor", AuthRoute )
-
+app.use("/patients", AuthRoute )
 
 
 app.get('/', (req, res) => {

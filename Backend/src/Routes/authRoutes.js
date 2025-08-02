@@ -1,11 +1,14 @@
 import express from "express";
-import { DocRegister , userLogin } from "../Controllers/authController.js";
+import { DocRegister , DoctorLogin ,PatientLogin, PetientRegister ,UpdatePatients } from "../Controllers/authController.js";
 
 
 const router = express.Router();
 
 router.post("/register" , DocRegister  ) 
-router.post("/login" , userLogin  ) 
+router.post("/loginD" , DoctorLogin  ) 
+router.post("/loginP" , PatientLogin  ) 
+router.post("/pregister" , PetientRegister  ) 
+router.put("/update/:Pid" , UpdatePatients  ) 
 
 
 export default router;

@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { FaUserMd, FaHospital, FaIdCard, FaPhone, FaEnvelope, FaStethoscope } from 'react-icons/fa';
 import api from '../../../Configs/api';
 
 
 const Profile = () => {
+  const [userData, setUserData] = useState({
+
+    fullName: "",
+    email: "",
+    phone: "",
+    specialization: "",
+    experience: "",
+
+  });
 
 
   const fetchDoctorData = async () => {
@@ -12,22 +21,29 @@ const Profile = () => {
 
     try {
 
-      const res = await api.get("/doctor/profile");
-      
+      const res = await sessionStorage.getItem("LoginUser");
+      const user = JSON.parse(res);
+      if (user.role === "Doctor") {
+        setUserData(user)
+      }
+
     } catch (error) {
       toast.error("User not Found")
-      
+
     }
 
 
   }
 
+  useEffect(() => {
+    fetchDoctorData()
+  }, [])
 
 
 
   return (
     <main className='p-6 bg-blue-50 min-h-screen'>
-     
+
 
       <div className='flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden border border-blue-100'>
         {/* Profile Picture Section */}
@@ -55,19 +71,19 @@ const Profile = () => {
                 Personal Information
               </h3>
             </div>
-            
+
             <div>
               <label className='block text-blue-600 mb-1 flex items-center'>
                 <FaEnvelope className='mr-2' /> Email
               </label>
-              <p className='text-lg font-medium p-3 bg-blue-50 rounded'>dr.john.smith@medicalcenter.com</p>
+              <p className='text-lg font-medium p-3 bg-blue-50 rounded'>{userData.fullName} </p>
             </div>
 
             <div>
               <label className='block text-blue-600 mb-1 flex items-center'>
                 <FaPhone className='mr-2' /> Phone
               </label>
-              <p className='text-lg font-medium p-3 bg-blue-50 rounded'>(555) 123-4567</p>
+              <p className='text-lg font-medium p-3 bg-blue-50 rounded'>{userData.phone}</p>
             </div>
 
             {/* Professional Information */}
@@ -79,12 +95,12 @@ const Profile = () => {
 
             <div>
               <label className='block text-blue-600 mb-1'>Specialization</label>
-              <p className='text-lg font-medium p-3 bg-blue-50 rounded'>Cardiology</p>
+              <p className='text-lg font-medium p-3 bg-blue-50 rounded'>{userData.specialization}</p>
             </div>
 
             <div>
               <label className='block text-blue-600 mb-1'>Years of Experience</label>
-              <p className='text-lg font-medium p-3 bg-blue-50 rounded'>12 years</p>
+              <p className='text-lg font-medium p-3 bg-blue-50 rounded'>{userData.experience}</p>
             </div>
 
             <div>

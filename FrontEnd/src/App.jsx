@@ -6,6 +6,7 @@ import Register from './pages/Register'
 import About from './components/About'
 import DoctorDash from './pages/DoctorDash'
 import DoctorRegister from './pages/DoctorRegister'
+import PaientDashBoard from "./pages/PatientDashboard"
 import {Toaster} from 'react-hot-toast'
 
 
@@ -23,9 +24,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/doctordash" element={<DoctorDash />} />
           <Route path="/doctorregister" element={<DoctorRegister />} />
-          <Route path="/doctordash" element={<DoctorDash />} />
-          <Route path="/doctordash" element={<DoctorDash />} />
-          <Route path="/doctordash" element={<DoctorDash />} />
+          <Route path="/patientDashboard" element={<PaientDashBoard />} />
+    
 
         </Routes>
       </BrowserRouter>

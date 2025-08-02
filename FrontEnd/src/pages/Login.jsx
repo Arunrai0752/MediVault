@@ -4,11 +4,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../../Configs/api';
 
 const Login = () => {
-
-    const navigate = useNavigate()
-   
     
-    const [isDoctor, setIsDoctor] = useState(false);
+    const navigate = useNavigate()
+    const location = useLocation();
+    const [isDoctor, setIsDoctor] = useState(location.state?.isDoctorDefault || false);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -22,33 +21,42 @@ const Login = () => {
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmitDoctor = async (e) => {
         e.preventDefault();
         try {
 
-            const res= await api.post("/auth/login" , formData);
+            const res = await api.post("/auth/loginD", formData);
             toast.success(res.data.message);
             setFormData({
                 email: "",
-                password:"",
+                password: "",
             });
-            sessionStorage.setItem("LoginUser" , JSON.stringify(res.data.data))
-            if(res.data.data.role === "Doctor"){
-                navigate("/doctordash")
-            }
-            else{
-                navigate("/")
-            }
-            
+            sessionStorage.setItem("LoginUser", JSON.stringify(res.data.data))
+            navigate("/doctordash")
         } catch (error) {
             toast.error(error.message)
-            
         }
-
-
-
-        
     };
+
+
+    const handleSubmitPatients = async (e) => {
+        e.preventDefault();
+        try {
+
+            const res = await api.post("/auth/loginP", formData);
+            toast.success(res.data.message);
+            setFormData({
+                email: "",
+                password: "",
+            });
+            sessionStorage.setItem("LoginUser", JSON.stringify(res.data.data))
+            navigate("/patientDashboard")
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+    };
+
 
     useEffect(() => {
         setFormData({
@@ -58,7 +66,7 @@ const Login = () => {
     }, [isDoctor]);
 
     return (
-      <main className='min-h-[92vh] w-full bg-blue-50 flex justify-center items-center p-4'>
+        <main className='min-h-[92vh] w-full bg-blue-50 flex justify-center items-center p-4'>
             <div className='w-full max-w-md h-[60vh] bg-white rounded-lg shadow-md overflow-hidden border border-blue-100'>
 
                 <div className='flex border-b border-blue-200'>
@@ -107,7 +115,7 @@ const Login = () => {
                         <div className='grid w-full justify-center items-center p-10'>
                             <button
                                 className='rounded-lg p-2 w-[200px] bg-blue-600 text-white hover:bg-blue-700 transition-colors'
-                                onClick={handleSubmit}
+                                onClick={handleSubmitDoctor}
                             >
                                 LogIn
                             </button>
@@ -144,7 +152,7 @@ const Login = () => {
                             <div className='grid w-full justify-center items-center p-10'>
                                 <button
                                     className='rounded-lg p-2 w-[200px] bg-blue-600 text-white hover:bg-blue-700 transition-colors'
-                                    onClick={handleSubmit}
+                                    onClick={handleSubmitPatients}
                                 >
                                     LogIn
                                 </button>
@@ -157,7 +165,7 @@ const Login = () => {
                     </div>
                 )}
             </div>
-        </main>    );
+        </main>);
 };
 
 export default Login;

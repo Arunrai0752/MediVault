@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const DoctorSchema = new mongoose.Schema(
+const DoctorSchema =  mongoose.Schema(
     {
         fullName: {
             type: String,
@@ -80,7 +80,7 @@ const DoctorSchema = new mongoose.Schema(
         },
         role:{
             type:String,
-            default:"Doctor",
+            default:"",
         },
     },
     {

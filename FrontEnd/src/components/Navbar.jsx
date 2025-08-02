@@ -29,44 +29,8 @@ const Navbar = () => {
               Home
             </Link>
 
-            {/* Panel Dropdown */}
-            <div className="relative">
-              <button 
-                onClick={() => setPanelOpen(!panelOpen)}
-                className="text-teal-900 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors flex items-center"
-              >
-                Panel
-                <svg 
-                  className={`ml-1 h-4 w-4 transition-transform ${panelOpen ? 'transform rotate-180' : ''}`} 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              
-              {panelOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                  <Link 
-                    to="/doctordash" 
-                    className="block px-4 py-2 text-sm text-teal-900 hover:bg-teal-50 hover:text-teal-600"
-                    onClick={() => setPanelOpen(false)}
-                  >
-                    Doctor Panel
-                  </Link>
-                  <Link 
-                    to="/patientdash" 
-                    className="block px-4 py-2 text-sm text-teal-900 hover:bg-teal-50 hover:text-teal-600"
-                    onClick={() => setPanelOpen(false)}
-                  >
-                    Patient Panel
-                  </Link>
-                </div>
-              )}
-            </div>
+          
             
-            {/* Search Button */}
             <div className="relative">
               <button 
                 onClick={() => setSearchOpen(!searchOpen)}

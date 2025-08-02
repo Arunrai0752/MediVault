@@ -3,6 +3,7 @@ import Sidebar from '../components/DoctorDash/Sidebar.jsx'
 import Profile from '../components/DoctorDash/Profile.jsx'
 import Patients from '../components/DoctorDash/Patients.jsx'
 import Appointments from '../components/DoctorDash/Appointments.jsx'
+import Chatsection from '../components/DoctorDash/Chatsection.jsx'
 
 
 
@@ -17,7 +18,7 @@ const DoctorDash = () => {
         <Sidebar active={active} setActive={setActive} />
       </div>
    
-      <div className='flex-1 ml-70 overflow-y-auto'> {/* Adjust ml-64 to match your sidebar width */}
+      <div className='flex-1 ml-70 overflow-y-auto'>
           {active === "Profile" && <Profile />}
           {active === "Patients" && <Patients />}
           {active === "Appointments" && <Appointments />}
