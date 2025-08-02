@@ -64,7 +64,31 @@ const patientSchema = new mongoose.Schema({
     type: String,
     enum: ["Patient", "Admin", "Doctor"],
     default: "Patient"
-  }
+  },
+  age:{
+     type: String,
+    
+  },
+   height:{
+     type: String,
+    
+  },
+   weight:{
+     type: String,
+    
+  },
+   allergies:{
+     type: String,
+    
+  },
+   conditions:{
+     type: String,
+    
+  },
+   lastCheckup:{
+     type: String,
+    
+  },
 }, { 
   timestamps: true,
 

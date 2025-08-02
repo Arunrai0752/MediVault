@@ -20,7 +20,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, onUpdate }) => {
     useEffect(() => {
         if (oldData) {
             const formattedDob = oldData.dob ? new Date(oldData.dob).toISOString().split('T')[0] : '';
-            
+
             setFormData({
                 fullName: oldData.fullName || '',
                 gender: oldData.gender || 'Prefer not to say',
@@ -29,7 +29,10 @@ const EditDashBoard = ({ isOpen, onClose, oldData, onUpdate }) => {
                 phone: oldData.phone || 'N/A',
                 address: oldData.address || 'N/A',
                 aadharNumber: oldData.aadharNumber || '',
-                bloodGroup: oldData.bloodGroup || 'Unknown'
+                bloodGroup: oldData.bloodGroup || 'Unknown',
+                role: oldData.role || 'Patient',
+                _id: oldData._id || "",
+
             });
         }
     }, [oldData]);
@@ -42,12 +45,16 @@ const EditDashBoard = ({ isOpen, onClose, oldData, onUpdate }) => {
         }));
     };
 
+
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         try {
             const response = await api.put(`/patients/update/${oldData._id}`, formData);
+            sessionStorage.setItem("LoginUser", JSON.stringify(formData))
             toast.success('Profile updated successfully!');
             onClose();
         } catch (error) {
@@ -58,14 +65,17 @@ const EditDashBoard = ({ isOpen, onClose, oldData, onUpdate }) => {
         }
     };
 
+
     if (!isOpen) return null;
+
+
 
     return (
         <div className='fixed inset-0 bg-gray-900/70 flex justify-center items-center z-50'>
             <div className='h-[80vh] w-[90vw] md:w-[70vw] bg-white rounded-lg overflow-hidden flex flex-col'>
                 <div className='flex justify-between items-center p-4 border-b'>
                     <h1 className='text-2xl font-semibold'>Edit Profile</h1>
-                    <button 
+                    <button
                         onClick={onClose}
                         className='text-gray-500 hover:text-gray-700 text-2xl'
                     >

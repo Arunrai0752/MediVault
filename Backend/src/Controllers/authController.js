@@ -230,7 +230,7 @@ export const UpdatePatients = async (req, res, next) => {
 
 
 
-    const   {
+    const {
       fullName,
       gender,
       dob,
@@ -243,7 +243,7 @@ export const UpdatePatients = async (req, res, next) => {
     const id = req.params.Pid;
 
 
-    console.log(    fullName,
+    console.log(fullName,
       gender,
       dob,
       email,
@@ -251,7 +251,7 @@ export const UpdatePatients = async (req, res, next) => {
       address,
       aadharNumber,
       bloodGroup);
-    
+
 
     if (!id) {
       const error = new Error("User Not Found !! Login Again");
@@ -285,5 +285,65 @@ export const UpdatePatients = async (req, res, next) => {
 
 
 
+
+}
+
+
+export const UpdateDoctors = async (req, res, next) => {
+
+
+
+
+  try {
+
+
+
+    const {
+      fullName,
+      email,
+      phone,
+      specialization,
+      experience,
+      hospital,
+      licenseNumber,
+      availability,
+      fee,
+      status,
+    } = req.body;
+
+    const id = req.params.Did;
+
+
+
+    if (!id) {
+      const error = new Error("Doctor Not Found !! Login Again");
+      error.statusCode = 401;
+      return next(error);
+
+    }
+
+
+
+    const updatedUser = await Doctor.findByIdAndUpdate(id, {
+      fullName,
+      email,
+      phone,
+      specialization,
+      experience,
+      hospital,
+      licenseNumber,
+      availability,
+      fee,
+      status,
+    }, { new: true })
+
+    res.status(200).json({ message: "Updated Successfully", data: updatedUser });
+    return;
+
+
+  } catch (error) {
+
+    next(error);
+  }
 
 }

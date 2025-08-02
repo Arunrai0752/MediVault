@@ -1,45 +1,74 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SiAsciidoctor } from "react-icons/si";
 import { CiSearch, CiUser } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [panelOpen, setPanelOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
+
+
+
+  const checkLoginStatus = () => {
+    const user = sessionStorage.getItem("LoginUser");
+    if (user) {
+      try {
+        const parsedUser = JSON.parse(user);
+        setUserData(parsedUser);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        sessionStorage.removeItem("LoginUser");
+      }
+    }
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("LoginUser");
+    setIsLoggedIn(false);
+    setUserData(null);
+    toast.success("Logged out successfully");
+    navigate("/");
+  };
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-sm border-b border-teal-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          
+
           <Link to="/" className="flex-shrink-0 flex items-center">
             <SiAsciidoctor className="h-8 w-8 text-teal-600" />
             <span className="ml-2 text-xl font-bold text-teal-800 hidden sm:block">
-              MediRecord
+              Medical_Doc
             </span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="text-teal-900 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
             >
               Home
             </Link>
 
-          
-            
             <div className="relative">
-              <button 
+              <button
                 onClick={() => setSearchOpen(!searchOpen)}
                 className="flex items-center text-teal-900 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors"
               >
                 <CiSearch className="mr-1 h-5 w-5" />
                 Find Doctor
               </button>
-              
+
               {searchOpen && (
                 <div className="absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg p-2 z-10">
                   <div className="flex items-center">
@@ -50,16 +79,15 @@ const Navbar = () => {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    <button 
+                    <button
                       className="bg-teal-600 text-white px-3 py-1 rounded-r-md hover:bg-teal-700 transition-colors"
                       onClick={() => {
-                        // Handle search logic
                         setSearchOpen(false);
                       }}
                     >
                       Go
                     </button>
-                    <button 
+                    <button
                       className="ml-2 text-gray-500 hover:text-gray-700"
                       onClick={() => setSearchOpen(false)}
                     >
@@ -72,19 +100,39 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/register"
-              className="bg-gradient-to-r from-teal-600 to-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:from-teal-700 hover:to-teal-600 transition-all shadow-sm"
-            >
-             P Register
-            </Link>
-          
-            <Link
-              to="/doctorregister"
-              className="bg-gradient-to-r from-teal-600 to-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:from-teal-700 hover:to-teal-600 transition-all shadow-sm"
-            >
-             D Register
-            </Link>
+            {!isLoggedIn ? (
+              <>
+                <Link
+                  to="/register"
+                  className="bg-gradient-to-r from-teal-600 to-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:from-teal-700 hover:to-teal-600 transition-all shadow-sm"
+                >
+                  Patient Register
+                </Link>
+
+                <Link
+                  to="/doctorregister"
+                  className="bg-gradient-to-r from-teal-600 to-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:from-teal-700 hover:to-teal-600 transition-all shadow-sm"
+                >
+                  Doctor Register
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to={userData?.role === "Doctor" ? "/doctordash" : "/patientDashboard"}
+                  className="flex  bg-gradient-to-r from-teal-600 to-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:from-teal-700 hover:to-teal-600 transition-all shadow-sm"
+                >
+                  <CiUser className="mr-1 h-5 w-5" />
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="bg-gradient-to-r from-teal-600 to-teal-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:from-teal-700 hover:to-teal-600 transition-all shadow-sm"
+                >
+                  Logout
+                </button>
+              </>
+            )}
           </div>
 
           <div className="md:hidden flex items-center">
@@ -108,7 +156,7 @@ const Navbar = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button 
+            <button
               className="bg-teal-600 text-white px-4 py-2 rounded-r-md hover:bg-teal-700 transition-colors"
               onClick={() => {
                 // Handle search logic
@@ -117,7 +165,7 @@ const Navbar = () => {
             >
               Search
             </button>
-            <button 
+            <button
               className="ml-2 p-2 text-gray-500 hover:text-gray-700"
               onClick={() => setSearchOpen(false)}
             >

@@ -16,6 +16,7 @@ app.use(cookieParser());
 
 app.use("/auth", AuthRoute )
 app.use("/doctor", AuthRoute )
+app.use("/doctors", AuthRoute )
 app.use("/patients", AuthRoute )
 
 

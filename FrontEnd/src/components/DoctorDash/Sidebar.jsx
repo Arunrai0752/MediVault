@@ -1,14 +1,22 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FaUserInjured, FaCalendarAlt, FaFileMedical, FaChartLine, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
+
 const Sidebar = ({ active, setActive }) => {
+  const navigate = useNavigate();
+
   const navItems = [
     { name: 'Profile', icon: <FaUserInjured />},
     { name: 'Patients', icon: <FaChartLine /> },
     { name: 'Appointments', icon: <FaCalendarAlt /> },
   ];
 
+  const handleLogout = () => { 
+    sessionStorage.removeItem("LoginUser");
+    navigate("/")
+  }
+ 
   return (
     <aside className='w-70 h-[92vh] bg-teal-700 text-white flex flex-col'>
       <div className='border-b border-teal-600'>
@@ -40,7 +48,7 @@ const Sidebar = ({ active, setActive }) => {
 
       <div className='p-4'>
         <button 
-          // onClick={handleLogout}
+          onClick={handleLogout}
           className='w-full py-3 px-4 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors duration-300 flex items-center justify-center'
           aria-label="Log out"
         >
