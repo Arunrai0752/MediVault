@@ -15,11 +15,7 @@ import { useNavigate } from 'react-router-dom'
 
 function PatientDashboard() {
   const navigate = useNavigate();
-
   const [active, setActive] = useState("dashBoard");
-
-
-
   useEffect(() => {
     const user = sessionStorage.getItem("LoginUser")
     if (!user) { navigate("/login") }
@@ -34,7 +30,7 @@ function PatientDashboard() {
           <Sidebar active={active} setActive={setActive} />
         </div>
 
-        <div className='flex-1 ml-[20.2%] overflow-y-auto'>
+        <div className='flex-1 ml-[23%] overflow-y-auto'>
           {active === "dashBoard" && < Dashboard setActive={setActive} />}
           {active === "chatsection" && < Chatsection />}
           {active === "profile" && < Profile setActive={setActive} />}

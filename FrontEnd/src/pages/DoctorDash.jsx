@@ -15,7 +15,7 @@ const DoctorDash = () => {
 
 
 
-  useEffect(() => {
+  useEffect(() => {  
     const user = sessionStorage.getItem("LoginUser")
     if (!user) { navigate("/login") }
 

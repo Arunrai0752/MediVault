@@ -1,32 +1,56 @@
 import React from 'react'
-import { FaHeartbeat, FaFileMedical, FaPills, FaUserMd, FaHistory } from 'react-icons/fa'
-import { MdBloodtype, MdVaccines } from 'react-icons/md'
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { FaHeartbeat, FaFileMedical, FaPills, FaUserMd, FaHistory, FaCalendarAlt, FaNotesMedical } from 'react-icons/fa'
+import { MdBloodtype, MdVaccines, MdWork, MdEmergency } from 'react-icons/md'
+import { GiMedicines } from 'react-icons/gi'
+import { BsDroplet, BsClipboardPlus } from 'react-icons/bs'
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-
-
-
-
+  const navigate = useNavigate();
   const [patientData, setPatientData] = useState({
-    fullName: "",
+    fullName: "John Doe",
     age: 28,
-    bloodGroup: "",
-    height: "175 cm",
+    bloodGroup: "A+",
+    height: "175 cm",   
     weight: "72 kg",
-    allergies: ["Penicillin", "Peanuts"],
-    conditions: ["Hypertension"],
-    lastCheckup: "2023-05-15"
+    allergies: ["Penicillin", "Peanuts", "Dust"],
+    conditions: ["Hypertension", "Type 2 Diabetes"],
+    lastCheckup: "2023-05-15",
+    upcomingAppointments: [
+      { id: 1, doctor: "Dr. Sharma", specialty: "Cardiology", date: "2023-06-20", time: "10:00 AM" },
+      { id: 2, doctor: "Dr. Patel", specialty: "Dermatology", date: "2023-07-05", time: "2:30 PM" }
+    ],
+    labTests: [
+      { id: 1, name: "Complete Blood Count", date: "2023-05-10", status: "Completed" },
+      { id: 2, name: "Lipid Profile", date: "2023-05-10", status: "Completed" },
+      { id: 3, name: "HbA1c", date: "2023-06-15", status: "Pending" }
+    ],
+    emergencyContacts: [
+      { name: "Sarah Smith", relationship: "Spouse", phone: "+1 (555) 123-4567" },
+      { name: "Michael Johnson", relationship: "Brother", phone: "+1 (555) 987-6543" }
+    ]
   });
 
+  const medicalReports = [
+    { id: 1, name: "Annual Physical", date: "2023-05-15", doctor: "Dr. Sharma", type: "General Checkup" },
+    { id: 2, name: "ECG Report", date: "2023-03-10", doctor: "Dr. Patel", type: "Cardiology" },
+    { id: 3, name: "Blood Test", date: "2023-01-20", doctor: "Dr. Gupta", type: "Lab Results" },
+    { id: 4, name: "X-Ray Chest", date: "2022-11-15", doctor: "Dr. Lee", type: "Radiology" }
+  ]
+
+  const prescriptions = [
+    { id: 1, medicine: "Metformin", dosage: "500mg", frequency: "Twice daily", prescribedOn: "2023-05-15", doctor: "Dr. Sharma", status: "Active" },
+    { id: 2, medicine: "Atorvastatin", dosage: "20mg", frequency: "Once at bedtime", prescribedOn: "2023-05-15", doctor: "Dr. Sharma", status: "Active" },
+    { id: 3, medicine: "Lisinopril", dosage: "10mg", frequency: "Once daily", prescribedOn: "2023-03-10", doctor: "Dr. Patel", status: "Completed" }
+  ]
 
   const fetchUser = () => {
     const res = sessionStorage.getItem("LoginUser");
     if (res) {
       try {
         const userData = JSON.parse(res);
-        setPatientData(userData);
+        setPatientData(prev => ({ ...prev, ...userData }));
       } catch (error) {
         console.error("Error parsing user data:", error);
         sessionStorage.removeItem("LoginUser");
@@ -34,49 +58,72 @@ const Dashboard = () => {
     }
   };
 
-  const medicalReports = [
-    { id: 1, name: "Annual Physical", date: "2023-05-15", doctor: "Dr. Sharma" },
-    { id: 2, name: "ECG Report", date: "2023-03-10", doctor: "Dr. Patel" },
-    { id: 3, name: "Blood Test", date: "2023-01-20", doctor: "Dr. Gupta" }
-  ]
+  const handleViewReport = (reportId) => {
+    // Navigate to report view page or show modal
+    console.log("Viewing report:", reportId);
+    // navigate(`/reports/${reportId}`);
+  };
 
-  const prescriptions = [
-    { id: 1, medicine: "Metformin", dosage: "500mg", frequency: "Twice daily", prescribedOn: "2023-05-15" },
-    { id: 2, medicine: "Atorvastatin", dosage: "20mg", frequency: "Once at bedtime", prescribedOn: "2023-05-15" }
-  ]
+  const handleBookAppointment = () => {
+    // Navigate to appointment booking
+    navigate('/book-appointment');
+  };
 
+  const handleRequestPrescription = () => {
+    // Navigate to prescription request
+    navigate('/request-prescription');
+  };
 
   useEffect(() => {
-    fetchUser()
-  }, [])
-
+    fetchUser();
+  }, []);
 
   return (
-    <div className='min-h-screen bg-green-50 p-6'>
-      <div className='max-w-6xl mx-auto'>
-        <div className='bg-white rounded-xl shadow-md p-6 mb-6'>
+    <div className='min-h-screen bg-gray-50 p-4 md:p-6'>
+      <div className='max-w-7xl mx-auto space-y-6'>
+        {/* Patient Profile Header */}
+        <div className='bg-white rounded-xl shadow-sm p-6'>
           <div className='flex flex-col md:flex-row items-center gap-6'>
             <div className='w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-3xl font-bold text-blue-600'>
               {patientData.fullName.charAt(0)}
             </div>
-            <div>
-              <h1 className='text-3xl font-bold text-gray-800'>{patientData.fullName}</h1>
+            <div className='flex-1 w-full'>
+              <h1 className='text-2xl md:text-3xl font-bold text-gray-800'>{patientData.fullName}</h1>
               <div className='flex flex-wrap gap-4 mt-2'>
                 <span className='flex items-center gap-2 text-gray-600'>
                   <MdBloodtype className='text-red-500' />
-                  Blood Group: {patientData.bloodGroup}
+                  Blood Group: {patientData.bloodGroup || "Not specified"}
                 </span>
                 <span className='flex items-center gap-2 text-gray-600'>
                   <FaHeartbeat className='text-green-500' />
                   {patientData.age} years
                 </span>
+                <span className='flex items-center gap-2 text-gray-600'>
+                  <MdWork className='text-blue-500' />
+                  Patient ID: #PAT-{Math.floor(1000 + Math.random() * 9000)}
+                </span>
               </div>
+            </div>
+            <div className='flex gap-3'>
+              <button 
+                onClick={handleBookAppointment}
+                className='bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2'
+              >
+                <FaCalendarAlt /> Book Appointment
+              </button>
+              <button 
+                onClick={handleRequestPrescription}
+                className='bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center gap-2'
+              >
+                <GiMedicines /> Request Prescription
+              </button>
             </div>
           </div>
         </div>
 
-        {/* <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6'>
-          <div className='bg-white rounded-xl shadow-md p-6 flex items-center gap-4'>
+        {/* Health Stats Cards */}
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+          <div className='bg-white rounded-xl shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow'>
             <div className='bg-blue-100 p-3 rounded-full'>
               <FaHeartbeat className='text-blue-600 text-xl' />
             </div>
@@ -86,7 +133,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className='bg-white rounded-xl shadow-md p-6 flex items-center gap-4'>
+          <div className='bg-white rounded-xl shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow'>
             <div className='bg-green-100 p-3 rounded-full'>
               <FaHeartbeat className='text-green-600 text-xl' />
             </div>
@@ -96,127 +143,280 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className='bg-white rounded-xl shadow-md p-6 flex items-center gap-4'>
+          <div className='bg-white rounded-xl shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow'>
             <div className='bg-red-100 p-3 rounded-full'>
               <MdBloodtype className='text-red-600 text-xl' />
             </div>
             <div>
               <h3 className='text-gray-500 text-sm'>Blood Group</h3>
-              <p className='text-xl font-semibold'>{patientData.bloodGroup}</p>
+              <p className='text-xl font-semibold'>{patientData.bloodGroup || "Not specified"}</p>
             </div>
           </div>
 
-          <div className='bg-white rounded-xl shadow-md p-6 flex items-center gap-4'>
+          <div className='bg-white rounded-xl shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-shadow'>
             <div className='bg-purple-100 p-3 rounded-full'>
               <FaHistory className='text-purple-600 text-xl' />
             </div>
             <div>
               <h3 className='text-gray-500 text-sm'>Last Checkup</h3>
-              <p className='text-xl font-semibold'>{patientData.lastCheckup}</p>
+              <p className='text-xl font-semibold'>{patientData.lastCheckup || "No record"}</p>
             </div>
           </div>
         </div>
 
-        <div className='bg-white rounded-xl shadow-md p-6 mb-6'>
-          <div className='flex items-center gap-3 mb-6'>
-            <FaFileMedical className='text-blue-600 text-2xl' />
-            <h2 className='text-2xl font-bold text-gray-800'>Medical Reports</h2>
-          </div>
-
-          <div className='space-y-4'>
-            {medicalReports.map(report => (
-              <div key={report.id} className='border-b border-gray-100 pb-4 last:border-0'>
-                <div className='flex justify-between items-center'>
-                  <div>
-                    <h3 className='font-medium text-lg'>{report.name}</h3>
-                    <p className='text-gray-500'>Dr. {report.doctor}</p>
-                  </div>
-                  <div className='text-right'>
-                    <p className='text-gray-500'>{report.date}</p>
-                    <button className='text-blue-600 hover:text-blue-800 text-sm mt-1'>
-                      View Report
-                    </button>
-                  </div>
+        {/* Two Column Layout */}
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+          {/* Left Column */}
+          <div className='lg:col-span-2 space-y-6'>
+            {/* Upcoming Appointments */}
+            <div className='bg-white rounded-xl shadow-sm p-6'>
+              <div className='flex items-center justify-between mb-6'>
+                <div className='flex items-center gap-3'>
+                  <FaCalendarAlt className='text-blue-600 text-2xl' />
+                  <h2 className='text-xl font-bold text-gray-800'>Upcoming Appointments</h2>
                 </div>
+                <button 
+                  onClick={handleBookAppointment}
+                  className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1'
+                >
+                  <FaCalendarAlt /> Book New
+                </button>
               </div>
-            ))}
-          </div>
-        </div>
 
-        <div className='bg-white rounded-xl shadow-md p-6 mb-6'>
-          <div className='flex items-center gap-3 mb-6'>
-            <FaPills className='text-green-600 text-2xl' />
-            <h2 className='text-2xl font-bold text-gray-800'>Current Prescriptions</h2>
-          </div>
+              {patientData.upcomingAppointments && patientData.upcomingAppointments.length > 0 ? (
+                <div className='space-y-4'>
+                  {patientData.upcomingAppointments.map(appointment => (
+                    <div key={appointment.id} className='border-b border-gray-100 pb-4 last:border-0'>
+                      <div className='flex justify-between items-start'>
+                        <div>
+                          <h3 className='font-medium text-lg'>{appointment.doctor}</h3>
+                          <p className='text-gray-500'>{appointment.specialty}</p>
+                        </div>
+                        <div className='text-right'>
+                          <p className='font-medium'>{appointment.date}</p>
+                          <p className='text-gray-500'>{appointment.time}</p>
+                        </div>
+                      </div>
+                      <div className='mt-2 flex gap-2'>
+                        <button className='text-blue-600 hover:text-blue-800 text-sm'>
+                          Reschedule
+                        </button>
+                        <button className='text-red-600 hover:text-red-800 text-sm'>
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className='text-gray-500'>No upcoming appointments</p>
+              )}
+            </div>
 
-          <div className='overflow-x-auto'>
-            <table className='w-full'>
-              <thead>
-                <tr className='text-left border-b border-gray-200'>
-                  <th className='pb-3'>Medicine</th>
-                  <th className='pb-3'>Dosage</th>
-                  <th className='pb-3'>Frequency</th>
-                  <th className='pb-3'>Prescribed On</th>
-                </tr>
-              </thead>
-              <tbody>
-                {prescriptions.map(prescription => (
-                  <tr key={prescription.id} className='border-b border-gray-100 last:border-0'>
-                    <td className='py-3 font-medium'>{prescription.medicine}</td>
-                    <td className='py-3'>{prescription.dosage}</td>
-                    <td className='py-3'>{prescription.frequency}</td>
-                    <td className='py-3'>{prescription.prescribedOn}</td>
-                  </tr>
+            {/* Medical Reports */}
+            <div className='bg-white rounded-xl shadow-sm p-6'>
+              <div className='flex items-center justify-between mb-6'>
+                <div className='flex items-center gap-3'>
+                  <FaFileMedical className='text-blue-600 text-2xl' />
+                  <h2 className='text-xl font-bold text-gray-800'>Medical Reports</h2>
+                </div>
+                <button className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1'>
+                  <BsClipboardPlus /> Request New
+                </button>
+              </div>
+
+              <div className='space-y-4'>
+                {medicalReports.map(report => (
+                  <div key={report.id} className='border-b border-gray-100 pb-4 last:border-0 hover:bg-gray-50 px-2 -mx-2 rounded'>
+                    <div className='flex justify-between items-center'>
+                      <div>
+                        <h3 className='font-medium text-lg'>{report.name}</h3>
+                        <div className='flex gap-4'>
+                          <p className='text-gray-500'>Dr. {report.doctor}</p>
+                          <span className='text-gray-400'>•</span>
+                          <p className='text-gray-500'>{report.type}</p>
+                        </div>
+                      </div>
+                      <div className='text-right'>
+                        <p className='text-gray-500'>{report.date}</p>
+                        <button 
+                          onClick={() => handleViewReport(report.id)}
+                          className='text-blue-600 hover:text-blue-800 text-sm mt-1'
+                        >
+                          View Report
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            </div>
+
+            {/* Current Prescriptions */}
+            <div className='bg-white rounded-xl shadow-sm p-6'>
+              <div className='flex items-center justify-between mb-6'>
+                <div className='flex items-center gap-3'>
+                  <FaPills className='text-green-600 text-2xl' />
+                  <h2 className='text-xl font-bold text-gray-800'>Current Prescriptions</h2>
+                </div>
+                <button 
+                  onClick={handleRequestPrescription}
+                  className='text-green-600 hover:text-green-800 text-sm flex items-center gap-1'
+                >
+                  <GiMedicines /> Request Refill
+                </button>
+              </div>
+
+              <div className='overflow-x-auto'>
+                <table className='w-full'>
+                  <thead>
+                    <tr className='text-left border-b border-gray-200 text-gray-500'>
+                      <th className='pb-3 font-medium'>Medicine</th>
+                      <th className='pb-3 font-medium'>Dosage</th>
+                      <th className='pb-3 font-medium'>Frequency</th>
+                      <th className='pb-3 font-medium'>Prescribed On</th>
+                      <th className='pb-3 font-medium'>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {prescriptions.map(prescription => (
+                      <tr key={prescription.id} className='border-b border-gray-100 last:border-0 hover:bg-gray-50'>
+                        <td className='py-3 font-medium'>{prescription.medicine}</td>
+                        <td className='py-3'>{prescription.dosage}</td>
+                        <td className='py-3'>{prescription.frequency}</td>
+                        <td className='py-3'>{prescription.prescribedOn}</td>
+                        <td className='py-3'>
+                          <span className={`px-2 py-1 rounded-full text-xs ${
+                            prescription.status === 'Active' 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {prescription.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className='space-y-6'>
+            {/* Health Conditions */}
+            <div className='bg-white rounded-xl shadow-sm p-6'>
+              <div className='flex items-center gap-3 mb-4'>
+                <FaUserMd className='text-red-600 text-2xl' />
+                <h2 className='text-xl font-bold text-gray-800'>Health Conditions</h2>
+              </div>
+              <ul className='space-y-3'>
+                {patientData.conditions.map((condition, index) => (
+                  <li key={index} className='flex items-start gap-3'>
+                    <span className='w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0'></span>
+                    <div>
+                      <p className='font-medium'>{condition}</p>
+                      <p className='text-gray-500 text-sm'>Diagnosed: {new Date().toLocaleDateString()}</p>
+                    </div>
+                  </li>
+                ))}
+                <li>
+                  <button className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1 mt-2'>
+                    <FaNotesMedical /> Add New Condition
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Allergies */}
+            <div className='bg-white rounded-xl shadow-sm p-6'>
+              <div className='flex items-center gap-3 mb-4'>
+                <MdVaccines className='text-yellow-600 text-2xl' />
+                <h2 className='text-xl font-bold text-gray-800'>Allergies</h2>
+              </div>
+              <ul className='space-y-3'>
+                {patientData.allergies.map((allergy, index) => (
+                  <li key={index} className='flex items-start gap-3'>
+                    <span className='w-2 h-2 rounded-full bg-yellow-500 mt-2 flex-shrink-0'></span>
+                    <div>
+                      <p className='font-medium'>{allergy}</p>
+                      <p className='text-gray-500 text-sm'>Severity: Moderate</p>
+                    </div>
+                  </li>
+                ))}
+                <li>
+                  <button className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1 mt-2'>
+                    <MdVaccines /> Add New Allergy
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Lab Tests */}
+            <div className='bg-white rounded-xl shadow-sm p-6'>
+              <div className='flex items-center gap-3 mb-4'>
+                <BsDroplet className='text-purple-600 text-2xl' />
+                <h2 className='text-xl font-bold text-gray-800'>Lab Tests</h2>
+              </div>
+              <div className='space-y-4'>
+                {patientData.labTests && patientData.labTests.length > 0 ? (
+                  patientData.labTests.map(test => (
+                    <div key={test.id} className='border-b border-gray-100 pb-3 last:border-0'>
+                      <div className='flex justify-between'>
+                        <h3 className='font-medium'>{test.name}</h3>
+                        <span className={`text-xs px-2 py-1 rounded ${
+                          test.status === 'Completed' 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {test.status}
+                        </span>
+                      </div>
+                      <p className='text-gray-500 text-sm'>Date: {test.date}</p>
+                      {test.status === 'Completed' && (
+                        <button className='text-blue-600 hover:text-blue-800 text-xs mt-1'>
+                          View Results
+                        </button>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <p className='text-gray-500'>No lab tests scheduled</p>
+                )}
+                <button className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1'>
+                  <BsClipboardPlus /> Request Lab Test
+                </button>
+              </div>
+            </div>
+
+            {/* Emergency Contacts */}
+            <div className='bg-white rounded-xl shadow-sm p-6'>
+              <div className='flex items-center gap-3 mb-4'>
+                <MdEmergency className='text-red-600 text-2xl' />
+                <h2 className='text-xl font-bold text-gray-800'>Emergency Contacts</h2>
+              </div>
+              <div className='space-y-4'>
+                {patientData.emergencyContacts && patientData.emergencyContacts.length > 0 ? (
+                  patientData.emergencyContacts.map((contact, index) => (
+                    <div key={index} className='border-b border-gray-100 pb-3 last:border-0'>
+                      <h3 className='font-medium'>{contact.name}</h3>
+                      <p className='text-gray-500 text-sm'>{contact.relationship}</p>
+                      <p className='text-gray-700'>{contact.phone}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className='text-gray-500'>No emergency contacts added</p>
+                )}
+                <button className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1'>
+                  <MdEmergency /> Add Emergency Contact
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
-          <div className='bg-white rounded-xl shadow-md p-6'>
-            <div className='flex items-center gap-3 mb-4'>
-              <FaUserMd className='text-red-600 text-2xl' />
-              <h2 className='text-xl font-bold text-gray-800'>Health Conditions</h2>
-            </div>
-            <ul className='space-y-2'>
-              {patientData.conditions.map((condition, index) => (
-                <li key={index} className='flex items-center gap-2'>
-                  <span className='w-2 h-2 rounded-full bg-red-500'></span>
-                  {condition}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className='bg-white rounded-xl shadow-md p-6'>
-            <div className='flex items-center gap-3 mb-4'>
-              <MdVaccines className='text-yellow-600 text-2xl' />
-              <h2 className='text-xl font-bold text-gray-800'>Allergies</h2>
-            </div>
-            <ul className='space-y-2'>
-              {patientData.allergies.map((allergy, index) => (
-                <li key={index} className='flex items-center gap-2'>
-                  <span className='w-2 h-2 rounded-full bg-yellow-500'></span>
-                  {allergy}
-                </li>
-              ))}
-            </ul>
-          </div> */}
-        {/* </div> */}
       </div>
     </div>
   )
 }
 
 export default Dashboard;
-
-
-
-
-
-
-
-
-
-
