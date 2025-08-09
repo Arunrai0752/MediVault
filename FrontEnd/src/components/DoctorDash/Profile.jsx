@@ -76,7 +76,6 @@ const Profile = () => {
   return (
     <main className='p-4 md:p-6 bg-blue-50 min-h-screen'>
       <div className='flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden border border-blue-100 max-w-6xl mx-auto'>
-        {/* Left Profile Section */}
         <div className='w-full lg:w-[35%] p-6 md:p-8 flex flex-col items-center justify-center bg-blue-50'>
           <div className='relative bg-white border-2 border-blue-200 rounded-full overflow-hidden w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56'>
             <img
@@ -101,10 +100,8 @@ const Profile = () => {
           </button>
         </div>
 
-        {/* Right Information Section */}
         <div className='w-full lg:w-[65%] p-6 md:p-8'>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6'>
-            {/* Personal Information Section */}
             <div className='md:col-span-2'>
               <h3 className='text-xl font-semibold text-blue-800 mb-4 border-b border-blue-100 pb-2 flex items-center'>
                 <FaUserMd className='mr-2' /> Personal Information
@@ -134,7 +131,6 @@ const Profile = () => {
               </p>
             </div>
 
-            {/* Professional Information Section */}
             <div className='md:col-span-2 mt-4'>
               <h3 className='text-xl font-semibold text-blue-800 mb-4 border-b border-blue-100 pb-2 flex items-center'>
                 <MdWork className='mr-2' /> Professional Information
@@ -177,7 +173,6 @@ const Profile = () => {
               <p className='text-base md:text-lg font-medium p-3 bg-blue-50 rounded'>₹{userData.fee || '500'}</p>
             </div>
 
-            {/* Availability Section */}
             <div className='md:col-span-2 mt-4'>
               <h3 className='text-xl font-semibold text-blue-800 mb-4 border-b border-blue-100 pb-2 flex items-center'>
                 <MdSchedule className='mr-2' /> Availability
@@ -202,7 +197,6 @@ const Profile = () => {
               </p>
             </div>
 
-            {/* Additional Information Section */}
             <div className='md:col-span-2 mt-4'>
               <h3 className='text-xl font-semibold text-blue-800 mb-4 border-b border-blue-100 pb-2 flex items-center'>
                 <FaBriefcaseMedical className='mr-2' /> Additional Information
