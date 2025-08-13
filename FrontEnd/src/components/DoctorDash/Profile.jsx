@@ -32,7 +32,7 @@ const Profile = () => {
     status: 'Active',
     qualifications: '',
     consultationHours: '',
-    emergencyContact: '',
+    emergencyContact: '', 
     department: '',
     biography: '',
     services: [],
@@ -76,7 +76,7 @@ const Profile = () => {
   return (
     <main className='p-4 md:p-6 bg-blue-50 min-h-screen'>
       <div className='flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden border border-blue-100 max-w-6xl mx-auto'>
-        <div className='w-full lg:w-[35%] p-6 md:p-8 flex flex-col items-center justify-center bg-blue-50'>
+        <div className='w-full lg:w-[35%] p-6 md:p-8 flex flex-col items-center  bg-blue-50'>
           <div className='relative bg-white border-2 border-blue-200 rounded-full overflow-hidden w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56'>
             <img
               src="Profile.png"

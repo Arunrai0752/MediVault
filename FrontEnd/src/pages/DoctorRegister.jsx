@@ -34,7 +34,7 @@ const handleSubmit = async (e) => {
   try {
     const response = await api.post("/doctor/register", formData);
     console.log("Registration successful:", response.data);
-    toast.success(response.message)
+    toast.success("Doctor Register Successffully")
 
 
   } catch (error) {

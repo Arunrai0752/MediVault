@@ -288,62 +288,93 @@ export const UpdatePatients = async (req, res, next) => {
 
 }
 
-
 export const UpdateDoctors = async (req, res, next) => {
-
-
-
-
   try {
-
-
-
     const {
       fullName,
-      email,
       phone,
       specialization,
       experience,
       hospital,
-      licenseNumber,
       availability,
       fee,
       status,
+      qualifications,
+      consultationHours,
+      emergencyContact,
+      department,
+      biography,
+      services,
+      languages,
+      education
     } = req.body;
 
     const id = req.params.Did;
-
-
 
     if (!id) {
       const error = new Error("Doctor Not Found !! Login Again");
       error.statusCode = 401;
       return next(error);
-
     }
 
-
-
-    const updatedUser = await Doctor.findByIdAndUpdate(id, {
+    // Fields that shouldn't be updated
+    const protectedFields = ['email', 'licenseNumber', 'password', 'isVerified', 'role'];
+    
+    // Create update object with only allowed fields
+    const updateData = {
       fullName,
-      email,
       phone,
       specialization,
       experience,
       hospital,
-      licenseNumber,
       availability,
       fee,
       status,
-    }, { new: true })
+      qualifications,
+      consultationHours,
+      emergencyContact,
+      department,
+      biography,
+      services: Array.isArray(services) ? services : [],
+      languages: Array.isArray(languages) ? languages : [],
+      education: Array.isArray(education) ? education : [],
+      updatedAt: new Date()
+    };
 
-    res.status(200).json({ message: "Updated Successfully", data: updatedUser });
-    return;
+    // Remove any undefined fields
+    Object.keys(updateData).forEach(key => {
+      if (updateData[key] === undefined) {
+        delete updateData[key];
+      }
+    });
 
+    const updatedUser = await Doctor.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      { 
+        new: true,
+        runValidators: true // Ensure validations run on update
+      }
+    ).select('-password -__v'); // Exclude sensitive fields
+
+    if (!updatedUser) {
+      const error = new Error("Doctor not found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    res.status(200).json({ 
+      success: true,
+      message: "Profile updated successfully", 
+      data: updatedUser 
+    });
 
   } catch (error) {
-
+    // Handle validation errors specifically
+    if (error.name === 'ValidationError') {
+      error.statusCode = 400;
+      error.message = Object.values(error.errors).map(val => val.message).join(', ');
+    }
     next(error);
   }
-
-}
+};
