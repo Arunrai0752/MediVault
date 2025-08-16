@@ -19,7 +19,7 @@ const Home = () => {
         <span className="w-full max-w-4xl text-center mb-8 md:mb-12">
           <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4 flex justify-center gap-3">
             <span> Welcome to </span>
-            <span className="text-blue-600">MedicalDoc</span>
+            <span className="text-blue-600">MediVault</span>
             <FaHandHoldingMedical className='text-blue-700' />
           </h1>
           <p className="text-lg md:text-xl text-gray-600 mb-6">

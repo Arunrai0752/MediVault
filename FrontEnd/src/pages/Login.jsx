@@ -25,7 +25,7 @@ const Login = () => {
         e.preventDefault();
         try {
 
-            const res = await api.post("/auth/loginD", formData);
+            const res = await api.post("/doctors/login", formData);
             toast.success(res.data.message);
             setFormData({
                 email: "",
@@ -43,7 +43,7 @@ const Login = () => {
         e.preventDefault();
         try {
 
-            const res = await api.post("/auth/loginP", formData);
+            const res = await api.post("/patients/login", formData);
             toast.success(res.data.message);
             setFormData({
                 email: "",

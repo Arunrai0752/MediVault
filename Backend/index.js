@@ -3,7 +3,8 @@ import ConnectDB from './src/Configs/db.js';
 import dotenv from 'dotenv';
 import cors from "cors"
 import cookieParser from "cookie-parser";
-import AuthRoute from "./src/Routes/authRoutes.js"
+import patientsRoute from "./src/Routes/patientsRoutes.js"
+import DoctorRoutes from "./src/Routes/DoctorRoutes.js"
 
 dotenv.config();
 const app = express();
@@ -14,10 +15,12 @@ const PORT = process.env.PORT || 2022 ;
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/auth", AuthRoute )
-app.use("/doctor", AuthRoute )
-app.use("/doctors", AuthRoute )
-app.use("/patients", AuthRoute )
+
+
+
+
+app.use("/doctors", DoctorRoutes )
+app.use("/patients", patientsRoute )
 
 
 app.get('/', (req, res) => {

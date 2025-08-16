@@ -32,7 +32,7 @@ const DoctorRegister = () => {
 const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const response = await api.post("/doctor/register", formData);
+    const response = await api.post("/doctors/register", formData);
     console.log("Registration successful:", response.data);
     toast.success("Doctor Register Successffully")
 

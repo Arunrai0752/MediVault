@@ -1,6 +1,7 @@
 import Doctor from "../Models/DoctorModel.js"
 import bcrypt from "bcrypt";
 import Patient from "../Models/PatientsModel.js";
+import gentoken from "../Utils/auth.js";
 
 
 export const DocRegister = async (req, res, next) => {
@@ -102,6 +103,11 @@ export const DoctorLogin = async (req, res, next) => {
       error.statusCode = 401;
       return next(error);
     }
+
+    
+    
+    gentoken(user._id, res);
+
 
     res.status(200).json({
       message: `WelcomeBack ${user.fullName} `,

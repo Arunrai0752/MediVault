@@ -48,7 +48,7 @@ const Navbar = () => {
           <Link to="/" className="flex-shrink-0 flex items-center">
             <SiAsciidoctor className="h-8 w-8 text-teal-600" />
             <span className="ml-2 text-xl font-bold text-teal-800 hidden sm:block">
-              Medical_Doc
+             MediVault
             </span>
           </Link>
 

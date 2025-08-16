@@ -84,7 +84,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
         setLoading(true);
 
         try {
-            const response = await api.put(`/doctors/Dupdate/${oldData._id}`, formData);
+            const response = await api.put(`/doctors/update/${oldData._id}`, formData);
             sessionStorage.setItem("LoginUser", JSON.stringify(response.data.data));
             onUpdate(response.data.data);
             toast.success('Profile updated successfully!');

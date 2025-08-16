@@ -6,7 +6,7 @@ const About = () => {
      
       <div className='flex justify-center mb-12'>
         <h1 className='text-4xl md:text-5xl lg:text-6xl font-bold text-gray-600 pb-4 border-b-4 border-blue-500'>
-          About <span className='text-gray-800'>MedicalDoc</span>
+          About <span className='text-gray-800'>MediVault</span>
         </h1>
       </div>
 

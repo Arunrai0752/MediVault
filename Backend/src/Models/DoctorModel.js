@@ -82,7 +82,6 @@ const DoctorSchema = mongoose.Schema(
       type: String,
       default: "Doctor",
     },
-    // New fields added from frontend
     qualifications: {
       type: String,
       trim: true,
@@ -115,7 +114,6 @@ const DoctorSchema = mongoose.Schema(
       type: [String],
       default: [],
     },
-    // Additional metadata fields
     lastActive: {
       type: Date,
     },
@@ -134,31 +132,10 @@ const DoctorSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-    toJSON: {
-      virtuals: true,
-      transform: function (doc, ret) {
-        delete ret.password;
-        delete ret.__v;
-        return ret;
-      },
-    },
-    toObject: {
-      virtuals: true,
-      transform: function (doc, ret) {
-        delete ret.password;
-        delete ret.__v;
-        return ret;
-      },
-    },
+
   }
 );
 
-// Indexes for better query performance
-DoctorSchema.index({ email: 1 });
-DoctorSchema.index({ licenseNumber: 1 });
-DoctorSchema.index({ specialization: 1 });
-DoctorSchema.index({ status: 1 });
-DoctorSchema.index({ hospital: 1 });
 
 const Doctor = mongoose.model("Doctor", DoctorSchema);
 
