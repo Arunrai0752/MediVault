@@ -1,8 +1,8 @@
-import React from 'react'
-import { FaHeartbeat, FaFileMedical, FaPills, FaUserMd, FaHistory, FaCalendarAlt, FaNotesMedical } from 'react-icons/fa'
-import { MdBloodtype, MdVaccines, MdWork, MdEmergency } from 'react-icons/md'
-import { GiMedicines } from 'react-icons/gi'
-import { BsDroplet, BsClipboardPlus } from 'react-icons/bs'
+import React from 'react';
+import { FaHeartbeat, FaFileMedical, FaPills, FaUserMd, FaHistory, FaCalendarAlt, FaNotesMedical } from 'react-icons/fa';
+import { MdBloodtype, MdVaccines, MdWork, MdEmergency } from 'react-icons/md';
+import { GiMedicines } from 'react-icons/gi';
+import { BsDroplet, BsClipboardPlus } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const Dashboard = () => {
     fullName: "John Doe",
     age: 28,
     bloodGroup: "A+",
-    height: "175 cm",   
+    height: "175 cm",
     weight: "72 kg",
     allergies: ["Penicillin", "Peanuts", "Dust"],
     conditions: ["Hypertension", "Type 2 Diabetes"],
@@ -37,13 +37,13 @@ const Dashboard = () => {
     { id: 2, name: "ECG Report", date: "2023-03-10", doctor: "Dr. Patel", type: "Cardiology" },
     { id: 3, name: "Blood Test", date: "2023-01-20", doctor: "Dr. Gupta", type: "Lab Results" },
     { id: 4, name: "X-Ray Chest", date: "2022-11-15", doctor: "Dr. Lee", type: "Radiology" }
-  ]
+  ];
 
   const prescriptions = [
     { id: 1, medicine: "Metformin", dosage: "500mg", frequency: "Twice daily", prescribedOn: "2023-05-15", doctor: "Dr. Sharma", status: "Active" },
     { id: 2, medicine: "Atorvastatin", dosage: "20mg", frequency: "Once at bedtime", prescribedOn: "2023-05-15", doctor: "Dr. Sharma", status: "Active" },
     { id: 3, medicine: "Lisinopril", dosage: "10mg", frequency: "Once daily", prescribedOn: "2023-03-10", doctor: "Dr. Patel", status: "Completed" }
-  ]
+  ];
 
   const fetchUser = () => {
     const res = sessionStorage.getItem("LoginUser");
@@ -59,18 +59,14 @@ const Dashboard = () => {
   };
 
   const handleViewReport = (reportId) => {
-    // Navigate to report view page or show modal
     console.log("Viewing report:", reportId);
-    // navigate(`/reports/${reportId}`);
   };
 
   const handleBookAppointment = () => {
-    // Navigate to appointment booking
     navigate('/book-appointment');
   };
 
   const handleRequestPrescription = () => {
-    // Navigate to prescription request
     navigate('/request-prescription');
   };
 
@@ -251,55 +247,6 @@ const Dashboard = () => {
                 ))}
               </div>
             </div>
-
-            {/* Current Prescriptions */}
-            <div className='bg-white rounded-xl shadow-sm p-6'>
-              <div className='flex items-center justify-between mb-6'>
-                <div className='flex items-center gap-3'>
-                  <FaPills className='text-green-600 text-2xl' />
-                  <h2 className='text-xl font-bold text-gray-800'>Current Prescriptions</h2>
-                </div>
-                <button 
-                  onClick={handleRequestPrescription}
-                  className='text-green-600 hover:text-green-800 text-sm flex items-center gap-1'
-                >
-                  <GiMedicines /> Request Refill
-                </button>
-              </div>
-
-              <div className='overflow-x-auto'>
-                <table className='w-full'>
-                  <thead>
-                    <tr className='text-left border-b border-gray-200 text-gray-500'>
-                      <th className='pb-3 font-medium'>Medicine</th>
-                      <th className='pb-3 font-medium'>Dosage</th>
-                      <th className='pb-3 font-medium'>Frequency</th>
-                      <th className='pb-3 font-medium'>Prescribed On</th>
-                      <th className='pb-3 font-medium'>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {prescriptions.map(prescription => (
-                      <tr key={prescription.id} className='border-b border-gray-100 last:border-0 hover:bg-gray-50'>
-                        <td className='py-3 font-medium'>{prescription.medicine}</td>
-                        <td className='py-3'>{prescription.dosage}</td>
-                        <td className='py-3'>{prescription.frequency}</td>
-                        <td className='py-3'>{prescription.prescribedOn}</td>
-                        <td className='py-3'>
-                          <span className={`px-2 py-1 rounded-full text-xs ${
-                            prescription.status === 'Active' 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-gray-100 text-gray-800'
-                          }`}>
-                            {prescription.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
           </div>
 
           {/* Right Column */}
@@ -320,11 +267,6 @@ const Dashboard = () => {
                     </div>
                   </li>
                 ))}
-                <li>
-                  <button className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1 mt-2'>
-                    <FaNotesMedical /> Add New Condition
-                  </button>
-                </li>
               </ul>
             </div>
 
@@ -344,49 +286,7 @@ const Dashboard = () => {
                     </div>
                   </li>
                 ))}
-                <li>
-                  <button className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1 mt-2'>
-                    <MdVaccines /> Add New Allergy
-                  </button>
-                </li>
               </ul>
-            </div>
-
-            {/* Lab Tests */}
-            <div className='bg-white rounded-xl shadow-sm p-6'>
-              <div className='flex items-center gap-3 mb-4'>
-                <BsDroplet className='text-purple-600 text-2xl' />
-                <h2 className='text-xl font-bold text-gray-800'>Lab Tests</h2>
-              </div>
-              <div className='space-y-4'>
-                {patientData.labTests && patientData.labTests.length > 0 ? (
-                  patientData.labTests.map(test => (
-                    <div key={test.id} className='border-b border-gray-100 pb-3 last:border-0'>
-                      <div className='flex justify-between'>
-                        <h3 className='font-medium'>{test.name}</h3>
-                        <span className={`text-xs px-2 py-1 rounded ${
-                          test.status === 'Completed' 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {test.status}
-                        </span>
-                      </div>
-                      <p className='text-gray-500 text-sm'>Date: {test.date}</p>
-                      {test.status === 'Completed' && (
-                        <button className='text-blue-600 hover:text-blue-800 text-xs mt-1'>
-                          View Results
-                        </button>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <p className='text-gray-500'>No lab tests scheduled</p>
-                )}
-                <button className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1'>
-                  <BsClipboardPlus /> Request Lab Test
-                </button>
-              </div>
             </div>
 
             {/* Emergency Contacts */}
@@ -396,27 +296,20 @@ const Dashboard = () => {
                 <h2 className='text-xl font-bold text-gray-800'>Emergency Contacts</h2>
               </div>
               <div className='space-y-4'>
-                {patientData.emergencyContacts && patientData.emergencyContacts.length > 0 ? (
-                  patientData.emergencyContacts.map((contact, index) => (
-                    <div key={index} className='border-b border-gray-100 pb-3 last:border-0'>
-                      <h3 className='font-medium'>{contact.name}</h3>
-                      <p className='text-gray-500 text-sm'>{contact.relationship}</p>
-                      <p className='text-gray-700'>{contact.phone}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p className='text-gray-500'>No emergency contacts added</p>
-                )}
-                <button className='text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1'>
-                  <MdEmergency /> Add Emergency Contact
-                </button>
+                {patientData.emergencyContacts.map((contact, index) => (
+                  <div key={index} className='border-b border-gray-100 pb-3 last:border-0'>
+                    <h3 className='font-medium'>{contact.name}</h3>
+                    <p className='text-gray-500 text-sm'>{contact.relationship}</p>
+                    <p className='text-gray-700'>{contact.phone}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Dashboard;

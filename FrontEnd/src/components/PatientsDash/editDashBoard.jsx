@@ -182,7 +182,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
-                                required
+                                disabled
                             />
                         </div>
 

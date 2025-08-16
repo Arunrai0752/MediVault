@@ -5,7 +5,8 @@ export const Protect = async (req, res, next) => {
 
     try {
 
-        const token =   req.headers.authorization?.split(' ')[1] ||  req.cookies.IDcard || "";
+        const token =   req.headers.authorization?.split(' ')[1] ||  req.cookies.IDCard || "";
+        console.log("1");
 
         if (!token) {
             const error = new Error("Unauthorized");
@@ -17,6 +18,7 @@ export const Protect = async (req, res, next) => {
         const decode = await jwt.verify(token, process.env.JWT_SECRET);
 
         const verifiedDoctor = await Doctor.findById(decode.ID);
+        console.log(verifiedDoctor);
 
         if (!verifiedDoctor) {
             const error = new Error("Unauthorized !! Login Again");

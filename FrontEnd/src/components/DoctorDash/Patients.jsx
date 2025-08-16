@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiSearch, FiCalendar, FiEdit, FiUser, FiFileText, FiBell } from 'react-icons/fi';
 import api from '../../../Configs/api';
 
 const Patients = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPatient, setSelectedPatient] = useState(null);
-  
-  const [ patients , setPatients ]= useState( [
+
+  const [patients, setPatients] = useState([
     {
       id: 1,
       name: 'John Doe',
@@ -38,13 +38,27 @@ const Patients = () => {
 
 
 
-    const fetchPatients = () => {
+  const fetchPatients = async () => {
+    const Doctorid = sessionStorage.getItem("LoginUser")
 
-
-      const patients = api.get("/patients/get")
-
-
+    if (Doctorid) {
+      try {
+        const doctorData = JSON.parse(Doctorid);
+        console.log(doctorData._id);
+        const patients = await api.get(`/patients/get/${doctorData._id}`);
+        setPatients(patients.data.data);
+      } catch (error) {
+        console.error("Error parsing doctor data:", error);
+      }
     }
+
+
+  }
+
+
+  useEffect(() => {
+    fetchPatients()
+  }, [])
 
 
   const filteredPatients = patients.filter(patient =>
@@ -62,9 +76,9 @@ const Patients = () => {
               <FiBell size={20} />
             </button>
             <div className="flex items-center">
-              <img 
-                src="https://randomuser.me/api/portraits/men/32.jpg" 
-                alt="Doctor" 
+              <img
+                src="https://randomuser.me/api/portraits/men/32.jpg"
+                alt="Doctor"
                 className="h-8 w-8 rounded-full"
               />
               <span className="ml-2 text-sm font-medium">Dr. Smith</span>
@@ -74,7 +88,6 @@ const Patients = () => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        {/* Search and Actions */}
         <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="relative flex-grow max-w-md">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -98,9 +111,7 @@ const Patients = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="bg-white shadow rounded-lg overflow-hidden">
-          {/* Tabs */}
           <div className="border-b border-gray-200">
             <nav className="flex -mb-px">
               <button
@@ -109,16 +120,15 @@ const Patients = () => {
                 <FiUser className="inline mr-2" />
                 Patient Profiles
               </button>
-           
+
             </nav>
           </div>
 
-          {/* Patient List */}
           <div className="divide-y divide-gray-200">
             {filteredPatients.length > 0 ? (
               filteredPatients.map((patient) => (
-                <div 
-                  key={patient.id} 
+                <div
+                  key={patient.id}
                   className="p-4 hover:bg-gray-50 cursor-pointer transition-colors duration-150"
                   onClick={() => setSelectedPatient(patient)}
                 >
@@ -169,7 +179,7 @@ const Patients = () => {
             <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
               <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                 <h3 className="text-lg font-medium text-gray-900">Patient Details</h3>
-                <button 
+                <button
                   onClick={() => setSelectedPatient(null)}
                   className="text-gray-400 hover:text-gray-500"
                 >

@@ -359,9 +359,8 @@ export const UpdateDoctors = async (req, res, next) => {
       { $set: updateData },
       { 
         new: true,
-        runValidators: true // Ensure validations run on update
       }
-    ).select('-password -__v'); // Exclude sensitive fields
+    ).select('-password');
 
     if (!updatedUser) {
       const error = new Error("Doctor not found");
