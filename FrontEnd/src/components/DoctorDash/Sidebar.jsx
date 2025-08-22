@@ -8,7 +8,6 @@ const Sidebar = ({ active, setActive }) => {
 
   const navItems = [
     { name: 'Profile', icon: <FaUserInjured />},
-    { name: 'Patients', icon: <FaChartLine /> },
     { name: 'Appointments', icon: <FaCalendarAlt /> },
   ];
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/DoctorDash/Sidebar.jsx'
 import Profile from '../components/DoctorDash/Profile.jsx'
-import Patients from '../components/DoctorDash/Patients.jsx'
 import Appointments from '../components/DoctorDash/Appointments.jsx'
 import Chatsection from '../components/DoctorDash/Chatsection.jsx'
 import { useNavigate } from 'react-router-dom'
@@ -30,7 +29,6 @@ const DoctorDash = () => {
 
       <div className='flex-1 ml-70 overflow-y-auto'>
         {active === "Profile" && <Profile />}
-        {active === "Patients" && <Patients />}
         {active === "Appointments" && <Appointments />}
       </div>
     </main>
