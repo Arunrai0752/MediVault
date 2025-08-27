@@ -9,15 +9,21 @@ import Reports from '../components/PatientsDash/reports.jsx'
 import { useState } from 'react'
 import Appoinments from '../components/PatientsDash/Appoinments.jsx'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../Context/authContext.jsx'
+
 
 
 
 
 function PatientDashboard() {
+
+
   const navigate = useNavigate();
   const [active, setActive] = useState("dashBoard");
+  const {user} = useAuth();
+  
   useEffect(() => {
-    const user = sessionStorage.getItem("LoginUser")
+    
     if (!user) { navigate("/login") }
 
   }, [])

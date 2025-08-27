@@ -11,16 +11,26 @@ const appointmentSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   time: { type: String, required: true },
 
+
+
+
   appointmentType : {
     type: String,
     enum: [
-      "Consultation", "Follow-up", "Check-up", "Emergency",
+       "Consultation", "Follow-up", "Routine Check-up", "Emergency",
       "Vaccination", "Test", "Procedure", "Surgery"
     ],
     default: "Consultation",
   },
 
+
+
+
   reason : { type: String, required: true },
+
+
+
+
 
   status: {
     type: String,
@@ -31,9 +41,8 @@ const appointmentSchema = new mongoose.Schema({
     default: "Scheduled",
   },
 
-  patientId: { type: mongoose.Schema.Types.ObjectId, ref: "Patient", required: true },
-  doctorId: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor", required: true },
-
+  patientId: { type: String , required: true },
+  doctorId: { type: String , required: true },
   patientName : { type: String, required: true },
   previousVisit : { type: String, required: true },
   phoneNumber : { type: String, required: true, match: /^[0-9]{10}$/ },
@@ -46,10 +55,12 @@ const appointmentSchema = new mongoose.Schema({
   insuranceId : { type: String, required: true },
 
 
+
+
+
   cancelledBy: { type: String, enum: ["Patient", "Doctor", "Clinic"], default: null },
   cancellationReason: { type: String },
   cancellationTime: { type: Date },
-
   rescheduledFrom: {
     appointmentId: { type: String },
     date: { type: Date },

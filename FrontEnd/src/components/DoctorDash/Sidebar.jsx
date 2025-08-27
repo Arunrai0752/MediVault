@@ -12,7 +12,7 @@ const Sidebar = ({ active, setActive }) => {
   ];
 
   const handleLogout = () => { 
-    sessionStorage.removeItem("LoginUser");
+    sessionStorage.removeItem("Medi_vaultUser");
     navigate("/")
   }
  

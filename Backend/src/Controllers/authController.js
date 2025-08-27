@@ -164,6 +164,8 @@ export const PetientRegister = async (req, res, next) => {
     })
 
 
+
+
     res.status(200).json({ message: "Patients Registered Succesfuly", data: newPatient });
   } catch (error) {
 
@@ -209,6 +211,9 @@ export const PatientLogin = async (req, res, next) => {
     }
 
     user.password = undefined;
+
+    
+    gentoken(user._id, res);
 
     res.status(200).json({
       success: true,

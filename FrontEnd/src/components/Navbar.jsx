@@ -5,29 +5,31 @@ import { IoMdMenu } from "react-icons/io";
 import { FaUserMd, FaUserInjured, FaStethoscope } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast";
+import { useAuth } from '../Context/authContext';
+
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+  const {user} = useAuth();
+
 
   const checkLoginStatus = () => {
-    const user = sessionStorage.getItem("LoginUser");
     if (user) {
       try {
-        const parsedUser = JSON.parse(user);
-        setUserData(parsedUser);
+        setUserData(user);
         setIsLoggedIn(true);
       } catch (error) {
         console.error("Error parsing user data:", error);
-        sessionStorage.removeItem("LoginUser");
+        sessionStorage.removeItem("Medi_vaultUser");
       }
     }
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("LoginUser");
+    sessionStorage.removeItem("Medi_vaultUser");
     setIsLoggedIn(false);
     setUserData(null);
     setMobileMenuOpen(false);

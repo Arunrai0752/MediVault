@@ -23,11 +23,13 @@ import { MdWork, MdMedicalServices, MdSchedule, MdEmergency } from 'react-icons/
 import { GiMedicines } from 'react-icons/gi';
 import api from '../../../Configs/api';
 import EditModel from './editModel.jsx';
+import { useAuth } from '../../Context/authContext.jsx';
 
 const Profile = () => {
   const [editModelOpen, setisEditModelOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [isLoading, setIsLoading] = useState(true);
+  const {user} = useAuth();
   const [userData, setUserData] = useState({
     fullName: '',
     email: '',
@@ -55,11 +57,7 @@ const Profile = () => {
   const fetchDoctorData = async () => {
     try {
       setIsLoading(true);
-      const res = await sessionStorage.getItem("LoginUser");
-      const user = JSON.parse(res);
       if (user.role === "Doctor") {
-        // Simulate API loading delay for better UX
-        await new Promise(resolve => setTimeout(resolve, 800));
         
         // Ensure arrays are properly initialized
         const services = Array.isArray(user.services) ? user.services : [];

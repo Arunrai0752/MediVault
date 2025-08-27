@@ -15,23 +15,21 @@ import {
   FaSave,
   FaPlus
 } from 'react-icons/fa';
+import api from '../../../Configs/api';
+import toast from 'react-hot-toast';
 
 const SetAppointments = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
-    patientName: '',
     phoneNumber: '',
-    email: '',
     date: '',
     time: '',
     appointmentType: 'consultation',
     reason: '',
-    gender: '',
-    dateOfBirth: '',
-    address: '',
     insuranceProvider: '',
     insuranceId: '',
     previousVisit: 'no',
-    referredBy: ''
+    referredBy: '',
+    doctorId : "689c9255ce2c8a2825341919",
   });
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -48,9 +46,9 @@ const SetAppointments = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log('Appointment Data:', formData);
-    alert('Appointment booked successfully!');
+    const res = api.post("/doctor/appoinment" , formData);
+    setFormData("")
+    setCurrentStep(1)
     onClose();
   };
 
@@ -107,19 +105,7 @@ const SetAppointments = ({ isOpen, onClose }) => {
                 </h3>
                 
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                  <div className='space-y-2'>
-                    <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                      <FaUser className='mr-2 text-blue-500' /> Full Name *
-                    </label>
-                    <input
-                      type='text'
-                      name='patientName'
-                      value={formData.patientName}
-                      onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                      required
-                    />
-                  </div>
+                 
 
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
@@ -135,46 +121,7 @@ const SetAppointments = ({ isOpen, onClose }) => {
                     />
                   </div>
 
-                  <div className='space-y-2'>
-                    <label className='block text-sm font-medium text-gray-700'>Email Address</label>
-                    <input
-                      type='email'
-                      name='email'
-                      value={formData.email}
-                      onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                    />
-                  </div>
 
-                  <div className='space-y-2'>
-                    <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                      <FaVenusMars className='mr-2 text-blue-500' /> Gender
-                    </label>
-                    <select
-                      name='gender'
-                      value={formData.gender}
-                      onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                    >
-                      <option value=''>Select Gender</option>
-                      <option value='male'>Male</option>
-                      <option value='female'>Female</option>
-                      <option value='other'>Other</option>
-                    </select>
-                  </div>
-
-                  <div className='space-y-2'>
-                    <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                      <FaBirthdayCake className='mr-2 text-blue-500' /> Date of Birth
-                    </label>
-                    <input
-                      type='date'
-                      name='dateOfBirth'
-                      value={formData.dateOfBirth}
-                      onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                    />
-                  </div>
 
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
@@ -192,18 +139,7 @@ const SetAppointments = ({ isOpen, onClose }) => {
                   </div>
                 </div>
 
-                <div className='space-y-2'>
-                  <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                    <FaMapMarkerAlt className='mr-2 text-blue-500' /> Address
-                  </label>
-                  <textarea
-                    name='address'
-                    value={formData.address}
-                    onChange={handleChange}
-                    rows={2}
-                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                  />
-                </div>
+                
               </div>
             )}
 
@@ -254,12 +190,18 @@ const SetAppointments = ({ isOpen, onClose }) => {
                       className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
                       required
                     >
-                      <option value='consultation'>Consultation</option>
-                      <option value='follow-up'>Follow-up</option>
-                      <option value='check-up'>Routine Check-up</option>
-                      <option value='emergency'>Emergency</option>
-                      <option value='vaccination'>Vaccination</option>
-                      <option value='test'>Diagnostic Test</option>
+
+
+                             
+                      <option value='Consultation'>Consultation</option>
+                      <option value='Follow-up'>Follow-up</option>
+                      <option value='Routine Check-up'>Routine Check-up</option>
+                      <option value='Emergency'>Emergency</option>
+                      <option value='Vaccination'>Vaccination</option>
+                      <option value='test'>Test</option>
+                      <option value='Procedure'>Procedure</option>
+                      <option value='Surgery'>Surgery</option>
+                     
                     </select>
                   </div>
 
@@ -325,11 +267,8 @@ const SetAppointments = ({ isOpen, onClose }) => {
                 <div className='bg-blue-50 p-4 rounded-lg'>
                   <h4 className='font-medium text-blue-800 mb-3'>Patient Information</h4>
                   <div className='grid grid-cols-2 gap-4 text-sm'>
-                    <div><span className='text-gray-600'>Name:</span> {formData.patientName || 'Not provided'}</div>
+                
                     <div><span className='text-gray-600'>Phone:</span> {formData.phoneNumber || 'Not provided'}</div>
-                    <div><span className='text-gray-600'>Email:</span> {formData.email || 'Not provided'}</div>
-                    <div><span className='text-gray-600'>Gender:</span> {formData.gender || 'Not provided'}</div>
-                    <div><span className='text-gray-600'>Date of Birth:</span> {formData.dateOfBirth || 'Not provided'}</div>
                     <div><span className='text-gray-600'>Previous Visit:</span> {formData.previousVisit === 'yes' ? 'Yes' : 'No'}</div>
                   </div>
                 </div>

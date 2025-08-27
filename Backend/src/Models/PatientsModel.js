@@ -82,7 +82,7 @@ const patientSchema = new mongoose.Schema({
     
   },
    conditions:{
-     type: String,
+     type: [],
     
   },
    lastCheckup:{

@@ -2,16 +2,21 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../../Configs/api';
+import { useAuth } from '../Context/authContext';
+
 
 const Login = () => {
-    
+
     const navigate = useNavigate()
     const location = useLocation();
-    const [isDoctor, setIsDoctor] = useState(location.state?.isDoctorDefault || false);
+    const [isDoc, setIsDoc] = useState(location.state?.isDocDefault || false);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
+
+
+    const { setIsDoctor, setIsPatient, setUser } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -31,7 +36,9 @@ const Login = () => {
                 email: "",
                 password: "",
             });
-            sessionStorage.setItem("LoginUser", JSON.stringify(res.data.data))
+            setUser(res.data.data)
+            setIsDoctor(true);
+            sessionStorage.setItem("Medi_vaultUser", JSON.stringify(res.data.data))
             navigate("/doctordash")
         } catch (error) {
             toast.error(error.message)
@@ -49,7 +56,9 @@ const Login = () => {
                 email: "",
                 password: "",
             });
-            sessionStorage.setItem("LoginUser", JSON.stringify(res.data.data))
+            setUser(res.data.data)
+            setIsPatient(true);
+            sessionStorage.setItem("Medi_vaultUser", JSON.stringify(res.data.data))
             navigate("/patientDashboard")
 
         } catch (error) {
@@ -63,7 +72,7 @@ const Login = () => {
             email: '',
             password: ''
         });
-    }, [isDoctor]);
+    }, [isDoc]);
 
     return (
         <main className='min-h-[92vh] w-full bg-blue-50 flex justify-center items-center p-4'>
@@ -71,21 +80,21 @@ const Login = () => {
 
                 <div className='flex border-b border-blue-200'>
                     <button
-                        className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${isDoctor ? 'bg-blue-600 text-white' : 'bg-white text-blue-800'}`}
-                        onClick={() => setIsDoctor(true)}
+                        className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${isDoc ? 'bg-blue-600 text-white' : 'bg-white text-blue-800'}`}
+                        onClick={() => setIsDoc(true)}
                     >
                         <span className='font-medium'>Doctor</span>
                     </button>
 
                     <button
-                        className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${!isDoctor ? 'bg-blue-600 text-white' : 'bg-white text-blue-800'}`}
-                        onClick={() => setIsDoctor(false)}
+                        className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${!isDoc ? 'bg-blue-600 text-white' : 'bg-white text-blue-800'}`}
+                        onClick={() => setIsDoc(false)}
                     >
                         <span className='font-medium'>Patient</span>
                     </button>
                 </div>
 
-                {isDoctor ? (
+                {isDoc ? (
                     <div>
                         <div className='grid w-full items-center px-10'>
                             <div className='grid p-4'>

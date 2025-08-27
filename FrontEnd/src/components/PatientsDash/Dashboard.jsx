@@ -5,32 +5,14 @@ import { GiMedicines } from 'react-icons/gi';
 import { BsDroplet, BsClipboardPlus } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Context/authContext.jsx';
+
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [patientData, setPatientData] = useState({
-    fullName: "John Doe",
-    age: 28,
-    bloodGroup: "A+",
-    height: "175 cm",
-    weight: "72 kg",
-    allergies: ["Penicillin", "Peanuts", "Dust"],
-    conditions: ["Hypertension", "Type 2 Diabetes"],
-    lastCheckup: "2023-05-15",
-    upcomingAppointments: [
-      { id: 1, doctor: "Dr. Sharma", specialty: "Cardiology", date: "2023-06-20", time: "10:00 AM" },
-      { id: 2, doctor: "Dr. Patel", specialty: "Dermatology", date: "2023-07-05", time: "2:30 PM" }
-    ],
-    labTests: [
-      { id: 1, name: "Complete Blood Count", date: "2023-05-10", status: "Completed" },
-      { id: 2, name: "Lipid Profile", date: "2023-05-10", status: "Completed" },
-      { id: 3, name: "HbA1c", date: "2023-06-15", status: "Pending" }
-    ],
-    emergencyContacts: [
-      { name: "Sarah Smith", relationship: "Spouse", phone: "+1 (555) 123-4567" },
-      { name: "Michael Johnson", relationship: "Brother", phone: "+1 (555) 987-6543" }
-    ]
-  });
+  const {user} = useAuth();
+  const [patientData, setPatientData] = useState(user);
 
   const medicalReports = [
     { id: 1, name: "Annual Physical", date: "2023-05-15", doctor: "Dr. Sharma", type: "General Checkup" },
@@ -179,7 +161,7 @@ const Dashboard = () => {
                 </button>
               </div>
 
-              {patientData.upcomingAppointments && patientData.upcomingAppointments.length > 0 ? (
+              {/* {patientData.upcomingAppointments && patientData.upcomingAppointments.length > 0 ? (
                 <div className='space-y-4'>
                   {patientData.upcomingAppointments.map(appointment => (
                     <div key={appointment.id} className='border-b border-gray-100 pb-4 last:border-0'>
@@ -206,7 +188,7 @@ const Dashboard = () => {
                 </div>
               ) : (
                 <p className='text-gray-500'>No upcoming appointments</p>
-              )}
+              )} */}
             </div>
 
             {/* Medical Reports */}
@@ -258,7 +240,7 @@ const Dashboard = () => {
                 <h2 className='text-xl font-bold text-gray-800'>Health Conditions</h2>
               </div>
               <ul className='space-y-3'>
-                {patientData.conditions.map((condition, index) => (
+                {/* {patientData.conditions.map((condition, index) => (
                   <li key={index} className='flex items-start gap-3'>
                     <span className='w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0'></span>
                     <div>
@@ -266,7 +248,7 @@ const Dashboard = () => {
                       <p className='text-gray-500 text-sm'>Diagnosed: {new Date().toLocaleDateString()}</p>
                     </div>
                   </li>
-                ))}
+                ))} */}
               </ul>
             </div>
 
@@ -277,7 +259,7 @@ const Dashboard = () => {
                 <h2 className='text-xl font-bold text-gray-800'>Allergies</h2>
               </div>
               <ul className='space-y-3'>
-                {patientData.allergies.map((allergy, index) => (
+                {/* {patientData.allergies.map((allergy, index) => (
                   <li key={index} className='flex items-start gap-3'>
                     <span className='w-2 h-2 rounded-full bg-yellow-500 mt-2 flex-shrink-0'></span>
                     <div>
@@ -285,7 +267,7 @@ const Dashboard = () => {
                       <p className='text-gray-500 text-sm'>Severity: Moderate</p>
                     </div>
                   </li>
-                ))}
+                ))} */}
               </ul>
             </div>
 
@@ -296,13 +278,13 @@ const Dashboard = () => {
                 <h2 className='text-xl font-bold text-gray-800'>Emergency Contacts</h2>
               </div>
               <div className='space-y-4'>
-                {patientData.emergencyContacts.map((contact, index) => (
+                {/* {patientData.emergencyContacts.map((contact, index) => (
                   <div key={index} className='border-b border-gray-100 pb-3 last:border-0'>
                     <h3 className='font-medium'>{contact.name}</h3>
                     <p className='text-gray-500 text-sm'>{contact.relationship}</p>
                     <p className='text-gray-700'>{contact.phone}</p>
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
           </div>

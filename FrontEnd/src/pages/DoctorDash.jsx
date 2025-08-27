@@ -4,6 +4,7 @@ import Profile from '../components/DoctorDash/Profile.jsx'
 import Appointments from '../components/DoctorDash/Appointments.jsx'
 import Chatsection from '../components/DoctorDash/Chatsection.jsx'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../Context/authContext.jsx'
 
 
 
@@ -11,11 +12,11 @@ import { useNavigate } from 'react-router-dom'
 const DoctorDash = () => {
   const [active, setActive] = useState("Profile");
   const navigate = useNavigate();
+  const {user} = useAuth();
 
 
 
   useEffect(() => {  
-    const user = sessionStorage.getItem("LoginUser")
     if (!user) { navigate("/login") }
 
   }, [])
