@@ -6,9 +6,6 @@ import {
   FaClock, 
   FaStethoscope, 
   FaNotesMedical, 
-  FaMapMarkerAlt, 
-  FaVenusMars, 
-  FaBirthdayCake, 
   FaIdCard, 
   FaTimes,
   FaArrowLeft,
@@ -19,19 +16,20 @@ import api from '../../../Configs/api';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../Context/authContext';
 
-const SetAppointments = ({ isOpen, onClose }) => {
-  const {user} = useAuth();
+const RescheduleAppoinmet = ({ isOpen, onClose, scheduleData }) => {
+  const { user } = useAuth();
+
   const [formData, setFormData] = useState({
-    phoneNumber: '',
-    date: '',
-    time: '',
-    appointmentType: 'Consultation',
-    reason: '',
-    insuranceProvider: '',
-    insuranceId: '',
-    previousVisit: 'no',
-    referredBy: '',
-    doctorId : user._id ,
+    phoneNumber: scheduleData.phoneNumber || '',
+    date: scheduleData.date,
+    time: scheduleData.time,
+    appointmentType: scheduleData.appointmentType || 'Consultation',
+    reason: scheduleData.reason || '',
+    insuranceProvider: scheduleData.insuranceProvider || '',
+    insuranceId: scheduleData.insuranceId || '',
+    previousVisit: scheduleData.previousVisit || 'no',
+    referredBy: scheduleData.referredBy || '',
+    doctorId: user._id,
   });
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -40,48 +38,49 @@ const SetAppointments = ({ isOpen, onClose }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = api.post("/doctor/appoinment" , formData);
-    setFormData("")
-    setCurrentStep(1)
-    onClose();
+    try {
+      await api.put(`/doctor/appointments/${scheduleData._id}/reschedule`, formData);
+      toast.success('Appointment updated successfully ✅');
+      setFormData({
+        date: '',
+        time: '',
+        appointmentType: 'Consultation',
+        reason: '',
+        insuranceProvider: '',
+        insuranceId: '',
+        previousVisit: 'no',
+        referredBy: '',
+        doctorId: user._id,
+      });
+      setCurrentStep(1);
+      onClose();
+    } catch (err) {
+      console.error('Error saving note:', err);
+      toast.error('Failed to update appointment ❌');
+    }
   };
 
-  const nextStep = () => {
-    setCurrentStep(currentStep + 1);
-  };
-
-  const prevStep = () => {
-    setCurrentStep(currentStep - 1);
-  };
+  const nextStep = () => setCurrentStep(currentStep + 1);
+  const prevStep = () => setCurrentStep(currentStep - 1);
 
   return (
     <main className='fixed inset-0 flex justify-center items-center bg-blue-900/50 z-50 p-4'>
       <div className='bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden'>
-        {/* Header */}
         <div className='bg-blue-600 text-white p-6 flex justify-between items-center'>
-          <h2 className='text-2xl font-bold'>Schedule New Appointment</h2>
-          <button 
-            onClick={onClose}
-            className='text-white hover:text-blue-200 transition-colors'
-          >
+          <h2 className='text-2xl font-bold'>Reschedule  Appointment</h2>
+          <button onClick={onClose} className='text-white hover:text-blue-200 transition-colors'>
             <FaTimes size={24} />
           </button>
         </div>
 
-        {/* Progress Bar */}
         <div className='bg-blue-50 px-6 py-3'>
           <div className='flex items-center justify-between mb-2'>
-            <span className='text-sm font-medium text-blue-800'>
-              Step {currentStep} of 3
-            </span>
+            <span className='text-sm font-medium text-blue-800'>Step {currentStep} of 3</span>
             <span className='text-sm text-blue-600'>
               {currentStep === 1 && 'Patient Information'}
               {currentStep === 2 && 'Appointment Details'}
@@ -96,19 +95,14 @@ const SetAppointments = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Form Content */}
         <div className='p-6 overflow-y-auto max-h-[60vh]'>
           <form onSubmit={handleSubmit}>
-            {/* Step 1: Patient Information */}
             {currentStep === 1 && (
               <div className='space-y-6'>
                 <h3 className='text-xl font-semibold text-blue-800 border-b pb-2 flex items-center'>
                   <FaUser className='mr-2' /> Patient Details
                 </h3>
-                
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                 
-
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
                       <FaPhone className='mr-2 text-blue-500' /> Phone Number *
@@ -119,12 +113,9 @@ const SetAppointments = ({ isOpen, onClose }) => {
                       value={formData.phoneNumber}
                       onChange={handleChange}
                       className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
-                      required
+                      disabled
                     />
                   </div>
-
-
-
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
                       <FaIdCard className='mr-2 text-blue-500' /> Previous Visit
@@ -140,18 +131,14 @@ const SetAppointments = ({ isOpen, onClose }) => {
                     </select>
                   </div>
                 </div>
-
-                
               </div>
             )}
 
-            {/* Step 2: Appointment Details */}
             {currentStep === 2 && (
               <div className='space-y-6'>
                 <h3 className='text-xl font-semibold text-blue-800 border-b pb-2 flex items-center'>
                   <FaCalendarAlt className='mr-2' /> Appointment Information
                 </h3>
-                
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
@@ -166,7 +153,6 @@ const SetAppointments = ({ isOpen, onClose }) => {
                       required
                     />
                   </div>
-
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
                       <FaClock className='mr-2 text-blue-500' /> Time *
@@ -180,7 +166,6 @@ const SetAppointments = ({ isOpen, onClose }) => {
                       required
                     />
                   </div>
-
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
                       <FaStethoscope className='mr-2 text-blue-500' /> Appointment Type *
@@ -192,9 +177,6 @@ const SetAppointments = ({ isOpen, onClose }) => {
                       className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
                       required
                     >
-
-
-                             
                       <option value='Consultation'>Consultation</option>
                       <option value='Follow-up'>Follow-up</option>
                       <option value='Routine Check-up'>Routine Check-up</option>
@@ -203,10 +185,8 @@ const SetAppointments = ({ isOpen, onClose }) => {
                       <option value='test'>Test</option>
                       <option value='Procedure'>Procedure</option>
                       <option value='Surgery'>Surgery</option>
-                     
                     </select>
                   </div>
-
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700'>Referred By</label>
                     <input
@@ -219,7 +199,6 @@ const SetAppointments = ({ isOpen, onClose }) => {
                     />
                   </div>
                 </div>
-
                 <div className='space-y-2'>
                   <label className='block text-sm font-medium text-gray-700 flex items-center'>
                     <FaNotesMedical className='mr-2 text-blue-500' /> Reason for Visit *
@@ -234,7 +213,6 @@ const SetAppointments = ({ isOpen, onClose }) => {
                     required
                   />
                 </div>
-
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700'>Insurance Provider</label>
@@ -246,7 +224,6 @@ const SetAppointments = ({ isOpen, onClose }) => {
                       className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
                     />
                   </div>
-
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700'>Insurance ID</label>
                     <input
@@ -261,20 +238,16 @@ const SetAppointments = ({ isOpen, onClose }) => {
               </div>
             )}
 
-            {/* Step 3: Review & Confirm */}
             {currentStep === 3 && (
               <div className='space-y-6'>
                 <h3 className='text-xl font-semibold text-blue-800 border-b pb-2'>Review Appointment Details</h3>
-                
                 <div className='bg-blue-50 p-4 rounded-lg'>
                   <h4 className='font-medium text-blue-800 mb-3'>Patient Information</h4>
                   <div className='grid grid-cols-2 gap-4 text-sm'>
-                
                     <div><span className='text-gray-600'>Phone:</span> {formData.phoneNumber || 'Not provided'}</div>
                     <div><span className='text-gray-600'>Previous Visit:</span> {formData.previousVisit === 'yes' ? 'Yes' : 'No'}</div>
                   </div>
                 </div>
-
                 <div className='bg-blue-50 p-4 rounded-lg'>
                   <h4 className='font-medium text-blue-800 mb-3'>Appointment Details</h4>
                   <div className='grid grid-cols-2 gap-4 text-sm'>
@@ -284,12 +257,10 @@ const SetAppointments = ({ isOpen, onClose }) => {
                     <div><span className='text-gray-600'>Referred By:</span> {formData.referredBy || 'Not specified'}</div>
                   </div>
                 </div>
-
                 <div className='bg-blue-50 p-4 rounded-lg'>
                   <h4 className='font-medium text-blue-800 mb-3'>Reason for Visit</h4>
                   <p className='text-sm'>{formData.reason || 'Not provided'}</p>
                 </div>
-
                 <div className='bg-blue-50 p-4 rounded-lg'>
                   <h4 className='font-medium text-blue-800 mb-3'>Insurance Information</h4>
                   <div className='grid grid-cols-2 gap-4 text-sm'>
@@ -297,7 +268,6 @@ const SetAppointments = ({ isOpen, onClose }) => {
                     <div><span className='text-gray-600'>ID:</span> {formData.insuranceId || 'Not provided'}</div>
                   </div>
                 </div>
-
                 <div className='flex items-center mt-4'>
                   <input
                     type='checkbox'
@@ -314,7 +284,6 @@ const SetAppointments = ({ isOpen, onClose }) => {
           </form>
         </div>
 
-        {/* Footer with Navigation Buttons */}
         <div className='bg-gray-50 px-6 py-4 flex justify-between'>
           <div>
             {currentStep > 1 && (
@@ -326,7 +295,6 @@ const SetAppointments = ({ isOpen, onClose }) => {
               </button>
             )}
           </div>
-          
           <div>
             {currentStep < 3 ? (
               <button
@@ -350,4 +318,4 @@ const SetAppointments = ({ isOpen, onClose }) => {
   );
 };
 
-export default SetAppointments;
+export default RescheduleAppoinmet;

@@ -19,6 +19,7 @@ const DoctorSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
       match: [/^\d{10}$/, "Phone must be 10 digits"],
     },
     specialization: {

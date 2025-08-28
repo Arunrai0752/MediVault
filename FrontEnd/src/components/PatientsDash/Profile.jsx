@@ -4,16 +4,17 @@ import { FaHeartbeat, FaNotesMedical, FaAllergies, FaFileMedicalAlt, FaCalendarA
 import { MdBloodtype, MdVaccines, MdEmergency, MdEdit } from 'react-icons/md';
 import EditDashBoard from './editDashBoard'; // Make sure to import your edit component
 import { useEffect } from 'react';
+import { useAuth } from '../../Context/authContext';
+
 
 const Profile = () => {
   const [isEditModelOpen, setIsEditModelOpen] = useState(false);
   const [patientData, setPatientData] = useState("");
 
+  const {user} = useAuth();
 
   
     const fetchPatientsData = async () => {
-        const res = sessionStorage.getItem("LoginUser");
-        const user = JSON.parse(res);
         if (user.role === "Patient") {
             setPatientData(user)
         }

@@ -19,10 +19,13 @@ import {
 import api from '../../../Configs/api';
 import { useAuth } from '../../Context/authContext';
 import SetAppointments from './SetAppoinments';
-
+import RescheduleAppoinmet from './RescheduleAppoinmet';
 
 const Appointments = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
+  const [activeNote, setActiveNote] = useState(false);
+  const [activeReschedule, setActiveReschedule] = useState(false);
+  const [noteText, setNoteText] = useState("");
   const [activeAppointmentTab, setActiveAppointmentTab] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
@@ -34,10 +37,11 @@ const Appointments = () => {
   const categorizeAppointments = (appointments) => {
     return {
       upcoming: appointments.filter(app =>
-        app.status === 'Confirmed' || app.status === 'Scheduled'
+        app.status === 'Confirmed' || app.status === 'Scheduled' || app.status === 'In Progress' || app.status === 'Rescheduled'
       ),
       requested: appointments.filter(app =>
-        app.status === 'In Progress'),
+        app.status === 'Requested'),
+
       completed: appointments.filter(app =>
         app.status === 'Completed'
       ),
@@ -53,10 +57,10 @@ const Appointments = () => {
     try {
       setLoading(true);
       console.log(user._id);
-      
+
       const res = await api.get(`/doctor/Doctorappointments/${user._id}`);
       console.log(res.data.data);
-      
+
       if (res.data.success) {
         setAppointments(res.data.data);
       }
@@ -70,6 +74,51 @@ const Appointments = () => {
   useEffect(() => {
     fetchAllAppointments();
   }, [user]);
+
+
+  const handleCheckin = async (appointmentId) => {
+    try {
+      await api.put(`/doctor/appointments/${appointmentId}/status`, { status: 'Completed' });
+      setAppointments(prev =>
+        prev.map(app => app._id === appointmentId ? { ...app, status: 'Completed' } : app)
+      );
+    } catch (error) {
+      console.error("Error checking in:", error);
+    }
+  };
+
+  const handleApprove = async (appointmentId) => {
+    try {
+      await api.put(`/doctor/appointments/${appointmentId}/status`, { status: 'Confirmed' });
+      setAppointments(prev =>
+        prev.map(app => app._id === appointmentId ? { ...app, status: 'Confirmed' } : app)
+      );
+    } catch (error) {
+      console.error("Error approving:", error);
+    }
+  };
+
+  const handleDecline = async (appointmentId) => {
+    try {
+      await api.put(`/doctor/appointments/${appointmentId}/status`, { status: 'Cancelled' });
+      setAppointments(prev =>
+        prev.map(app => app._id === appointmentId ? { ...app, status: 'Cancelled' } : app)
+      );
+    } catch (error) {
+      console.error("Error declining:", error);
+    }
+  };
+
+
+  const handleSaveNote = async (appointmentId) => {
+    try {
+      await api.put(`/doctor/appointments/${appointmentId}/notes`, { notes: noteText });
+      setActiveNote(false);
+    } catch (err) {
+      console.error("Error saving note:", err);
+    }
+  };
+
 
   const specialties = [...new Set(
     appointments.map(apt => apt.appointmentType)
@@ -310,33 +359,87 @@ const Appointments = () => {
                         </div>
                       </div>
 
-                      <div className="mt-3">
-                        <h4 className="text-sm font-medium text-gray-700">Reason:</h4>
-                        <p className="text-sm text-gray-600">{appointment.reason}</p>
+
+                      <div className="mt-3 flex gap-10 relative">
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-700">Reason:</h4>
+                          <p className="text-sm text-gray-600">{appointment.reason}</p>
+                        </div>
+
+                        <div>
+                          {activeNote && (
+                            <div className="h-[10vh] w-[40vw] p-2 absolute bg-white bottom-10 left-100 shadow-lg rounded-lg border">
+                              <h1 className="text-sm font-medium text-gray-700 mb-2">Notes</h1>
+                              <input
+                                type="text"
+                                placeholder="Write a note"
+                                className="w-full border px-2 py-1 rounded-md text-sm"
+                                value={noteText}
+                                onChange={(e) => setNoteText(e.target.value)}
+                              />
+                              <div className="flex gap-2 mt-2">
+                                <button
+                                  onClick={() => handleSaveNote(appointment._id)}
+                                  className="bg-blue-500 text-white px-3 py-1 rounded-md text-xs"
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  onClick={() => setActiveNote(false)}
+                                  className="bg-gray-300 text-black px-3 py-1 rounded-md text-xs"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
+
+                    </div>
+
+
+                    <div>
+                      <RescheduleAppoinmet 
+                      isOpen={activeReschedule}
+                      onClose={() => setActiveReschedule(false)}
+                      scheduleData = {appointment}
+                      />
+                      
                     </div>
 
                     <div className="hidden lg:flex flex-col items-end gap-3 mt-4 lg:mt-0">
                       <div className="flex gap-2">
                         {activeTab === 'upcoming' && (
                           <>
-                            <button className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center shadow-sm">
+                            <button
+                              onClick={() => handleCheckin(appointment._id)}
+                              className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center shadow-sm">
                               <FaCheck className="mr-1" /> Check In
                             </button>
-                            <button className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                            <button
+                              onClick={() => setActiveReschedule(true)}
+                              className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
                               Reschedule
                             </button>
-                            <button className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                            <button
+                              onClick={() => setActiveNote(true)}
+                              className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center">
                               <FaNotesMedical className="mr-1" /> Notes
                             </button>
+
                           </>
                         )}
                         {activeTab === 'requested' && (
                           <>
-                            <button className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center">
+                            <button
+                              onClick={() => handleApprove(appointment._id)}
+                              className="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center">
                               <FaCheck className="mr-1" /> Approve
                             </button>
-                            <button className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors flex items-center">
+                            <button
+                              onClick={() => handleDecline(appointment._id)}
+                              className="px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors flex items-center">
                               <FaTimes className="mr-1" /> Decline
                             </button>
                           </>
@@ -365,23 +468,35 @@ const Appointments = () => {
                     </div>
                     {activeTab === 'upcoming' && (
                       <>
-                        <button className="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center">
+                        <button
+                          onClick={() => handleCheckin(appointment._id)}
+                          className="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center">
                           <FaCheck className="mr-1" /> Check In
                         </button>
-                        <button className="flex-1 px-3 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                        <button
+                          onClick={() => setActiveReschedule(true)}
+                          className="flex-1 px-3 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
                           Reschedule
                         </button>
-                        <button className="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
+                        <button
+                          onClick={() => setActiveNote(true)}
+
+                          className="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
                           <FaNotesMedical className="mr-1" /> Notes
                         </button>
+
                       </>
                     )}
                     {activeTab === 'requested' && (
                       <>
-                        <button className="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center">
+                        <button
+                          onClick={() => handleApprove(appointment._id)}
+                          className="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center">
                           <FaCheck className="mr-1" /> Approve
                         </button>
-                        <button className="flex-1 px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center">
+                        <button
+                          onClick={() => handleDecline(appointment._id)}
+                          className="flex-1 px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center">
                           <FaTimes className="mr-1" /> Decline
                         </button>
                       </>
@@ -399,6 +514,8 @@ const Appointments = () => {
                   </div>
                 </div>
               ))}
+
+
             </div>
           ) : (
             <div className="text-center py-12">
@@ -416,6 +533,8 @@ const Appointments = () => {
           onClose={() => setActiveAppointmentTab(false)}
         />
       </main>
+
+
     </div>
   );
 };

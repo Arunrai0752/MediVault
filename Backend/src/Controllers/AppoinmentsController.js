@@ -57,7 +57,8 @@ export const SetAppointments = async (req, res, next) => {
             email: patient.email,
             gender: patient.gender,
             dateOfBirth: patient.dob,
-            address: patient.address
+            address: patient.address,
+            status: "Scheduled",
         });
 
 
@@ -85,7 +86,7 @@ export const PatientAppoinmentss = async (req, res, next) => {
 
         const appointments = await Appointment.find({ patientId: id });
 
-        
+
 
         res.status(200).json({
             success: true,
@@ -114,9 +115,9 @@ export const DoctorAppoinmentss = async (req, res, next) => {
         const appointments = await Appointment.find({ doctorId: id });
 
         console.log(appointments);
-        
 
-        
+
+
 
         res.status(200).json({
             success: true,
@@ -129,3 +130,199 @@ export const DoctorAppoinmentss = async (req, res, next) => {
     }
 };
 
+
+
+
+export const ReqAppointment = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const { doctor, specialty, reason, preferredDate, preferredTime, urgency } = req.body;
+
+        if (!doctor || !reason || !preferredDate || !preferredTime) {
+            const error = new Error("Doctor, reason, preferred date and time are required");
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const doctorData = await Doctor.findOne({ phone: doctor });
+        const patientData = await Patient.findById(id);
+
+        if (!doctorData) {
+            const error = new Error("Doctor not found with the provided phone number");
+            error.statusCode = 404;
+            throw error;
+        }
+
+        if (!patientData) {
+            const error = new Error("Patient not found");
+            error.statusCode = 404;
+            throw error;
+        }
+
+
+
+
+        const appointmentRequest = await Appointment.create({
+            date: preferredDate,
+            time: preferredTime,
+            appointmentType: "Consultation",
+            reason,
+            status: "Requested",
+            patientId: patientData._id,
+            doctorId: doctorData._id,
+            patientName: patientData.fullName,
+            phoneNumber: patientData.phone,
+            email: patientData.email,
+            gender: patientData.gender,
+            dateOfBirth: patientData.dob,
+            address: patientData.address,
+            urgency: urgency || "Normal",
+            specialty: specialty || doctorData.specialty,
+            previousVisit: "No"
+        });
+
+        res.status(201).json({
+            success: true,
+            message: "Appointment request sent successfully. Waiting for doctor confirmation.",
+            data: appointmentRequest
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
+
+export const updateAppointmentStatus = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+
+        if (!id || !status) {
+            return res.status(400).json({ message: "Appointment ID and status required" });
+        }
+
+        const appointment = await Appointment.findById(id);
+
+        if (!appointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
+
+        console.log("here here 700");
+
+
+        appointment.status = status;
+        await appointment.save();
+
+        res.status(200).json({
+            message: "Appointment status updated successfully",
+            data: appointment,
+        });
+    } catch (error) {
+        console.error("Error updating appointment:", error);
+        res.status(500).json({ message: "Server Error", error: error.message });
+    }
+};
+
+
+
+
+export const updateAppointmentNotes = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { notes } = req.body;
+
+
+        if (!id || !notes) {
+            return res.status(400).json({ message: "Appointment ID and status required" });
+        }
+
+        const appointment = await Appointment.findById(id);
+
+        if (!appointment) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
+
+        console.log("here here 700");
+
+
+        appointment.notes = notes;
+
+        await appointment.save();
+
+        res.status(200).json({
+            message: "Appointment Notes updated successfully",
+            data: appointment,
+        });
+    } catch (error) {
+        console.error("Error updating appointment:", error);
+        res.status(500).json({ message: "Server Error", error: error.message });
+    }
+};
+
+
+
+
+
+export const rescheduleAppoinment = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    const {
+      phoneNumber,
+      date,
+      time,
+      appointmentType,
+      reason,
+      insuranceProvider,
+      insuranceId,
+      previousVisit,
+      referredBy,
+      doctorId,
+    } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ success: false, message: "Appointment ID is required" });
+    }
+
+    const updatedAppointment = await Appointment.findByIdAndUpdate(
+      id,
+      {
+        phoneNumber,
+        date,
+        time,
+        appointmentType,
+        reason,
+        insuranceProvider,
+        insuranceId,
+        previousVisit,
+        referredBy,
+        doctorId,
+        status: "Rescheduled",
+      },
+      { new: true } 
+    );
+
+    if (!updatedAppointment) {
+      return res.status(404).json({ success: false, message: "Appointment not found" });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Appointment rescheduled successfully",
+      data: updatedAppointment,
+    });
+
+  } catch (error) {
+    console.error("Error rescheduling appointment:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};

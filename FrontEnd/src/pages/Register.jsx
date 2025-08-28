@@ -5,201 +5,211 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../../Configs/api';
 import toast from 'react-hot-toast';
 
-
-
 const Register = () => {
-
-
-
-
-
   const [patientsData, setPatientsdata] = useState({
     fullName: "",
     aadharNumber: "",
     email: "",
+    phone: "",
     dob: "",
     password: "",
     confirmPassword: "",
-
   });
 
-
-
-
   const handelChange = (e) => {
-
     const { name, value } = e.target;
-
-    setPatientsdata(prev => ({ ...prev, [name]: value }))
-
+    setPatientsdata(prev => ({ ...prev, [name]: value }));
   }
 
-
   const handelOnSubmit = async (e) => {
-
-
     e.preventDefault();
 
     if (!patientsData.fullName || !patientsData.aadharNumber ||
-      !patientsData.email || !patientsData.dob
+      !patientsData.email || !patientsData.phone || !patientsData.dob
       || !patientsData.password || !patientsData.confirmPassword) {
 
-      toast.error("All Fields Fill requiered");
+      toast.error("All fields are required");
       return;
+    }
 
+    if (patientsData.password !== patientsData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
     }
 
     try {
-
       const { confirmPassword, ...registrationData } = patientsData;
       const res = await api.post("/patients/pregister", registrationData);
-      toast.success(res.data.message)
+      toast.success(res.data.message);
       setPatientsdata({
         fullName: "",
         aadharNumber: "",
         email: "",
+        phone: "",
         dob: "",
         password: "",
         confirmPassword: "",
-
-      })
-      
-    } catch (error) {
-
-      toast.error("Registration failed:", {
-        status: error.response?.status,
-        data: error.response?.data,
-        message: error.message
       });
-
+    } catch (error) {
+      toast.error("Registration failed: " + (error.response?.data?.message || error.message));
     }
-
-
-
   }
 
-
-
-
-
   const navigate = useNavigate();
+  
   return (
-    <main className='min-h-screen bg-blue-500/40 w-full flex justify-center items-center p-4'>
-      <div className='h-auto min-h-[85vh] w-full md:w-[50vw] bg-white/70 rounded-lg mt-10 p-6 flex flex-col shadow-xl'>
-        <div className='flex justify-between items-center border-b border-gray-200 pb-4 mb-6'>
-          <h1 className='text-2xl md:text-3xl font-semibold text-gray-800'>
-            Patient <span className='text-blue-600'>Registration</span>
+    <main className='min-h-screen bg-gradient-to-br from-blue-400 to-indigo-600 w-full flex justify-center items-center p-4'>
+      <div className='h-auto w-full max-w-4xl bg-white/90 rounded-2xl mt-10 p-6 flex flex-col shadow-2xl backdrop-blur-sm'>
+        <div className='flex justify-between items-center border-b border-gray-300 pb-4 mb-6'>
+          <h1 className='text-2xl md:text-3xl font-bold text-gray-800'>
+            Patient <span className='text-blue-700'>Registration</span>
           </h1>
           <button
-            onClick={() => { navigate("/") }}
-
-            className='text-2xl text-gray-500 hover:text-red-600 transition-all duration-300 transform hover:rotate-90'
+            onClick={() => navigate("/")}
+            className='text-2xl text-gray-600 hover:text-red-600 transition-all duration-300 transform hover:rotate-90'
             aria-label="Close registration form"
           >
             <IoMdCloseCircleOutline />
           </button>
         </div>
 
-        <div className='flex-1 w-full space-y-4'>
-          <div className='w-full'>
-            <label htmlFor="fullName" className='block text-gray-700 mb-1'>Full Name</label>
-            <input
-              type="text"
-              id="fullName"
-              onChange={handelChange}
-              value={patientsData.fullName}
-              name='fullName'
-              placeholder='Enter your name (must match Aadhar Card)'
-              className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
-            />
+        <form onSubmit={handelOnSubmit} className='flex-1 w-full'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
+            {/* Personal Information Section */}
+            <div className='md:col-span-2'>
+              <h2 className='text-xl font-semibold text-gray-800 mb-3 pb-2 border-b border-gray-300'>
+                Personal Information
+              </h2>
+            </div>
+            
+            <div className='w-full'>
+              <label htmlFor="fullName" className='block text-gray-700 mb-1 font-medium'>Full Name *</label>
+              <input
+                type="text"
+                id="fullName"
+                onChange={handelChange}
+                value={patientsData.fullName}
+                name='fullName'
+                required
+                placeholder='Enter your name (must match Aadhar Card)'
+                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+              />
+            </div>
+
+            <div className='w-full'>
+              <label htmlFor="aadharNumber" className='block text-gray-700 mb-1 font-medium'>Aadhar Card Number *</label>
+              <input
+                type="text"
+                id="aadharNumber"
+                onChange={handelChange}
+                value={patientsData.aadharNumber}
+                name='aadharNumber'
+                required
+                placeholder='Enter 12-digit Aadhar number'
+                maxLength="12"
+                pattern="[0-9]{12}"
+                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+              />
+            </div>
+
+            <div className='w-full'>
+              <label htmlFor="email" className='block text-gray-700 mb-1 font-medium'>Email Address *</label>
+              <input
+                type="email"
+                id="email"
+                onChange={handelChange}
+                name='email'
+                value={patientsData.email}
+                required
+                placeholder='Enter your email address'
+                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+              />
+            </div>
+
+            <div className='w-full'>
+              <label htmlFor="phone" className='block text-gray-700 mb-1 font-medium'>Phone Number *</label>
+              <input
+                type="tel"
+                id="phone"
+                name='phone'
+                onChange={handelChange}
+                value={patientsData.phone}
+                required
+                placeholder='Enter 10-digit phone number'
+                maxLength="10"
+                pattern="[0-9]{10}"
+                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+              />
+            </div>
+
+            <div className='w-full'>
+              <label htmlFor="dob" className='block text-gray-700 mb-1 font-medium'>Date of Birth *</label>
+              <input
+                type="date"
+                id="dob"
+                name='dob'
+                onChange={handelChange}
+                value={patientsData.dob}
+                required
+                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all text-gray-700'
+              />
+            </div>
           </div>
 
-          <div className='w-full'>
-            <label htmlFor="aadharNumber" className='block text-gray-700 mb-1'>Aadhar Card Number</label>
-            <input
-              type="text"
-              id="aadharNumber"
-              onChange={handelChange}
-              value={patientsData.aadharNumber}
-              name='aadharNumber'
-              placeholder='Enter 12-digit Aadhar number'
-              maxLength="12"
-              className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
-            />
+          {/* Security Section */}
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-6'>
+            <div className='md:col-span-2'>
+              <h2 className='text-xl font-semibold text-gray-800 mb-3 pb-2 border-b border-gray-300'>
+                Account Security
+              </h2>
+            </div>
+            
+            <div className='w-full'>
+              <label htmlFor="password" className='block text-gray-700 mb-1 font-medium'>Password *</label>
+              <input
+                type="password"
+                id="password"
+                value={patientsData.password}
+                name='password'
+                onChange={handelChange}
+                required
+                minLength="6"
+                placeholder='Create a strong password (min. 6 characters)'
+                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+              />
+            </div>
+
+            <div className='w-full'>
+              <label htmlFor="confirmPassword" className='block text-gray-700 mb-1 font-medium'>Confirm Password *</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={patientsData.confirmPassword}
+                name='confirmPassword'
+                onChange={handelChange}
+                required
+                placeholder='Re-enter your password'
+                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+              />
+            </div>
           </div>
 
+          <div className='mt-8 flex flex-col items-center space-y-4'>
+            <button
+              type="submit"
+              className='w-full md:w-1/2 bg-blue-700 hover:bg-blue-800 text-white text-xl font-medium py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1'
+            >
+              Create Account
+            </button>
 
-          <div className='w-full'>
-            <label htmlFor="email" className='block text-gray-700 mb-1'>Email</label>
-            <input
-              type="email"
-              id="email"
-              onChange={handelChange}
-
-              name='email'
-              value={patientsData.email}
-              placeholder='Enter Your Email'
-              className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
-            />
+            <p className='text-gray-600 text-center'>
+              Already have an account?{' '}
+              <Link to="/" className='text-blue-700 hover:text-blue-900 font-medium underline'>
+                Login here
+              </Link>
+            </p>
           </div>
-
-          <div className='w-full'>
-            <label htmlFor="dob" className='block text-gray-700 mb-1'>Date of Birth</label>
-            <input
-              type="date"
-              id="dob"
-              name='dob'
-              onChange={handelChange}
-
-              value={patientsData.dob}
-              className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
-            />
-          </div>
-
-          <div className='w-full'>
-            <label htmlFor="password" className='block text-gray-700 mb-1'>Password</label>
-            <input
-              type="password"
-              id="password"
-              value={patientsData.password}
-              name='password'
-              onChange={handelChange}
-
-              placeholder='Create a password'
-              className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
-            />
-          </div>
-
-          <div className='w-full'>
-            <label htmlFor="confirmPassword" className='block text-gray-700 mb-1'>Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={patientsData.confirmPassword}
-              name='confirmPassword'
-              onChange={handelChange}
-
-              placeholder='Re-enter your password'
-              className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent'
-            />
-          </div>
-        </div>
-
-        <div className='mt-8 flex flex-col items-center space-y-4'>
-          <button
-            onClick={handelOnSubmit}
-            className='w-full md:w-1/2 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg'
-          >
-            Register
-          </button>
-
-          <p className='text-gray-600'>
-            Already have an account?{' '}
-            <Link to="/" className='text-blue-600 hover:text-blue-800 font-medium'>
-              Login
-            </Link>
-          </p>
-        </div>
+        </form>
       </div>
     </main>
   )

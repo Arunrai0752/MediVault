@@ -17,7 +17,7 @@ const patientSchema = new mongoose.Schema({
     type: Date,
     required: [true, "Date of birth is required"],
     validate: {
-      validator: function(dob) {
+      validator: function (dob) {
         return dob < new Date();
       },
       message: "Date of birth must be in the past"
@@ -32,7 +32,10 @@ const patientSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    default: "N/A"
+    required: true,
+    trim: true,
+    unique: true,
+    match: [/^\d{10}$/, "Phone must be 10 digits"],
   },
   address: {
     type: String,
@@ -65,31 +68,31 @@ const patientSchema = new mongoose.Schema({
     enum: ["Patient", "Admin", "Doctor"],
     default: "Patient"
   },
-  age:{
-     type: String,
-    
+  age: {
+    type: String,
+
   },
-   height:{
-     type: String,
-    
+  height: {
+    type: String,
+
   },
-   weight:{
-     type: String,
-    
+  weight: {
+    type: String,
+
   },
-   allergies:{
-     type: String,
-    
+  allergies: {
+    type: String,
+
   },
-   conditions:{
-     type: [],
-    
+  conditions: {
+    type: [],
+
   },
-   lastCheckup:{
-     type: String,
-    
+  lastCheckup: {
+    type: String,
+
   },
-}, { 
+}, {
   timestamps: true,
 
 });

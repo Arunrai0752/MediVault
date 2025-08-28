@@ -20,6 +20,9 @@ import {
 import api from '../../../Configs/api';
 import { useAuth } from '../../Context/authContext';
 
+
+
+
 const Appointments = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
   const [showRequestForm, setShowRequestForm] = useState(false);
@@ -29,15 +32,16 @@ const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
+
   const categorizeAppointments = (appointments) => {
     return {
       upcoming: appointments.filter(app =>
-        app.status === 'Confirmed' || app.status === 'Scheduled'
-
+        app.status === 'Confirmed' || app.status === 'Scheduled' || app.status === 'In Progress' || app.status === 'Rescheduled'
       ),
       requested: appointments.filter(app =>
-        app.status === 'In Progress'
-      ),
+        app.status === 'Requested'),
+
       completed: appointments.filter(app =>
         app.status === 'Completed'
       ),
@@ -46,6 +50,9 @@ const Appointments = () => {
       )
     };
   };
+
+
+
 
   const appointmentsData = categorizeAppointments(appointments);
 
@@ -66,6 +73,8 @@ const Appointments = () => {
     }
   };
 
+
+
   useEffect(() => {
     fetchAllAppointments();
   }, [user]);
@@ -79,6 +88,7 @@ const Appointments = () => {
       read: false
     }
   ];
+  
 
   const [appointmentRequest, setAppointmentRequest] = useState({
     doctor: '',
@@ -86,8 +96,10 @@ const Appointments = () => {
     reason: '',
     preferredDate: '',
     preferredTime: '',
-    urgency: 'routine'
+    urgency: 'routine',
   });
+
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -99,6 +111,10 @@ const Appointments = () => {
 
   const handleSubmitRequest = (e) => {
     e.preventDefault();
+    const res = api.post(`/user/requestAppoinment/${user._id}`, appointmentRequest)
+
+
+
     console.log('Appointment request:', appointmentRequest);
     alert('Appointment request submitted successfully!');
     setShowRequestForm(false);
@@ -159,7 +175,6 @@ const Appointments = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-blue-900 mb-2">My Appointments</h1>
@@ -167,7 +182,6 @@ const Appointments = () => {
           </div>
 
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            {/* Notifications Bell */}
             <div className="relative">
               <button className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow text-blue-600">
                 <FaBell size={18} />
@@ -390,9 +404,22 @@ const Appointments = () => {
             </div>
           </div>
 
-          {/* Sidebar - Notifications and Next Appointment */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <div className="lg:w-1/3">
-            {/* Next Appointment Card */}
             {appointmentsData.upcoming.length > 0 && (
               <div className="bg-white rounded-xl shadow-sm border p-5 mb-6">
                 <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center">
@@ -427,7 +454,15 @@ const Appointments = () => {
               </div>
             )}
 
-            {/* Notifications Card */}
+
+
+
+
+
+
+
+
+
             <div className="bg-white rounded-xl shadow-sm border p-5">
               <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center">
                 <FaBell className="mr-2 text-blue-600" /> Notifications
@@ -454,6 +489,15 @@ const Appointments = () => {
           </div>
         </div>
       </div>
+
+
+
+
+
+
+
+
+
 
       {/* Request Appointment Modal */}
       {showRequestForm && (
@@ -490,14 +534,14 @@ const Appointments = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Doctor (Optional)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Doctor </label>
                   <input
-                    type="text"
+                    type="tel"
                     name="doctor"
                     value={appointmentRequest.doctor}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Doctor's name"
+                    placeholder="Doctor Registered Number"
                   />
                 </div>
 
