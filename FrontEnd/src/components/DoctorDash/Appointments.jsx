@@ -400,12 +400,12 @@ const Appointments = () => {
 
 
                     <div>
-                      <RescheduleAppoinmet 
-                      isOpen={activeReschedule}
-                      onClose={() => setActiveReschedule(false)}
-                      scheduleData = {appointment}
+                      <RescheduleAppoinmet
+                        isOpen={activeReschedule}
+                        onClose={() => setActiveReschedule(false)}
+                        scheduleData={appointment}
                       />
-                      
+
                     </div>
 
                     <div className="hidden lg:flex flex-col items-end gap-3 mt-4 lg:mt-0">
@@ -450,7 +450,9 @@ const Appointments = () => {
                           </button>
                         )}
                         {activeTab === 'cancelled' && (
-                          <button className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                          <button
+                            onClick={() => setActiveReschedule(true)}
+                            className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
                             Reschedule
                           </button>
                         )}
@@ -507,7 +509,9 @@ const Appointments = () => {
                       </button>
                     )}
                     {activeTab === 'cancelled' && (
-                      <button className="flex-1 px-3 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                      <button
+                        onClick={() => setActiveReschedule(true)}
+                        className="flex-1 px-3 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
                         Reschedule
                       </button>
                     )}
