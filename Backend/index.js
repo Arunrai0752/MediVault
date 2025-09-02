@@ -21,6 +21,7 @@ app.use(cookieParser());
 
 app.use("/doctors", DoctorRoutes )
 app.use("/patients", patientsRoute )
+
 app.use("/doctor", AppoinmentsRoutes)
 app.use("/user", AppoinmentsRoutes)
 

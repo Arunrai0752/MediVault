@@ -4,6 +4,7 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../Configs/api';
 import toast from 'react-hot-toast';
+import {motion} from "framer-motion"
 
 const Register = () => {
   const [patientsData, setPatientsdata] = useState({
@@ -59,7 +60,10 @@ const Register = () => {
   
   return (
     <main className='min-h-screen bg-gradient-to-br from-blue-400 to-indigo-600 w-full flex justify-center items-center p-4'>
-      <div className='h-auto w-full max-w-4xl bg-white/90 rounded-2xl mt-10 p-6 flex flex-col shadow-2xl backdrop-blur-sm'>
+      <motion.div
+      animate={{ x:[-2,2,-2,0]}} 
+      transition={{ duration: 0.2}}
+      className='h-auto w-full max-w-4xl bg-white/90 rounded-2xl mt-10 p-6 flex flex-col shadow-2xl backdrop-blur-sm'>
         <div className='flex justify-between items-center border-b border-gray-300 pb-4 mb-6'>
           <h1 className='text-2xl md:text-3xl font-bold text-gray-800'>
             Patient <span className='text-blue-700'>Registration</span>
@@ -210,7 +214,7 @@ const Register = () => {
             </p>
           </div>
         </form>
-      </div>
+      </motion.div>
     </main>
   )
 }

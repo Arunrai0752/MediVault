@@ -5,6 +5,7 @@ import Appointments from '../components/DoctorDash/Appointments.jsx'
 import Chatsection from '../components/DoctorDash/Chatsection.jsx'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context/authContext.jsx'
+import SearchPatients from '../components/DoctorDash/SearchPatients.jsx'
 
 
 
@@ -22,7 +23,7 @@ const DoctorDash = () => {
   }, [])
 
   return (
-    <main className='flex h-screen overflow-hidden'>
+    <main className='flex h-fit overflow-hidden'>
 
       <div className='fixed h-full'>
         <Sidebar active={active} setActive={setActive} />
@@ -31,6 +32,8 @@ const DoctorDash = () => {
       <div className='flex-1 ml-70 overflow-y-auto'>
         {active === "Profile" && <Profile />}
         {active === "Appointments" && <Appointments />}
+        {active === "SearchPatients" && <SearchPatients />}
+
       </div>
     </main>
   )

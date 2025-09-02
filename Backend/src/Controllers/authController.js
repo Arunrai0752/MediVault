@@ -104,8 +104,8 @@ export const DoctorLogin = async (req, res, next) => {
       return next(error);
     }
 
-    
-    
+
+
     gentoken(user._id, res);
 
 
@@ -212,7 +212,7 @@ export const PatientLogin = async (req, res, next) => {
 
     user.password = undefined;
 
-    
+
     gentoken(user._id, res);
 
     res.status(200).json({
@@ -330,7 +330,7 @@ export const UpdateDoctors = async (req, res, next) => {
 
     // Fields that shouldn't be updated
     const protectedFields = ['email', 'licenseNumber', 'password', 'isVerified', 'role'];
-    
+
     // Create update object with only allowed fields
     const updateData = {
       fullName,
@@ -362,7 +362,7 @@ export const UpdateDoctors = async (req, res, next) => {
     const updatedUser = await Doctor.findByIdAndUpdate(
       id,
       { $set: updateData },
-      { 
+      {
         new: true,
       }
     ).select('-password');
@@ -373,10 +373,10 @@ export const UpdateDoctors = async (req, res, next) => {
       return next(error);
     }
 
-    res.status(200).json({ 
+    res.status(200).json({
       success: true,
-      message: "Profile updated successfully", 
-      data: updatedUser 
+      message: "Profile updated successfully",
+      data: updatedUser
     });
 
   } catch (error) {
@@ -388,3 +388,41 @@ export const UpdateDoctors = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const GetPatientDetail = async (req, res, next) => {
+
+  try {
+
+    const id = req.params.id;
+
+    if (!id) {
+      const error = new Error("Patient ID not Found")
+      error.statusCode = 404;
+      next(error)
+    }
+
+    const patient = await Patient.findOne({ phone: id })
+
+    if (!patient) {
+      const error = new Error("Patient not Found")
+      error.statusCode = 404;
+      next(error)
+
+    }
+
+    console.log(patient);
+    
+    res.status(200).json({
+      message: "Patient Found Successfully",
+      data: patient
+    })
+
+
+  } catch (error) {
+    next(error)
+
+  }
+
+
+}

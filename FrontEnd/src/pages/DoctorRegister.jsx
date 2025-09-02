@@ -67,7 +67,6 @@ const DoctorRegister = () => {
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 w-full flex justify-center items-center p-4">
       <div className="h-auto w-full max-w-5xl bg-white rounded-2xl mt-6 mb-6 p-6 flex flex-col shadow-2xl">
-        {/* Header */}
         <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -86,7 +85,6 @@ const DoctorRegister = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="flex-1 w-full space-y-6">
-          {/* Personal Information Section */}
           <div className="bg-blue-50 p-4 rounded-xl">
             <h2 className="text-xl font-semibold text-blue-800 mb-4 flex items-center">
               <span className="bg-blue-700 text-white p-1 rounded mr-2">
@@ -161,7 +159,6 @@ const DoctorRegister = () => {
             </div>
           </div>
 
-          {/* Professional Information Section */}
           <div className="bg-blue-50 p-4 rounded-xl">
             <h2 className="text-xl font-semibold text-blue-800 mb-4 flex items-center">
               <span className="bg-blue-700 text-white p-1 rounded mr-2">
@@ -249,7 +246,6 @@ const DoctorRegister = () => {
             </div>
           </div>
 
-          {/* Account Security Section */}
           <div className="bg-blue-50 p-4 rounded-xl">
             <h2 className="text-xl font-semibold text-blue-800 mb-4 flex items-center">
               <span className="bg-blue-700 text-white p-1 rounded mr-2">
@@ -292,7 +288,6 @@ const DoctorRegister = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="mt-8 flex flex-col items-center space-y-4">
             <button 
               type="submit"

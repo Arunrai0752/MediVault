@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FaUserInjured, FaCalendarAlt, FaFileMedical, FaChartLine, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { MdOutlinePersonSearch } from "react-icons/md";
 
 
 const Sidebar = ({ active, setActive }) => {
@@ -9,6 +10,7 @@ const Sidebar = ({ active, setActive }) => {
   const navItems = [
     { name: 'Profile', icon: <FaUserInjured />},
     { name: 'Appointments', icon: <FaCalendarAlt /> },
+    { name: 'SearchPatients', icon: <MdOutlinePersonSearch /> },
   ];
 
   const handleLogout = () => { 
