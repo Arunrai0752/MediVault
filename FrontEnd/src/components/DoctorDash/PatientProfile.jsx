@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { TbReportSearch } from "react-icons/tb";
 import { CiSettings } from "react-icons/ci";
 import { LuUserRound } from "react-icons/lu";
+import api from '../../../Configs/api';
+import { MdOutlineFileUpload } from "react-icons/md";
 
 
 
 const PatientProfile = ({ isOpen, onClose, patientData }) => {
     if (!isOpen || !patientData) return null;
 
-    // Format date of birth to a readable format
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', {
@@ -19,7 +20,6 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
         });
     };
 
-    // Calculate age from date of birth
     const calculateAge = (dob) => {
         const birthDate = new Date(dob);
         const today = new Date();
@@ -32,6 +32,23 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
 
         return age;
     };
+
+
+
+    const handleReport = async () => {
+
+        const Reports = await api.get(`/doctors/PatientReport/${patientData._id}`)
+
+
+    }
+
+    const handleMedical = async () => {
+        const Reports = await api.get(`/doctors/PatientAppoinments/${patientData._id}`)
+
+
+
+    }
+
 
     return (
         <AnimatePresence>
@@ -51,28 +68,68 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                         transition={{ type: "spring", damping: 20 }}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="bg-gradient-to-r from-blue-500 to-teal-400 p-6 text-white relative">
+                        <div className="bg-gradient-to-r from-blue-600 to-teal-500 p-6 text-white relative rounded-xl shadow-lg">
+                            {/* Close Button */}
                             <button
                                 onClick={onClose}
                                 className="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
                                 </svg>
                             </button>
 
-                            <div className="flex items-center space-x-4">
-                                <div className="bg-white/20 p-3 rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
+                            <div className="flex justify-between items-center px-4">
+                                <div className="flex items-center space-x-4">
+                                    <div className="bg-white/20 p-3 rounded-full">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-10 w-10"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h1 className="text-2xl font-bold">{patientData.fullName}'s Profile</h1>
+                                        <p className="text-blue-100 text-sm">
+                                            Patient ID: <span className="font-semibold">{patientData.phone}</span>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h1 className="text-2xl font-bold">{patientData.fullName}'s Profile</h1>
-                                    <p className="text-blue-100">Patient ID: {patientData.phone.substring(18)}</p>
+                                <div className="flex gap-4">
+                                    <label className="flex gap-2 items-center cursor-pointer bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
+                                        <input type="file" className="hidden" /*onChange={handlePrescriptionUpload}*/ />
+                                        <MdOutlineFileUpload className="text-xl" />Prescription
+                                    </label>
+
+                                    <label className="flex gap-2 items-center cursor-pointer bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
+                                        <input type="file" className="hidden"/* onChange={handleReportsUpload}*/ />
+                                        <MdOutlineFileUpload className="text-xl" />Reports
+                                    </label>
                                 </div>
+
                             </div>
                         </div>
+
 
                         <div className="overflow-y-auto p-6 flex-grow">
                             <div className="mb-8">
@@ -155,14 +212,28 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                             <div className='mb-8'>
                                 <h2 className="text-xl font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200 flex items-center">
                                     <TbReportSearch className="  h-5 w-5 ml-2 text-blue-500" />
-                                    Medical Information
+                                    Medical Information  <motion.button
+                                        onClick={handleMedical}
+                                        animate={{ x: [0, 2, 2, 0, 2, 2, 0, 2, 2, 0] }}
+                                        transition={{ duration: 1 }}
+                                        className='bg-gray-500/20 border-2 rounded-lg px-4 ml-6 '> Show </motion.button>
                                 </h2>
 
-                                <motion.button
-                                initial={{ x:-100 }}
-                                animate={{ x:0 }}
-                                transition={{ duration:1}}
-                                 className='bg-gray-500/20 border-2 rounded-lg px-8 py-2'> Show </motion.button>
+
+
+                            </div>
+
+                            <div className='mb-8'>
+                                <h2 className="text-xl font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200 flex items-center">
+                                    <TbReportSearch className="  h-5 w-5 ml-2 text-blue-500" />
+                                    Reports <motion.button
+                                        onClick={handleReport}
+                                        animate={{ x: [0, 2, 2, 0, 2, 2, 0, 2, 2, 0] }}
+                                        transition={{ duration: 1 }}
+                                        className='bg-gray-500/20 border-2 rounded-lg px-4 ml-6 '> Show </motion.button>
+                                </h2>
+
+
 
                             </div>
 
