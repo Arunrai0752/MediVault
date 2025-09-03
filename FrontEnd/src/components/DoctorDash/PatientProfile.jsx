@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TbReportSearch } from "react-icons/tb";
 import { CiSettings } from "react-icons/ci";
@@ -10,6 +10,10 @@ import { MdOutlineFileUpload } from "react-icons/md";
 
 const PatientProfile = ({ isOpen, onClose, patientData }) => {
     if (!isOpen || !patientData) return null;
+    const [showReports, setShowReport] = useState(false)
+    const [reportsData, setReportData] = useState([])
+    const [showMedical, setShowMedical] = useState(false)
+    const [medicalData, setMedicalData] = useState([])
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -20,11 +24,16 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
         });
     };
 
+
+    console.log(patientData);
+
+
     const calculateAge = (dob) => {
         const birthDate = new Date(dob);
         const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
+
 
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
             age--;
@@ -51,6 +60,8 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
 
 
     return (
+
+
         <AnimatePresence>
             {isOpen && (
                 <motion.main
@@ -165,11 +176,12 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                                         <p className="text-sm text-gray-500">Aadhar Number</p>
                                         <p className="font-medium">{patientData.aadharNumber}</p>
                                     </div>
-
                                     <div className="bg-gray-50 p-4 rounded-lg">
                                         <p className="text-sm text-gray-500">Blood Group</p>
                                         <p className="font-medium">{patientData.bloodGroup}</p>
                                     </div>
+
+
                                 </div>
                             </div>
 
@@ -212,16 +224,19 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                             <div className='mb-8'>
                                 <h2 className="text-xl font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200 flex items-center">
                                     <TbReportSearch className="  h-5 w-5 ml-2 text-blue-500" />
-                                    Medical Information  <motion.button
+                                    Medical History  <motion.button
                                         onClick={handleMedical}
                                         animate={{ x: [0, 2, 2, 0, 2, 2, 0, 2, 2, 0] }}
                                         transition={{ duration: 1 }}
                                         className='bg-gray-500/20 border-2 rounded-lg px-4 ml-6 '> Show </motion.button>
                                 </h2>
-
-
-
                             </div>
+
+
+                            {showMedical && (<div>
+
+
+                            </div>)}
 
                             <div className='mb-8'>
                                 <h2 className="text-xl font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200 flex items-center">
@@ -232,10 +247,13 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                                         transition={{ duration: 1 }}
                                         className='bg-gray-500/20 border-2 rounded-lg px-4 ml-6 '> Show </motion.button>
                                 </h2>
-
-
-
                             </div>
+
+                            {showReports && (<div>
+
+
+
+                            </div>)}
 
 
 

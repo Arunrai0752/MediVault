@@ -426,3 +426,10 @@ export const GetPatientDetail = async (req, res, next) => {
 
 
 }
+
+export const FetchAllAppoinmennts = (req, res , next) => {
+
+  const id = req.params.id;
+  console.log(id);
+  
+ }
