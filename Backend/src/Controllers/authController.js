@@ -2,6 +2,7 @@ import Doctor from "../Models/DoctorModel.js"
 import bcrypt from "bcrypt";
 import Patient from "../Models/PatientsModel.js";
 import gentoken from "../Utils/auth.js";
+import Appointment from "../Models/AppoinmentModel.js"
 
 
 export const DocRegister = async (req, res, next) => {
@@ -328,10 +329,8 @@ export const UpdateDoctors = async (req, res, next) => {
       return next(error);
     }
 
-    // Fields that shouldn't be updated
     const protectedFields = ['email', 'licenseNumber', 'password', 'isVerified', 'role'];
 
-    // Create update object with only allowed fields
     const updateData = {
       fullName,
       phone,
@@ -352,7 +351,6 @@ export const UpdateDoctors = async (req, res, next) => {
       updatedAt: new Date()
     };
 
-    // Remove any undefined fields
     Object.keys(updateData).forEach(key => {
       if (updateData[key] === undefined) {
         delete updateData[key];
@@ -380,7 +378,6 @@ export const UpdateDoctors = async (req, res, next) => {
     });
 
   } catch (error) {
-    // Handle validation errors specifically
     if (error.name === 'ValidationError') {
       error.statusCode = 400;
       error.message = Object.values(error.errors).map(val => val.message).join(', ');
@@ -412,7 +409,7 @@ export const GetPatientDetail = async (req, res, next) => {
     }
 
     console.log(patient);
-    
+
     res.status(200).json({
       message: "Patient Found Successfully",
       data: patient
@@ -427,9 +424,35 @@ export const GetPatientDetail = async (req, res, next) => {
 
 }
 
-export const FetchAllAppoinmennts = (req, res , next) => {
 
-  const id = req.params.id;
-  console.log(id);
-  
- }
+
+
+export const FetchAllAppointments = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    console.log(id);
+    
+    const appointments = await Appointment.find({  patientId: id }).populate("doctorId", "fullName specialization email");
+
+          console.log("AA waer",  appointments);
+          
+    if (!appointments || appointments.length === 0) {
+      return res.status(404).json({
+        message: "No appointments found for this patient",
+        data: [],
+      });
+    }
+
+    console.log(appointments);
+    
+    res.status(200).json({
+      message: "Appointments fetched successfully",
+      data: appointments,
+    });
+
+  } catch (error) {
+    console.error("Error fetching appointments:", error.message);
+    next(error); 
+  }
+};

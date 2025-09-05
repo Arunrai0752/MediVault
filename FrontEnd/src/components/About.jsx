@@ -2,7 +2,7 @@ import React from 'react'
 
 const About = () => {
   return (
-    <main className='w-full min-h-screen bg-gray-50 pt-16 pb-20 px-4'>
+    <main className='w-full min-h-screen  bg-gradient-to-br from-green-100 to-white pt-16 pb-20 px-4'>
      
       <div className='flex justify-center mb-12'>
         <h1 className='text-4xl md:text-5xl lg:text-6xl font-bold text-gray-600 pb-4 border-b-4 border-blue-500'>

@@ -13,7 +13,7 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
     const [showReports, setShowReport] = useState(false)
     const [reportsData, setReportData] = useState([])
     const [showMedical, setShowMedical] = useState(false)
-    const [medicalData, setMedicalData] = useState([])
+    const [medicalData, setMedicalData] = useState("")
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -25,7 +25,6 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
     };
 
 
-    console.log(patientData);
 
 
     const calculateAge = (dob) => {
@@ -52,7 +51,19 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
     }
 
     const handleMedical = async () => {
-        const Reports = await api.get(`/doctors/PatientAppoinments/${patientData._id}`)
+
+        try {
+
+            const Appoinments = await api.get(`/doctors/PatientAppoinments/${patientData._id}`)
+            setMedicalData(Appoinments.data.data);
+            setShowMedical(!showMedical)
+
+        } catch (error) {
+
+            console.log("Error : in Medical ");
+
+
+        }
 
 
 
@@ -223,20 +234,58 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
 
                             <div className='mb-8'>
                                 <h2 className="text-xl font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200 flex items-center">
-                                    <TbReportSearch className="  h-5 w-5 ml-2 text-blue-500" />
-                                    Medical History  <motion.button
+                                    <TbReportSearch className="h-5 w-5 ml-2 text-blue-500" />
+                                    Medical History
+                                    <motion.button
                                         onClick={handleMedical}
-                                        animate={{ x: [0, 2, 2, 0, 2, 2, 0, 2, 2, 0] }}
+                                        animate={{ x: [0, 2, 0, 2, 0] }}
                                         transition={{ duration: 1 }}
-                                        className='bg-gray-500/20 border-2 rounded-lg px-4 ml-6 '> Show </motion.button>
+                                        className='bg-gray-500/20 border-2 rounded-lg px-4 ml-6'>
+                                        {showMedical ? "Hide"  :"Show" }
+                                    </motion.button>
                                 </h2>
                             </div>
 
+                            {showMedical ? (
+                                <div>
+                                    {medicalData.length > 0 ? (
+                                        medicalData.map((item, idx) => (
+                                            <div key={idx} className="flex justify-between p-10 rounded-lg mb-2 border-2 bg-blue-200">
+                                                <div className=''>
 
-                            {showMedical && (<div>
+                                                    <p className="text-sm text-gray-500">Date</p>
+                                                    <p className="font-medium">{formatDate(item.date)}</p>
+
+                                                    <p className="text-sm text-gray-500">Doctor</p>
+                                                    <p className="font-medium">{item.doctorId?.fullName || "N/A"}</p>
 
 
-                            </div>)}
+                                                      <p className="text-sm text-gray-500">Email</p>
+                                                    <p className="font-medium">{item.doctorId?.email || "N/A"}</p>
+
+                                                 
+
+                                                </div>
+
+                                                <div>
+                                                    <p className="text-sm text-gray-500">Reason</p>
+                                                    <p className="font-medium">{item.reason}</p>
+
+                                                    <p className="text-sm text-gray-500">Status</p>
+                                                    <p className="font-medium">{item.status}</p>
+
+                                                       <p className="text-sm text-gray-500">Doctor specialization</p>
+                                                    <p className="font-medium">{item.doctorId?.specialization || "N/A"}</p>
+
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-gray-500">No records found.</p>
+                                    )}
+                                </div>
+                            ) : null}
+
 
                             <div className='mb-8'>
                                 <h2 className="text-xl font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200 flex items-center">

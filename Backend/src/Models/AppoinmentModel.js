@@ -8,13 +8,13 @@ const appointmentSchema = new mongoose.Schema({
       `APPT-${Date.now()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`,
   },
 
-  date: { type: Date,},
-  time: { type: String,},
+  date: { type: Date, },
+  time: { type: String, },
 
 
 
 
-  appointmentType : {
+  appointmentType: {
     type: String,
     default: "Consultation",
   },
@@ -22,35 +22,39 @@ const appointmentSchema = new mongoose.Schema({
 
 
 
-  reason : { type: String, required: true },
+  reason: { type: String, required: true },
 
 
 
 
-status: {
-  type: String,
-  enum: [
-    "Requested", 
-    "Scheduled", "Confirmed", "In Progress",
-    "Completed", "Cancelled", "No Show", "Rescheduled"
-  ],
-  default: "Scheduled",
-},
+  status: {
+    type: String,
+    enum: [
+      "Requested",
+      "Scheduled", "Confirmed", "In Progress",
+      "Completed", "Cancelled", "No Show", "Rescheduled"
+    ],
+    default: "Scheduled",
+  },
 
 
 
   patientId: { type: String , required: true },
-  doctorId: { type: String , required: true },
-  patientName : { type: String, required: true },
-  previousVisit : { type: String,  },
-  phoneNumber : { type: String, required: true, match: /^[0-9]{10}$/ },
-  email : { type: String, match: /.+\@.+\..+/ },
+  doctorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Doctor",
+    required: true
+  },
+  patientName: { type: String, required: true },
+  previousVisit: { type: String, },
+  phoneNumber: { type: String, required: true, match: /^[0-9]{10}$/ },
+  email: { type: String, match: /.+\@.+\..+/ },
   gender: { type: String, enum: ["Male", "Female", "Other", "Prefer not to say"] },
-  dateOfBirth : { type: Date },
+  dateOfBirth: { type: Date },
   address: { type: String, },
-  referredBy  : { type: String,},
-  insuranceProvider : { type: String,  },
-  insuranceId : { type: String, },
+  referredBy: { type: String, },
+  insuranceProvider: { type: String, },
+  insuranceId: { type: String, },
 
 
 
@@ -64,7 +68,7 @@ status: {
     date: { type: Date },
     time: { type: String },
   },
-  notes:{
+  notes: {
     type: String
   },
 

@@ -86,7 +86,7 @@ const Home = () => {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 ">
-      <section className="flex items-center justify-between h-[100vh] bg-gradient-to-br from-blue-100 to-teal-100 px-16">
+      <section className="flex items-center justify-between h-[90vh] bg-gradient-to-br from-blue-100 to-teal-100 px-16">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
