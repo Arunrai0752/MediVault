@@ -13,6 +13,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const {user} = useAuth();
   const [patientData, setPatientData] = useState(user);
+  console.log(user);
+  
 
   const medicalReports = [
     { id: 1, name: "Annual Physical", date: "2023-05-15", doctor: "Dr. Sharma", type: "General Checkup" },
@@ -28,14 +30,14 @@ const Dashboard = () => {
   ];
 
   const fetchUser = () => {
-    const res = sessionStorage.getItem("LoginUser");
+    const res = sessionStorage.getItem("Medi_vaultUser");
     if (res) {
       try {
         const userData = JSON.parse(res);
         setPatientData(prev => ({ ...prev, ...userData }));
       } catch (error) {
         console.error("Error parsing user data:", error);
-        sessionStorage.removeItem("LoginUser");
+        sessionStorage.removeItem("Medi_vaultUser");
       }
     }
   };
@@ -59,7 +61,6 @@ const Dashboard = () => {
   return (
     <div className='min-h-screen bg-gray-50 p-4 md:p-6'>
       <div className='max-w-7xl mx-auto space-y-6'>
-        {/* Patient Profile Header */}
         <div className='bg-white rounded-xl shadow-sm p-6'>
           <div className='flex flex-col md:flex-row items-center gap-6'>
             <div className='w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-3xl font-bold text-blue-600'>
@@ -74,11 +75,11 @@ const Dashboard = () => {
                 </span>
                 <span className='flex items-center gap-2 text-gray-600'>
                   <FaHeartbeat className='text-green-500' />
-                  {patientData.age} years
+                  {patientData.age  || 0 } years
                 </span>
                 <span className='flex items-center gap-2 text-gray-600'>
                   <MdWork className='text-blue-500' />
-                  Patient ID: #PAT-{Math.floor(1000 + Math.random() * 9000)}
+                  Patient ID: {patientData.phone}
                 </span>
               </div>
             </div>

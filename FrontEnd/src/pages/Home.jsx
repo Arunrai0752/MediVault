@@ -12,7 +12,7 @@ import {
 import { MdAccessibility } from "react-icons/md";
 import About from "../components/About";
 import Doctor from "../../public/Homeimg.jpg";
-import { motion } from "framer-motion"; // 👈 added
+import { motion } from "framer-motion"; 
 
 const Home = () => {
   const navigate = useNavigate();

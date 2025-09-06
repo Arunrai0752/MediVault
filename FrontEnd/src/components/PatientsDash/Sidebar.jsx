@@ -6,9 +6,7 @@ const Sidebar = ({ active, setActive }) => {
         { id: "profile", label: "Profile" },
         { id: "reports", label: "Reports" },
         { id: "appoinment", label: "Appointments" },
-        { id: "search", label: "Search Doctor" },
-        { id: "payments", label: "Receipt" },
-        { id: "chatsection", label: "Chat" }
+        
     ];
 
     return (

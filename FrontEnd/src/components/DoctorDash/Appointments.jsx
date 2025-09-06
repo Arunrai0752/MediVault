@@ -445,7 +445,9 @@ const Appointments = () => {
                           </>
                         )}
                         {activeTab === 'completed' && (
-                          <button className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                          <button
+                          // onClick={}
+                           className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center">
                             <FaFileMedical className="mr-1" /> View Details
                           </button>
                         )}

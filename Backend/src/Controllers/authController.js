@@ -236,69 +236,77 @@ export const PatientLogin = async (req, res, next) => {
 
 
 export const UpdatePatients = async (req, res, next) => {
-
-
   try {
-
-
-
-    const {
-      fullName,
-      gender,
-      dob,
-      email,
-      phone,
-      address,
-      aadharNumber,
-      bloodGroup
-    } = req.body;
     const id = req.params.Pid;
-
-
-    console.log(fullName,
-      gender,
-      dob,
-      email,
-      phone,
-      address,
-      aadharNumber,
-      bloodGroup);
-
 
     if (!id) {
       const error = new Error("User Not Found !! Login Again");
       error.statusCode = 401;
       return next(error);
-
     }
 
+    const oldData = await Patient.findById(id);
 
+    if (!oldData) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
 
-    const updatedUser = await Patient.findByIdAndUpdate(id, {
-      fullName,
-      gender,
-      dob,
-      email,
-      phone,
-      address,
-      aadharNumber,
-      bloodGroup,
-    }, { new: true })
+    const formattedDob = req.body.dob || oldData.dob;
+    const formattedLastCheckup = req.body.lastCheckup || oldData.lastCheckup;
 
-    res.status(200).json({ message: "Updated Successfully", data: updatedUser });
-    return;
+    const updatedFields = {
+      fullName: req.body.fullName,
+      gender: req.body.gender || "Prefer not to say",
+      dob: formattedDob,
+      email: req.body.email,
+      phone: req.body.phone,
+      address: req.body.address,
+      aadharNumber: req.body.aadharNumber,
+      bloodGroup: req.body.bloodGroup || "Unknown",
+      role: req.body.role || "Patient",
+      age: req.body.age,
+      height: req.body.height,
+      weight: req.body.weight,
+      emergencyContacts: req.body.emergencyContacts 
+      && Array.isArray(req.body.emergencyContacts)
+        ? req.body.emergencyContacts.join(", ")
+        : req.body.emergencyContacts,
+      allergies: req.body.allergies
+      && Array.isArray(req.body.allergies)
+          ? req.body.allergies.join(", ")
+          : req.body.allergies
+        ,
+      conditions: req.body.conditions
+        && Array.isArray(req.body.conditions)
+          ? req.body.conditions.join(", ")
+          : req.body.conditions
+       ,
+      lastCheckup: formattedLastCheckup,
+    };
 
+    const updatedUser = await Patient.findByIdAndUpdate(id, updatedFields, {
+      new: true,
+    });
 
+    res.status(200).json({
+      message: "Updated Successfully",
+      data: updatedUser,
+    });
   } catch (error) {
-
     next(error);
-
   }
+};
 
 
 
 
-}
+
+
+
+
+
+
+
 
 export const UpdateDoctors = async (req, res, next) => {
   try {
@@ -424,19 +432,16 @@ export const GetPatientDetail = async (req, res, next) => {
 
 }
 
-
-
-
 export const FetchAllAppointments = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     console.log(id);
-    
-    const appointments = await Appointment.find({  patientId: id }).populate("doctorId", "fullName specialization email");
 
-          console.log("AA waer",  appointments);
-          
+    const appointments = await Appointment.find({ patientId: id }).populate("doctorId", "fullName specialization email");
+
+    console.log("AA waer", appointments);
+
     if (!appointments || appointments.length === 0) {
       return res.status(404).json({
         message: "No appointments found for this patient",
@@ -445,7 +450,7 @@ export const FetchAllAppointments = async (req, res, next) => {
     }
 
     console.log(appointments);
-    
+
     res.status(200).json({
       message: "Appointments fetched successfully",
       data: appointments,
@@ -453,6 +458,6 @@ export const FetchAllAppointments = async (req, res, next) => {
 
   } catch (error) {
     console.error("Error fetching appointments:", error.message);
-    next(error); 
+    next(error);
   }
 };

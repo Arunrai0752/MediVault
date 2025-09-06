@@ -92,6 +92,10 @@ const patientSchema = new mongoose.Schema({
     type: String,
 
   },
+  emergencyContacts: {
+    type: [],
+
+  }
 }, {
   timestamps: true,
 

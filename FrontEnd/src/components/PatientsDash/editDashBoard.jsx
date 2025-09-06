@@ -3,7 +3,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { toast } from 'react-hot-toast';
 import api from '../../../Configs/api';
 
-const EditDashBoard = ({ isOpen, onClose, oldData, onUpdate }) => {
+const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
     const [formData, setFormData] = useState({
         fullName: '',
         gender: 'Prefer not to say',
@@ -44,7 +44,8 @@ const EditDashBoard = ({ isOpen, onClose, oldData, onUpdate }) => {
                 weight: oldData.weight || '',
                 allergies: Array.isArray(oldData.allergies) ? oldData.allergies.join(', ') : oldData.allergies || '',
                 conditions: Array.isArray(oldData.conditions) ? oldData.conditions.join(', ') : oldData.conditions || '',
-                lastCheckup: formattedLastCheckup
+                lastCheckup: formattedLastCheckup,
+                emergencyContacts: oldData.emergencyContacts || "" ,
             });
         }
     }, [oldData]);
@@ -62,26 +63,23 @@ const EditDashBoard = ({ isOpen, onClose, oldData, onUpdate }) => {
         setLoading(true);
 
         try {
-            // Convert comma-separated strings back to arrays for allergies and conditions
             const dataToSend = {
                 ...formData,
                 allergies: formData.allergies ? formData.allergies.split(',').map(item => item.trim()) : [],
                 conditions: formData.conditions ? formData.conditions.split(',').map(item => item.trim()) : []
             };
+            console.log(formData);
+
 
             const response = await api.put(`/patients/update/${oldData._id}`, dataToSend);
-            
+
             // Update session storage with the new data
-            sessionStorage.setItem("LoginUser", JSON.stringify({
-                ...oldData,
-                ...dataToSend,
-                allergies: dataToSend.allergies,
-                conditions: dataToSend.conditions
+            sessionStorage.setItem("Medi_vaultUser", JSON.stringify({
+                //    response.data.data
             }));
-            
+
             toast.success('Profile updated successfully!');
             onClose();
-            if (onUpdate) onUpdate();
         } catch (error) {
             toast.error(error.response?.data?.message || 'Failed to update profile');
             console.error('Update error:', error);
@@ -210,6 +208,21 @@ const EditDashBoard = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 required
                                 pattern="[0-9]{12}"
                                 title="12-digit Aadhar number"
+                            />
+                        </div>
+
+
+                        <div className='space-y-1'>
+                            <label className='block text-sm font-medium text-gray-700'>Emergency Contacts</label>
+                            <input
+                                type="text"
+                                name="emergencyContacts"
+                                value={formData.emergencyContacts}
+                                onChange={handleChange}
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                required
+                                pattern="[0-9]{10}"
+                                title="10-digit Mobile number"
                             />
                         </div>
 

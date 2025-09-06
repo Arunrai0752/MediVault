@@ -1,5 +1,5 @@
 import express from "express";
-import { DocRegister , DoctorLogin,UpdateDoctors, FetchAllAppointments , GetPatientDetail } from "../Controllers/authController.js";
+import { DocRegister   , DoctorLogin,UpdateDoctors, FetchAllAppointments , GetPatientDetail } from "../Controllers/authController.js";
 import { ProtectDoctor  } from "../Middlewares/authmiddleWare.js";
 
 

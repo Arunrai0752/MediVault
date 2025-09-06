@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import patientsRoute from "./src/Routes/patientsRoutes.js"
 import DoctorRoutes from "./src/Routes/DoctorRoutes.js"
 import AppoinmentsRoutes from "./src/Routes/appoinmentsRoutes.js"
-
+import uploadRoutes from "./src/Routes/uploadRoutes.js"
 dotenv.config();
 const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
@@ -24,6 +24,8 @@ app.use("/patients", patientsRoute )
 
 app.use("/doctor", AppoinmentsRoutes)
 app.use("/user", AppoinmentsRoutes)
+
+app.use("/upload", uploadRoutes)
 
 app.get('/', (req, res) => {
     res.send('Hello from backend!');
