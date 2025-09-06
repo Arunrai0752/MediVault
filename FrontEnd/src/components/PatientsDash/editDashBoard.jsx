@@ -18,7 +18,8 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
         weight: '',
         allergies: '',
         conditions: '',
-        lastCheckup: ''
+        lastCheckup: '',
+        emergencyContacts: []
     });
 
     const [loading, setLoading] = useState(false);
@@ -45,7 +46,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 allergies: Array.isArray(oldData.allergies) ? oldData.allergies.join(', ') : oldData.allergies || '',
                 conditions: Array.isArray(oldData.conditions) ? oldData.conditions.join(', ') : oldData.conditions || '',
                 lastCheckup: formattedLastCheckup,
-                emergencyContacts: oldData.emergencyContacts || "" ,
+                emergencyContacts: Array.isArray(oldData.emergencyContacts) ? oldData.emergencyContacts : []
             });
         }
     }, [oldData]);
@@ -65,18 +66,22 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
         try {
             const dataToSend = {
                 ...formData,
-                allergies: formData.allergies ? formData.allergies.split(',').map(item => item.trim()) : [],
-                conditions: formData.conditions ? formData.conditions.split(',').map(item => item.trim()) : []
+                allergies: formData.allergies
+                    ? formData.allergies.split(',').map(item => item.trim()).filter(item => item !== '')
+                    : [],
+                conditions: formData.conditions
+                    ? formData.conditions.split(',').map(item => item.trim()).filter(item => item !== '')
+                    : [],
+                emergencyContacts: Array.isArray(formData.emergencyContacts)
+                    ? formData.emergencyContacts.filter(c => c.trim() !== '')
+                    : []
             };
-            console.log(formData);
 
+            console.log("Submitting data:", dataToSend);
 
             const response = await api.put(`/patients/update/${oldData._id}`, dataToSend);
 
-            // Update session storage with the new data
-            sessionStorage.setItem("Medi_vaultUser", JSON.stringify({
-                //    response.data.data
-            }));
+            sessionStorage.setItem("Medi_vaultUser", JSON.stringify(response.data.data));
 
             toast.success('Profile updated successfully!');
             onClose();
@@ -86,6 +91,28 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const addEmergencyContact = () => {
+        setFormData(prev => ({
+            ...prev,
+            emergencyContacts: [...prev.emergencyContacts, '']
+        }));
+    };
+
+    const removeEmergencyContact = (index) => {
+        setFormData(prev => ({
+            ...prev,
+            emergencyContacts: prev.emergencyContacts.filter((_, i) => i !== index)
+        }));
+    };
+
+    const handleEmergencyChange = (index, value) => {
+        setFormData(prev => {
+            const newContacts = [...prev.emergencyContacts];
+            newContacts[index] = value;
+            return { ...prev, emergencyContacts: newContacts };
+        });
     };
 
     if (!isOpen) return null;
@@ -105,12 +132,10 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
 
                 <div className='flex-1 overflow-y-auto p-4 md:p-6'>
                     <form onSubmit={handleSubmit} className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                        {/* Personal Information Section */}
                         <div className='md:col-span-2'>
                             <h2 className='text-lg font-medium text-gray-800 mb-2 border-b pb-1'>Personal Information</h2>
                         </div>
 
-                        {/* Full Name */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Full Name</label>
                             <input
@@ -123,7 +148,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Gender */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Gender</label>
                             <select
@@ -139,7 +163,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             </select>
                         </div>
 
-                        {/* Date of Birth */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Date of Birth</label>
                             <input
@@ -152,7 +175,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Age */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Age</label>
                             <input
@@ -166,12 +188,10 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Contact Information Section */}
                         <div className='md:col-span-2 mt-4'>
                             <h2 className='text-lg font-medium text-gray-800 mb-2 border-b pb-1'>Contact Information</h2>
                         </div>
 
-                        {/* Email */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Email</label>
                             <input
@@ -184,7 +204,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Phone */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Phone</label>
                             <input
@@ -196,7 +215,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Aadhar Number */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Aadhar Number</label>
                             <input
@@ -211,22 +229,27 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-
-                        <div className='space-y-1'>
+                        <div className='space-y-1 md:col-span-2'>
                             <label className='block text-sm font-medium text-gray-700'>Emergency Contacts</label>
-                            <input
-                                type="text"
-                                name="emergencyContacts"
-                                value={formData.emergencyContacts}
-                                onChange={handleChange}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
-                                required
-                                pattern="[0-9]{10}"
-                                title="10-digit Mobile number"
-                            />
+                            {formData.emergencyContacts.map((contact, index) => (
+                                <div key={index} className='flex gap-2 items-center mb-1'>
+                                    <input
+                                        type="text"
+                                        value={contact}
+                                        onChange={(e) => handleEmergencyChange(index, e.target.value)}
+                                        className='flex-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                        placeholder="10-digit mobile number"
+                                    />
+                                    <button type="button" onClick={() => removeEmergencyContact(index)} className='text-red-500'>
+                                        Remove
+                                    </button>
+                                </div>
+                            ))}
+                            <button type="button" onClick={addEmergencyContact} className='mt-1 text-blue-600'>
+                                + Add Contact
+                            </button>
                         </div>
 
-                        {/* Address */}
                         <div className='space-y-1 md:col-span-2'>
                             <label className='block text-sm font-medium text-gray-700'>Address</label>
                             <textarea
@@ -238,12 +261,10 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Medical Information Section */}
                         <div className='md:col-span-2 mt-4'>
                             <h2 className='text-lg font-medium text-gray-800 mb-2 border-b pb-1'>Medical Information</h2>
                         </div>
 
-                        {/* Blood Group */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Blood Group</label>
                             <select
@@ -264,7 +285,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             </select>
                         </div>
 
-                        {/* Height */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Height (cm)</label>
                             <input
@@ -277,7 +297,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Weight */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Weight (kg)</label>
                             <input
@@ -290,7 +309,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Last Checkup */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Last Checkup Date</label>
                             <input
@@ -302,7 +320,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Allergies */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Allergies (comma separated)</label>
                             <input
@@ -315,7 +332,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Conditions */}
                         <div className='space-y-1'>
                             <label className='block text-sm font-medium text-gray-700'>Medical Conditions (comma separated)</label>
                             <input
@@ -328,7 +344,6 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                             />
                         </div>
 
-                        {/* Form Actions */}
                         <div className='md:col-span-2 flex justify-end space-x-4 pt-6 border-t mt-4'>
                             <button
                                 type="button"

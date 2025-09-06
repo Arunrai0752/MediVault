@@ -35,10 +35,7 @@ function PatientDashboard() {
 
         <div className='flex-1 ml-[23%] overflow-y-auto'>
           {active === "dashBoard" && < Dashboard setActive={setActive} />}
-          {active === "chatsection" && < Chatsection />}
           {active === "profile" && < Profile setActive={setActive} />}
-          {active === "search" && < Doctorsearch />}
-          {active === "payments" && < Payments />}
           {active === "reports" && <Reports />}
           {active === "appoinment" && <Appoinments />}
 

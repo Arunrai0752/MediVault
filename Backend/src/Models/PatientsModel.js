@@ -81,7 +81,7 @@ const patientSchema = new mongoose.Schema({
 
   },
   allergies: {
-    type: String,
+    type: [],
 
   },
   conditions: {

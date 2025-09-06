@@ -499,7 +499,6 @@ const Appointments = () => {
 
 
 
-      {/* Request Appointment Modal */}
       {showRequestForm && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">

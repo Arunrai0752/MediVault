@@ -73,31 +73,33 @@ export const SetAppointments = async (req, res, next) => {
     }
 };
 
-
 export const PatientAppoinmentss = async (req, res, next) => {
-    try {
-        const id = req.params.id;
+  try {
+    const id = req.params.id;
 
-        if (!id) {
-            const error = new Error("Login Again");
-            error.statusCode = 404;
-            throw error;
-        }
-
-        const appointments = await Appointment.find({ patientId: id });
-
-
-
-        res.status(200).json({
-            success: true,
-            data: appointments,
-            message: "Patient All Appoinment get"
-        });
-
-    } catch (error) {
-        next(error);
+    if (!id) {
+      const error = new Error("Login Again");
+      error.statusCode = 404;
+      throw error;
     }
+
+    const appointments = await Appointment.find({ patientId: id })
+      .populate("doctorId", "fullName specialization email phone fee hospital");
+
+      console.log(appointments);
+      
+
+    res.status(200).json({
+      success: true,
+      data: appointments,
+      message: "Patient All Appointment fetched successfully"
+    });
+
+  } catch (error) {
+    next(error);
+  }
 };
+
 
 
 
