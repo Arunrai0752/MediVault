@@ -1,19 +1,8 @@
 import React from 'react';
-import { FaHeartbeat, FaFileMedical, FaPills, FaUserMd, FaNotesMedical } from 'react-icons/fa';
+import { FaHeartbeat, FaFileMedical, FaUserMd , FaArrowRight } from 'react-icons/fa';
 import {
   FaCalendarAlt,
-  FaClock,
-  FaHospital,
-  FaPlus,
-  FaBell,
-  FaCheckCircle,
-  FaHourglassHalf,
   FaHistory,
-  FaTimesCircle,
-  FaSearch,
-  FaFilter,
-  FaArrowRight,
-  FaStethoscope,
   FaTimes
 } from 'react-icons/fa';
 import { MdBloodtype, MdVaccines, MdWork, MdEmergency } from 'react-icons/md';
@@ -25,12 +14,17 @@ import { useAuth } from '../../Context/authContext.jsx';
 import api from '../../../Configs/api.js';
 
 const Dashboard = () => {
+
+
   const navigate = useNavigate();
   const { user } = useAuth();
   const [patientData, setPatientData] = useState(user);
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [medicalReports, setMedicalReports] = useState([]);
+
+
 
   const categorizeAppointments = (appointments) => {
     return {
@@ -48,18 +42,11 @@ const Dashboard = () => {
     };
   };
 
-  const medicalReports = [
-    { id: 1, name: "Annual Physical", date: "2023-05-15", doctor: "Dr. Sharma", type: "General Checkup" },
-    { id: 2, name: "ECG Report", date: "2023-03-10", doctor: "Dr. Patel", type: "Cardiology" },
-    { id: 3, name: "Blood Test", date: "2023-01-20", doctor: "Dr. Gupta", type: "Lab Results" },
-    { id: 4, name: "X-Ray Chest", date: "2022-11-15", doctor: "Dr. Lee", type: "Radiology" }
-  ];
 
-  const prescriptions = [
-    { id: 1, medicine: "Metformin", dosage: "500mg", frequency: "Twice daily", prescribedOn: "2023-05-15", doctor: "Dr. Sharma", status: "Active" },
-    { id: 2, medicine: "Atorvastatin", dosage: "20mg", frequency: "Once at bedtime", prescribedOn: "2023-05-15", doctor: "Dr. Sharma", status: "Active" },
-    { id: 3, medicine: "Lisinopril", dosage: "10mg", frequency: "Once daily", prescribedOn: "2023-03-10", doctor: "Dr. Patel", status: "Completed" }
-  ];
+
+
+
+
 
   const fetchUser = () => {
     const res = sessionStorage.getItem("Medi_vaultUser");
@@ -74,9 +61,6 @@ const Dashboard = () => {
     }
   };
 
-  const handleViewReport = (reportId) => {
-    console.log("Viewing report:", reportId);
-  };
 
   const handleBookAppointment = () => {
     setShowRequestForm(true)
@@ -107,6 +91,25 @@ const Dashboard = () => {
     }
   };
 
+
+
+
+  const fetchAllReports = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get(`/user/reports/${user._id}`);
+      console.log(res.data.data);
+
+      if (res.data.success) {
+        setMedicalReports(res.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching reports:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setAppointmentRequest({
@@ -132,17 +135,27 @@ const Dashboard = () => {
     });
   };
 
+  const handleDownload = (fileUrl, fileName) => {
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.target = "_Blank";
+        link.setAttribute('download', fileName || 'medical-report');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
   const appointmentsData = categorizeAppointments(appointments);
 
   useEffect(() => {
     fetchUser();
-    fetchAllAppointments()
+    fetchAllAppointments(),
+    fetchAllReports()
   }, []);
 
   return (
-    <div className='min-h-screen bg-gray-50 p-4 md:p-6'>
-      <div className='max-w-7xl mx-auto space-y-6'>
-        {/* Profile Header */}
+    <div className='min-h-screen bg-gray-100  p-4   md:p-6'>
+      <div className='max-w-7xl mx-auto space-y-6 '>
         <div className='bg-white rounded-xl shadow-sm p-6'>
           <div className='flex flex-col md:flex-row items-center gap-6'>
             <div className='w-24 h-24 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center text-3xl font-bold text-white'>
@@ -227,8 +240,8 @@ const Dashboard = () => {
                   <FaCalendarAlt className='text-blue-600 text-2xl' />
                   <h2 className='text-xl font-bold text-gray-800'> Upcoming Appointments</h2>
                 </div>
-                
-               
+
+
               </div>
 
               {appointmentsData.upcoming && appointmentsData.upcoming.length > 0 ? (
@@ -247,7 +260,7 @@ const Dashboard = () => {
                             {appointment.gender} • {appointment.phoneNumber}
                           </p>
                           <p className='text-gray-500 text-sm'>{appointment.email}</p>
-                          
+
                           <div className='mt-3 text-sm text-gray-700 space-y-1'>
                             <p>
                               <span className='font-semibold'>Type:</span>{" "}
@@ -258,7 +271,7 @@ const Dashboard = () => {
                             </p>
                           </div>
                         </div>
-                        
+
                         <div className='md:text-right'>
                           <p className='font-medium text-gray-800'>
                             {new Date(appointment.date).toLocaleDateString("en-GB", {
@@ -269,17 +282,16 @@ const Dashboard = () => {
                           </p>
                           <p className='text-gray-500'>{appointment.time}</p>
                           <span
-                            className={`inline-block mt-1 px-2 py-1 rounded text-xs font-semibold ${
-                              appointment.status === "Confirmed" || appointment.status === "Completed"
-                                ? "bg-green-100 text-green-600"
-                                : appointment.status === "Cancelled" || appointment.status === "No Show"
+                            className={`inline-block mt-1 px-2 py-1 rounded text-xs font-semibold ${appointment.status === "Confirmed" || appointment.status === "Completed"
+                              ? "bg-green-100 text-green-600"
+                              : appointment.status === "Cancelled" || appointment.status === "No Show"
                                 ? "bg-red-100 text-red-600"
                                 : "bg-yellow-100 text-yellow-600"
-                            }`}
+                              }`}
                           >
                             {appointment.status}
                           </span>
-                          
+
                           {appointment.doctorId && (
                             <div className='mt-3 text-sm text-gray-700'>
                               <p className='font-semibold'>{appointment.doctorId.fullName}</p>
@@ -290,16 +302,15 @@ const Dashboard = () => {
                         </div>
                       </div>
 
-                    
-                        <div className='mt-3 flex gap-3 pt-3 border-t border-gray-100'>
-                          <button className='text-blue-600 hover:text-blue-800 text-sm font-medium px-3 py-1 bg-blue-50 rounded-md'>
-                            Reschedule
-                          </button>
-                          <button className='text-red-600 hover:text-red-800 text-sm font-medium px-3 py-1 bg-red-50 rounded-md'>
-                            Cancel
-                          </button>
-                        </div>
-                    
+
+                      <div className='mt-3 flex  gap-3 pt-3 border-t border-gray-100'>
+                        <button className='text-blue-600 hover:text-red-400 text-sm font-medium px-3 py-1 bg-blue-50 rounded-md'>
+                          Cancel
+                          &
+                          Reschedule
+                        </button>
+                      </div>
+
                     </div>
                   ))}
                 </div>
@@ -317,32 +328,34 @@ const Dashboard = () => {
                   <FaFileMedical className='text-blue-600 text-2xl' />
                   <h2 className='text-xl font-bold text-gray-800'>Medical Reports</h2>
                 </div>
-              
+
               </div>
 
               <div className='space-y-4'>
-                {medicalReports.map(report => (
-                  <div key={report.id} className='border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow'>
+                {medicalReports.map((report, index) => (
+                  <div key={index} className='border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow'>
                     <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3'>
                       <div>
-                        <h3 className='font-medium text-lg'>{report.name}</h3>
+                        <h3 className='font-medium text-lg'>{report.reportType}</h3>
                         <div className='flex flex-wrap gap-2 mt-1'>
                           <span className='bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs'>
-                            Dr. {report.doctor}
+                            Dr. {report.doctorId.fullName}
                           </span>
                           <span className='bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs'>
-                            {report.type}
+                            {report.doctorId.hospital}
                           </span>
                         </div>
                       </div>
                       <div className='sm:text-right'>
                         <p className='text-gray-500 text-sm'>{report.date}</p>
                         <button
-                          onClick={() => handleViewReport(report.id)}
+                          onClick={() => handleDownload(report.fileUrl , `${report.reportType}`)}
                           className='text-blue-600 hover:text-blue-800 text-sm mt-1 flex items-center gap-1 sm:justify-end w-full sm:w-auto'
                         >
                           View Report <FaArrowRight className='text-xs' />
                         </button>
+
+                        
                       </div>
                     </div>
                   </div>
@@ -364,7 +377,6 @@ const Dashboard = () => {
                       <span className='w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0'></span>
                       <div>
                         <p className='font-medium'>{condition}</p>
-                        <p className='text-gray-500 text-sm'>Diagnosed: {new Date().toLocaleDateString()}</p>
                       </div>
                     </li>
                   ))
@@ -374,24 +386,38 @@ const Dashboard = () => {
               </ul>
             </div>
 
-            <div className='bg-white rounded-xl shadow-sm p-6'>
-              <div className='flex items-center gap-3 mb-4'>
-                <MdEmergency className='text-red-600 text-2xl' />
-                <h2 className='text-xl font-bold text-gray-800'>Emergency Contacts</h2>
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <MdEmergency className="text-red-600 text-2xl" />
+                <h2 className="text-xl font-bold text-gray-800">Emergency Contacts</h2>
               </div>
-              <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {patientData.emergencyContacts && patientData.emergencyContacts.length > 0 ? (
-                  patientData.emergencyContacts.map((contact, index) => (
-                    <div key={index} className='bg-blue-50 p-3 rounded-lg border border-blue-100'>
-                      <h3 className='font-medium'>{contact.split(",")[0]}</h3>
-                      <p className='text-gray-600 text-sm'>{contact.split(",")[1]}</p>
+                  patientData.emergencyContacts.map((contact) => (
+                    <div
+                      key={contact._id}
+                      className="bg-blue-50 rounded-lg p-4 shadow-sm border border-blue-100"
+                    >
+                      <h3 className="font-semibold text-gray-800">
+                        {contact.name}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        Relation: {contact.relation}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Phone: {contact.phone}
+                      </p>
                     </div>
                   ))
                 ) : (
-                  <p className='text-gray-500 text-sm col-span-2'>No emergency contacts added</p>
+                  <p className="text-gray-500 text-sm col-span-2">
+                    No emergency contacts added
+                  </p>
                 )}
               </div>
             </div>
+
 
           </div>
         </div>

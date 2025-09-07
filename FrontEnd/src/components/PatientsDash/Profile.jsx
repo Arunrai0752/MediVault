@@ -29,7 +29,6 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto">
-        {/* Header with Edit Button */}
         <div className='flex justify-between items-center p-4 mb-6'>
           <h1 className="text-3xl font-bold text-gray-800">Health Profile</h1>
           <button
@@ -111,23 +110,25 @@ const Profile = () => {
 
 
 
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <MdEmergency className="text-red-600 text-2xl" />
-              <h2 className="text-xl font-bold text-gray-800">Emergency Contacts</h2>
+          {patientData.emergencyContacts.map((contact ,  index) => (
+            <div
+              key={contact._id}
+              className="bg-blue-50 rounded-lg p-4 shadow-sm border border-blue-100"
+            >
+             
+              <h3 className=" flex gap-2 font-semibold text-gray-800">
+               <h1>{index+1}.</h1> <h1> {contact.name || "Unknown"}</h1>
+              </h3>
+              <p className="text-sm text-gray-600">
+                Relation: {contact.relation || "N/A"}
+              </p>
+              <p className="text-sm text-gray-600">
+                Phone: {contact.phone || "N/A"}
+              </p>
             </div>
-            <div className="space-y-4">
-              {patientData.emergencyContacts && patientData.emergencyContacts.map((contact, index) => (
-                <div key={index} className="border-b border-gray-100 pb-4 last:border-0 ">
-                  <h3 className="font-medium border-1 rounded-lg bg-blue-400/60 w-fit p-2">{contact}</h3>
-                  
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* Edit Profile Modal */}
         <EditDashBoard
           isOpen={isEditModelOpen}
           onClose={() => setIsEditModelOpen(false)}

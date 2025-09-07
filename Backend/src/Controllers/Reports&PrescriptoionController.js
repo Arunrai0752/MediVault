@@ -24,7 +24,7 @@ export const uploadPrescriptionn = async (req, res, next) => {
       patientId,
       doctorId,
       fileUrl: result.secure_url,
-      notes: req.body.notes || "",
+      notes: req.body.notes ,
     });
 
    
@@ -70,7 +70,7 @@ export const uploadReports = async (req, res, next) => {
         patientId,
         doctorId,
         fileUrl: result.secure_url,
-        reportType: req.body.type || "N/A",
+        reportType: req.body.reportTypes,
       });
     });
 

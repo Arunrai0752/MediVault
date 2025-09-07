@@ -1,6 +1,8 @@
 import Appointment from "../Models/AppoinmentModel.js";
 import Doctor from "../Models/DoctorModel.js";
 import Patient from "../Models/PatientsModel.js";
+import Report from "../Models/Reports.js";
+
 
 
 
@@ -86,12 +88,38 @@ export const PatientAppoinmentss = async (req, res, next) => {
     const appointments = await Appointment.find({ patientId: id })
       .populate("doctorId", "fullName specialization email phone fee hospital");
 
-      console.log(appointments);
-      
+clearImmediate      
 
     res.status(200).json({
       success: true,
       data: appointments,
+      message: "Patient All Appointment fetched successfully"
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+export const PatientReports = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      const error = new Error("Login Again");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const Reports = await Report.find({ patientId: id })
+      .populate("doctorId", "fullName specialization email phone fee hospital");
+
+      
+
+    res.status(200).json({
+      success: true,
+      data: Reports,
       message: "Patient All Appointment fetched successfully"
     });
 
@@ -116,7 +144,6 @@ export const DoctorAppoinmentss = async (req, res, next) => {
 
         const appointments = await Appointment.find({ doctorId: id });
 
-        console.log(appointments);
 
 
 
@@ -214,7 +241,6 @@ export const updateAppointmentStatus = async (req, res, next) => {
             return res.status(404).json({ message: "Appointment not found" });
         }
 
-        console.log("here here 700");
 
 
         appointment.status = status;
@@ -249,7 +275,6 @@ export const updateAppointmentNotes = async (req, res, next) => {
             return res.status(404).json({ message: "Appointment not found" });
         }
 
-        console.log("here here 700");
 
 
         appointment.notes = notes;

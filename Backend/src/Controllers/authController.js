@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import Patient from "../Models/PatientsModel.js";
 import gentoken from "../Utils/auth.js";
 import Appointment from "../Models/AppoinmentModel.js"
+import Report from "../Models/Reports.js";
+
 
 
 export const DocRegister = async (req, res, next) => {
@@ -255,34 +257,34 @@ export const UpdatePatients = async (req, res, next) => {
     const formattedLastCheckup = req.body.lastCheckup || oldData.lastCheckup;
 
     const updatedFields = {
-      fullName: req.body.fullName,
-      gender: req.body.gender || "Prefer not to say",
+      fullName: req.body.fullName || oldData.fullName,
+      gender: req.body.gender || oldData.gender || "Prefer not to say",
       dob: formattedDob,
-      email: req.body.email,
-      phone: req.body.phone,
-      address: req.body.address,
-      aadharNumber: req.body.aadharNumber,
-      bloodGroup: req.body.bloodGroup || "Unknown",
-      role: req.body.role || "Patient",
-      age: req.body.age,
-      height: req.body.height,
-      weight: req.body.weight,
-      emergencyContacts: req.body.emergencyContacts 
-      && Array.isArray(req.body.emergencyContacts)
-        ? req.body.emergencyContacts.join(", ")
-        : req.body.emergencyContacts,
-      allergies: req.body.allergies
-      && Array.isArray(req.body.allergies)
-          ? req.body.allergies.join(", ")
-          : req.body.allergies
-        ,
-      conditions: req.body.conditions
-        && Array.isArray(req.body.conditions)
-          ? req.body.conditions.join(", ")
-          : req.body.conditions
-       ,
+      email: req.body.email || oldData.email,
+      phone: req.body.phone || oldData.phone,
+      address: req.body.address || oldData.address,
+      aadharNumber: req.body.aadharNumber || oldData.aadharNumber,
+      bloodGroup: req.body.bloodGroup || oldData.bloodGroup || "Unknown",
+      role: req.body.role || oldData.role || "Patient",
+      age: req.body.age || oldData.age,
+      height: req.body.height || oldData.height,
+      weight: req.body.weight || oldData.weight,
+
+      emergencyContacts: Array.isArray(req.body.emergencyContacts)
+        ? req.body.emergencyContacts
+        : oldData.emergencyContacts,
+
+      allergies: Array.isArray(req.body.allergies)
+        ? req.body.allergies
+        : oldData.allergies,
+
+      conditions: Array.isArray(req.body.conditions)
+        ? req.body.conditions
+        : oldData.conditions,
+
       lastCheckup: formattedLastCheckup,
     };
+
 
     const updatedUser = await Patient.findByIdAndUpdate(id, updatedFields, {
       new: true,
@@ -440,7 +442,6 @@ export const FetchAllAppointments = async (req, res, next) => {
 
     const appointments = await Appointment.find({ patientId: id }).populate("doctorId", "fullName specialization email");
 
-    console.log("AA waer", appointments);
 
     if (!appointments || appointments.length === 0) {
       return res.status(404).json({
@@ -449,11 +450,40 @@ export const FetchAllAppointments = async (req, res, next) => {
       });
     }
 
-    console.log(appointments);
 
     res.status(200).json({
       message: "Appointments fetched successfully",
       data: appointments,
+    });
+
+  } catch (error) {
+    console.error("Error fetching appointments:", error.message);
+    next(error);
+  }
+};
+
+
+
+export const FetchAllReports = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+
+    const Reports = await Report.find({ patientId: id }).populate("doctorId", "fullName specialization email");
+
+
+
+    if (!Reports || Reports.length === 0) {
+      return res.status(404).json({
+        message: "No Reports found for this patient",
+        data: [],
+      });
+    }
+
+
+    res.status(200).json({
+      message: "Reports fetched successfully",
+      data: Reports,
     });
 
   } catch (error) {

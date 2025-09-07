@@ -92,10 +92,28 @@ const patientSchema = new mongoose.Schema({
     type: String,
 
   },
-  emergencyContacts: {
-    type: [],
-
+emergencyContacts: [
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: [50, "Name cannot exceed 50 characters"]
+    },
+    relation: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: [50, "Relation cannot exceed 50 characters"]
+    },
+    phone: {
+      type: String,
+      required: true,
+      match: [/^\d{10}$/, "Phone must be 10 digits"]
+    }
   }
+]
+
 }, {
   timestamps: true,
 
