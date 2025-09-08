@@ -273,25 +273,7 @@ const Appointments = () => {
                     ))}
                   </select>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
-                  <select className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option>All Dates</option>
-                    <option>Today</option>
-                    <option>This Week</option>
-                    <option>This Month</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                  <select className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <option>All Statuses</option>
-                    <option>Scheduled</option>
-                    <option>Confirmed</option>
-                    <option>Completed</option>
-                    <option>Cancelled</option>
-                  </select>
-                </div>
+               
               </div>
             </div>
           )}

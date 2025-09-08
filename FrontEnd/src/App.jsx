@@ -8,6 +8,8 @@ import DoctorDash from './pages/DoctorDash'
 import DoctorRegister from './pages/DoctorRegister'
 import PaientDashBoard from "./pages/PatientDashboard"
 import {Toaster} from 'react-hot-toast'
+import Services from './pages/Services'
+
 
 
 
@@ -25,6 +27,7 @@ function App() {
           <Route path="/doctordash" element={<DoctorDash />} />
           <Route path="/doctorregister" element={<DoctorRegister />} />
           <Route path="/patientDashboard" element={<PaientDashBoard />} />
+          <Route path="/service" element={<Services />} />
     
 
         </Routes>

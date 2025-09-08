@@ -130,13 +130,12 @@ export const PetientRegister = async (req, res, next) => {
 
   try {
 
-    const { fullName, aadharNumber, email, dob, password } = req.body;
-
-    console.log({ fullName, aadharNumber, email, dob, password });
+    const { fullName, aadharNumber, email, dob,phone , password } = req.body;
 
 
 
-    if (!fullName || !email || !aadharNumber || !dob || !password) {
+
+    if (!fullName || !email || !aadharNumber || !dob || !password || !phone ) {
       const error = new Error("All Fields Requeried");
       error.statusCode = 400;
       return next(error);
@@ -161,6 +160,7 @@ export const PetientRegister = async (req, res, next) => {
       aadharNumber,
       email,
       dob,
+      phone,
       password: hassPassword,
       role: "Patient",
 
