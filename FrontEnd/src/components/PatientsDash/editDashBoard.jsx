@@ -149,13 +149,13 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-900/70 flex justify-center items-center z-50">
-      <div className="h-[90vh] w-[90vw] md:w-[80vw] lg:w-[70vw] bg-white rounded-lg overflow-hidden flex flex-col">
-        <div className="flex justify-between items-center p-4 border-b">
-          <h1 className="text-2xl font-semibold">Edit Profile</h1>
+    <div className="fixed inset-0 bg-teal-900/40 backdrop-blur-sm flex justify-center items-center z-50">
+      <div className="h-[90vh] w-[90vw] md:w-[80vw] lg:w-[70vw] bg-white/95 rounded-lg overflow-hidden flex flex-col border border-teal-100 shadow-2xl">
+        <div className="flex justify-between items-center p-4 border-b border-teal-100">
+          <h1 className="text-2xl font-semibold text-teal-800">Edit Profile</h1>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="text-gray-500 hover:text-teal-700 text-2xl"
           >
             <AiOutlineClose />
           </button>
@@ -182,7 +182,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 required
               />
             </div>
@@ -195,7 +195,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
               >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -213,7 +213,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="dob"
                 value={formData.dob}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 required
               />
             </div>
@@ -227,7 +227,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="age"
                 value={formData.age}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 min="0"
                 max="120"
               />
@@ -249,7 +249,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 disabled
               />
             </div>
@@ -263,7 +263,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
               />
             </div>
 
@@ -276,7 +276,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="aadharNumber"
                 value={formData.aadharNumber}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 required
                 pattern="[0-9]{12}"
                 title="12-digit Aadhar number"
@@ -296,7 +296,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                     setNewContact({ ...newContact, name: e.target.value })
                   }
                   placeholder="Name"
-                  className="flex-1 p-2 border rounded-md"
+                  className="flex-1 p-2 border rounded-md focus:ring-teal-600 focus:border-teal-600"
                 />
                 <input
                   type="text"
@@ -305,7 +305,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                     setNewContact({ ...newContact, relation: e.target.value })
                   }
                   placeholder="Relation"
-                  className="flex-1 p-2 border rounded-md"
+                  className="flex-1 p-2 border rounded-md focus:ring-teal-600 focus:border-teal-600"
                 />
                 <input
                   type="tel"
@@ -315,12 +315,12 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                   }
                   placeholder="Phone (10 digits)"
                   pattern="[0-9]{10}"
-                  className="flex-1 p-2 border rounded-md"
+                  className="flex-1 p-2 border rounded-md focus:ring-teal-600 focus:border-teal-600"
                 />
                 <button
                   type="button"
                   onClick={addEmergencyContact}
-                  className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="px-3 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
                 >
                   Add
                 </button>
@@ -333,7 +333,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                   formData.emergencyContacts.map((c, i) => (
                     <div
                       key={i}
-                      className="flex justify-between items-center bg-gray-100 px-3 py-2 rounded"
+                      className="flex justify-between items-center bg-teal-50 px-3 py-2 rounded border border-teal-100"
                     >
                       <span>
                         <strong>{c.name}</strong> ({c.relation}) – {c.phone}
@@ -361,7 +361,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 value={formData.address}
                 onChange={handleChange}
                 rows={3}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
               />
             </div>
 
@@ -380,7 +380,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="bloodGroup"
                 value={formData.bloodGroup}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
               >
                 <option value="Unknown">Unknown</option>
                 <option value="A+">A+</option>
@@ -403,7 +403,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="height"
                 value={formData.height}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 placeholder="175 cm"
               />
             </div>
@@ -417,7 +417,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="weight"
                 value={formData.weight}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 placeholder="72 kg"
               />
             </div>
@@ -431,7 +431,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="lastCheckup"
                 value={formData.lastCheckup}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
               />
             </div>
 
@@ -444,7 +444,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="allergies"
                 value={formData.allergies}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 placeholder="Penicillin, Peanuts, Dust"
               />
             </div>
@@ -458,7 +458,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
                 name="conditions"
                 value={formData.conditions}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 placeholder="Hypertension, Diabetes"
               />
             </div>
@@ -474,7 +474,7 @@ const EditDashBoard = ({ isOpen, onClose, oldData, setPatientData }) => {
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 disabled:opacity-50"
                 disabled={loading}
               >
                 {loading ? "Saving..." : "Save Changes"}

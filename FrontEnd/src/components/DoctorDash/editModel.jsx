@@ -115,13 +115,13 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
     const statusOptions = ["Active", "Inactive", "Suspended"];
 
     return (
-        <div className='fixed inset-0 bg-gray-500/40 flex justify-center items-center z-50'>
-            <div className='h-[90vh] w-[90vw] md:w-[80vw] bg-white rounded-lg overflow-hidden flex flex-col'>
-                <div className='flex justify-between items-center p-4 border-b'>
-                    <h1 className='text-2xl font-semibold'>Edit Doctor Profile</h1>
+        <div className='fixed inset-0 bg-teal-900/40 backdrop-blur-sm flex justify-center items-center z-50'>
+            <div className='h-[90vh] w-[90vw] md:w-[80vw] bg-white/95 rounded-lg overflow-hidden flex flex-col border border-teal-100 shadow-2xl'>
+                <div className='flex justify-between items-center p-4 border-b border-teal-100'>
+                    <h1 className='text-2xl font-semibold text-teal-800'>Edit Doctor Profile</h1>
                     <button
                         onClick={onClose}
-                        className='text-gray-500 hover:text-gray-700 text-2xl'
+                        className='text-gray-500 hover:text-teal-700 text-2xl'
                     >
                         <AiOutlineClose />
                     </button>
@@ -131,7 +131,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                     <form onSubmit={handleSubmit} className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                         {/* Personal Information */}
                         <div className='md:col-span-2'>
-                            <h3 className='text-lg font-semibold mb-2 text-blue-800 border-b pb-2'>Personal Information</h3>
+                            <h3 className='text-lg font-semibold mb-2 text-teal-800 border-b border-teal-100 pb-2'>Personal Information</h3>
                         </div>
 
                         <div className='space-y-1'>
@@ -141,7 +141,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 name="fullName"
                                 value={formData.fullName}
                                 onChange={handleChange}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                 required
                             />
                         </div>
@@ -152,7 +152,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 type="email"
                                 name="email"
                                 value={formData.email}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-gray-100'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600 bg-gray-100'
                                 disabled
                             />
                         </div>
@@ -164,7 +164,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                 required
                                 pattern="[0-9]{10}"
                                 title="10-digit phone number"
@@ -177,13 +177,13 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 name="biography"
                                 value={formData.biography}
                                 onChange={handleChange}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 min-h-[100px]'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600 min-h-[100px]'
                             />
                         </div>
 
                         {/* Professional Information */}
                         <div className='md:col-span-2 mt-4'>
-                            <h3 className='text-lg font-semibold mb-2 text-blue-800 border-b pb-2'>Professional Information</h3>
+                            <h3 className='text-lg font-semibold mb-2 text-teal-800 border-b border-teal-100 pb-2'>Professional Information</h3>
                         </div>
 
                         <div className='space-y-1'>
@@ -192,7 +192,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 name="specialization"
                                 value={formData.specialization}
                                 onChange={handleChange}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                 required
                             >
                                 {specializations.map(spec => (
@@ -209,7 +209,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 value={formData.experience}
                                 onChange={handleChange}
                                 min="0"
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                 required
                             />
                         </div>
@@ -221,7 +221,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 name="hospital"
                                 value={formData.hospital}
                                 onChange={handleChange}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                             />
                         </div>
 
@@ -242,7 +242,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 type="text"
                                 name="licenseNumber"
                                 value={formData.licenseNumber}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-gray-100'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600 bg-gray-100'
                                 disabled
                             />
                         </div>
@@ -255,7 +255,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 value={formData.fee}
                                 onChange={handleChange}
                                 min="0"
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                 required
                             />
                         </div>
@@ -267,13 +267,13 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 name="qualifications"
                                 value={formData.qualifications}
                                 onChange={handleChange}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                             />
                         </div>
 
                         {/* Availability */}
                         <div className='md:col-span-2 mt-4'>
-                            <h3 className='text-lg font-semibold mb-2 text-blue-800 border-b pb-2'>Availability</h3>
+                            <h3 className='text-lg font-semibold mb-2 text-teal-800 border-b border-teal-100 pb-2'>Availability</h3>
                         </div>
 
                         <div className='space-y-1'>
@@ -283,7 +283,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 name="consultationHours"
                                 value={formData.consultationHours}
                                 onChange={handleChange}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                 placeholder="e.g., 9:00 AM - 5:00 PM"
                             />
                         </div>
@@ -295,7 +295,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                 name="availability"
                                 value={formData.availability}
                                 onChange={handleChange}
-                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                className='w-full p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                 placeholder="e.g., Mon-Fri 9AM-5PM"
                             />
                         </div>
@@ -316,7 +316,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
 
                         {/* Additional Information */}
                         <div className='md:col-span-2 mt-4'>
-                            <h3 className='text-lg font-semibold mb-2 text-blue-800 border-b pb-2'>Additional Information</h3>
+                            <h3 className='text-lg font-semibold mb-2 text-teal-800 border-b border-teal-100 pb-2'>Additional Information</h3>
                         </div>
 
                         <div className='space-y-1'>
@@ -337,7 +337,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                     type="text"
                                     value={newService}
                                     onChange={(e) => setNewService(e.target.value)}
-                                    className='flex-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                    className='flex-1 p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                     placeholder="Add a service"
                                 />
                                 <button
@@ -348,19 +348,19 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                             setNewService('');
                                         }
                                     }}
-                                    className='px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
+                                    className='px-3 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700'
                                 >
                                     Add
                                 </button>
                             </div>
                             <div className='mt-2 flex flex-wrap gap-2'>
                                 {formData.services.map((service, index) => (
-                                    <div key={index} className='bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center'>
+                                    <div key={index} className='bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm flex items-center'>
                                         {service}
                                         <button
                                             type="button"
                                             onClick={() => removeArrayItem('services', index)}
-                                            className='ml-2 text-blue-600 hover:text-blue-800'
+                                            className='ml-2 text-teal-600 hover:text-teal-800'
                                         >
                                             ×
                                         </button>
@@ -376,7 +376,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                     type="text"
                                     value={newLanguage}
                                     onChange={(e) => setNewLanguage(e.target.value)}
-                                    className='flex-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                    className='flex-1 p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                     placeholder="Add a language"
                                 />
                                 <button
@@ -387,19 +387,19 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                             setNewLanguage('');
                                         }
                                     }}
-                                    className='px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
+                                    className='px-3 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700'
                                 >
                                     Add
                                 </button>
                             </div>
                             <d iv className='mt-2 flex flex-wrap gap-2'>
                                 {formData.languages.map((language, index) => (
-                                    <div key={index} className='bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center'>
+                                    <div key={index} className='bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm flex items-center'>
                                         {language}
                                         <button
                                             type="button"
                                             onClick={() => removeArrayItem('languages', index)}
-                                            className='ml-2 text-green-600 hover:text-green-800'
+                                            className='ml-2 text-emerald-600 hover:text-emerald-800'
                                         >
                                             ×
                                         </button>
@@ -415,7 +415,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                     type="text"
                                     value={newEducation}
                                     onChange={(e) => setNewEducation(e.target.value)}
-                                    className='flex-1 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500'
+                                    className='flex-1 p-2 border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600'
                                     placeholder="Add education"
                                 />
                                 <button
@@ -426,7 +426,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                                             setNewEducation('');
                                         }
                                     }}
-                                    className='px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700'
+                                    className='px-3 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700'
                                 >
                                     Add
                                 </button>
@@ -458,7 +458,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
                             </button>
                             <button
                                 type="submit"
-                                className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50'
+                                className='px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 disabled:opacity-50'
                                 disabled={loading}
                             >
                                 {loading ? 'Saving...' : 'Save Changes'}

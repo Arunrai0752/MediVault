@@ -59,14 +59,14 @@ const Register = () => {
   const navigate = useNavigate();
   
   return (
-    <main className='min-h-screen bg-gradient-to-br from-blue-400 to-indigo-600 w-full flex justify-center items-center p-4'>
+    <main className='min-h-[92vh] bg-gradient-to-br from-teal-50 via-blue-50 to-white w-full flex justify-center items-center p-4'>
       <motion.div
       animate={{ x:[-2,2,-2,0]}} 
       transition={{ duration: 0.2}}
-      className='h-auto w-full max-w-4xl bg-white/90 rounded-2xl mt-10 p-6 flex flex-col shadow-2xl backdrop-blur-sm'>
+      className='h-auto w-full max-w-4xl bg-white/90 rounded-2xl mt-10 p-6 flex flex-col shadow-2xl backdrop-blur-sm border border-teal-100'>
         <div className='flex justify-between items-center border-b border-gray-300 pb-4 mb-6'>
           <h1 className='text-2xl md:text-3xl font-bold text-gray-800'>
-            Patient <span className='text-blue-700'>Registration</span>
+            Patient <span className='text-teal-700'>Registration</span>
           </h1>
           <button
             onClick={() => navigate("/")}
@@ -96,7 +96,7 @@ const Register = () => {
                 name='fullName'
                 required
                 placeholder='Enter your name (must match Aadhar Card)'
-                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+                className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all'
               />
             </div>
 
@@ -112,7 +112,7 @@ const Register = () => {
                 placeholder='Enter 12-digit Aadhar number'
                 maxLength="12"
                 pattern="[0-9]{12}"
-                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+                className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all'
               />
             </div>
 
@@ -126,7 +126,7 @@ const Register = () => {
                 value={patientsData.email}
                 required
                 placeholder='Enter your email address'
-                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+                className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all'
               />
             </div>
 
@@ -142,7 +142,7 @@ const Register = () => {
                 placeholder='Enter 10-digit phone number'
                 maxLength="10"
                 pattern="[0-9]{10}"
-                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+                className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all'
               />
             </div>
 
@@ -155,7 +155,7 @@ const Register = () => {
                 onChange={handelChange}
                 value={patientsData.dob}
                 required
-                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all text-gray-700'
+                className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all text-gray-700'
               />
             </div>
           </div>
@@ -179,7 +179,7 @@ const Register = () => {
                 required
                 minLength="6"
                 placeholder='Create a strong password (min. 6 characters)'
-                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+                className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all'
               />
             </div>
 
@@ -193,7 +193,7 @@ const Register = () => {
                 onChange={handelChange}
                 required
                 placeholder='Re-enter your password'
-                className='w-full border border-gray-400 rounded-lg p-3 outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all'
+                className='w-full border border-gray-300 rounded-lg p-3 outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all'
               />
             </div>
           </div>
@@ -201,14 +201,14 @@ const Register = () => {
           <div className='mt-8 flex flex-col items-center space-y-4'>
             <button
               type="submit"
-              className='w-full md:w-1/2 bg-blue-700 hover:bg-blue-800 text-white text-xl font-medium py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1'
+              className='w-full md:w-1/2 bg-teal-700 hover:bg-teal-800 text-white text-xl font-medium py-3 px-6 rounded-lg transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1'
             >
               Create Account
             </button>
 
             <p className='text-gray-600 text-center'>
               Already have an account?{' '}
-              <Link to="/" className='text-blue-700 hover:text-blue-900 font-medium underline'>
+              <Link to="/" className='text-teal-700 hover:text-teal-900 font-medium underline'>
                 Login here
               </Link>
             </p>

@@ -63,26 +63,26 @@ const SetAppointments = ({ isOpen, onClose }) => {
   };
 
   return (
-    <main className='fixed inset-0 flex justify-center items-center bg-blue-900/50 z-50 p-4'>
-      <div className='bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden'>
+    <main className='fixed inset-0 flex justify-center items-center bg-teal-900/40 z-50 p-4'>
+      <div className='bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden border border-teal-100'>
         {/* Header */}
-        <div className='bg-blue-600 text-white p-6 flex justify-between items-center'>
+        <div className='bg-teal-600 text-white p-6 flex justify-between items-center'>
           <h2 className='text-2xl font-bold'>Schedule New Appointment</h2>
           <button 
             onClick={onClose}
-            className='text-white hover:text-blue-200 transition-colors'
+            className='text-white hover:text-teal-200 transition-colors'
           >
             <FaTimes size={24} />
           </button>
         </div>
 
         {/* Progress Bar */}
-        <div className='bg-blue-50 px-6 py-3'>
+        <div className='bg-teal-50 px-6 py-3'>
           <div className='flex items-center justify-between mb-2'>
-            <span className='text-sm font-medium text-blue-800'>
+            <span className='text-sm font-medium text-teal-800'>
               Step {currentStep} of 3
             </span>
-            <span className='text-sm text-blue-600'>
+            <span className='text-sm text-teal-700'>
               {currentStep === 1 && 'Patient Information'}
               {currentStep === 2 && 'Appointment Details'}
               {currentStep === 3 && 'Review & Confirm'}
@@ -90,7 +90,7 @@ const SetAppointments = ({ isOpen, onClose }) => {
           </div>
           <div className='w-full bg-gray-200 rounded-full h-2.5'>
             <div 
-              className='bg-blue-600 h-2.5 rounded-full' 
+              className='bg-teal-600 h-2.5 rounded-full' 
               style={{ width: `${(currentStep / 3) * 100}%` }}
             ></div>
           </div>
@@ -102,7 +102,7 @@ const SetAppointments = ({ isOpen, onClose }) => {
             {/* Step 1: Patient Information */}
             {currentStep === 1 && (
               <div className='space-y-6'>
-                <h3 className='text-xl font-semibold text-blue-800 border-b pb-2 flex items-center'>
+                <h3 className='text-xl font-semibold text-teal-800 border-b pb-2 flex items-center'>
                   <FaUser className='mr-2' /> Patient Details
                 </h3>
                 
@@ -111,14 +111,14 @@ const SetAppointments = ({ isOpen, onClose }) => {
 
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                      <FaPhone className='mr-2 text-blue-500' /> Phone Number *
+                      <FaPhone className='mr-2 text-teal-600' /> Phone Number *
                     </label>
                     <input
                       type='tel'
                       name='phoneNumber'
                       value={formData.phoneNumber}
                       onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600'
                       required
                     />
                   </div>
@@ -127,13 +127,13 @@ const SetAppointments = ({ isOpen, onClose }) => {
 
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                      <FaIdCard className='mr-2 text-blue-500' /> Previous Visit
+                      <FaIdCard className='mr-2 text-teal-600' /> Previous Visit
                     </label>
                     <select
                       name='previousVisit'
                       value={formData.previousVisit}
                       onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600'
                     >
                       <option value='no'>No</option>
                       <option value='yes'>Yes</option>
@@ -148,48 +148,48 @@ const SetAppointments = ({ isOpen, onClose }) => {
             {/* Step 2: Appointment Details */}
             {currentStep === 2 && (
               <div className='space-y-6'>
-                <h3 className='text-xl font-semibold text-blue-800 border-b pb-2 flex items-center'>
+                <h3 className='text-xl font-semibold text-teal-800 border-b pb-2 flex items-center'>
                   <FaCalendarAlt className='mr-2' /> Appointment Information
                 </h3>
                 
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                      <FaCalendarAlt className='mr-2 text-blue-500' /> Date *
+                      <FaCalendarAlt className='mr-2 text-teal-600' /> Date *
                     </label>
                     <input
                       type='date'
                       name='date'
                       value={formData.date}
                       onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600'
                       required
                     />
                   </div>
 
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                      <FaClock className='mr-2 text-blue-500' /> Time *
+                      <FaClock className='mr-2 text-teal-600' /> Time *
                     </label>
                     <input
                       type='time'
                       name='time'
                       value={formData.time}
                       onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600'
                       required
                     />
                   </div>
 
                   <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                      <FaStethoscope className='mr-2 text-blue-500' /> Appointment Type *
+                      <FaStethoscope className='mr-2 text-teal-600' /> Appointment Type *
                     </label>
                     <select
                       name='appointmentType'
                       value={formData.appointmentType}
                       onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600'
                       required
                     >
 
@@ -222,14 +222,14 @@ const SetAppointments = ({ isOpen, onClose }) => {
 
                 <div className='space-y-2'>
                   <label className='block text-sm font-medium text-gray-700 flex items-center'>
-                    <FaNotesMedical className='mr-2 text-blue-500' /> Reason for Visit *
+                    <FaNotesMedical className='mr-2 text-teal-600' /> Reason for Visit *
                   </label>
                   <textarea
                     name='reason'
                     value={formData.reason}
                     onChange={handleChange}
                     rows={3}
-                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600'
                     placeholder='Describe symptoms, concerns, or reason for appointment'
                     required
                   />
@@ -243,7 +243,7 @@ const SetAppointments = ({ isOpen, onClose }) => {
                       name='insuranceProvider'
                       value={formData.insuranceProvider}
                       onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600'
                     />
                   </div>
 
@@ -254,7 +254,7 @@ const SetAppointments = ({ isOpen, onClose }) => {
                       name='insuranceId'
                       value={formData.insuranceId}
                       onChange={handleChange}
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+                      className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600'
                     />
                   </div>
                 </div>
@@ -264,10 +264,10 @@ const SetAppointments = ({ isOpen, onClose }) => {
             {/* Step 3: Review & Confirm */}
             {currentStep === 3 && (
               <div className='space-y-6'>
-                <h3 className='text-xl font-semibold text-blue-800 border-b pb-2'>Review Appointment Details</h3>
+                <h3 className='text-xl font-semibold text-teal-800 border-b pb-2'>Review Appointment Details</h3>
                 
-                <div className='bg-blue-50 p-4 rounded-lg'>
-                  <h4 className='font-medium text-blue-800 mb-3'>Patient Information</h4>
+                <div className='bg-teal-50 p-4 rounded-lg'>
+                  <h4 className='font-medium text-teal-800 mb-3'>Patient Information</h4>
                   <div className='grid grid-cols-2 gap-4 text-sm'>
                 
                     <div><span className='text-gray-600'>Phone:</span> {formData.phoneNumber || 'Not provided'}</div>
@@ -275,8 +275,8 @@ const SetAppointments = ({ isOpen, onClose }) => {
                   </div>
                 </div>
 
-                <div className='bg-blue-50 p-4 rounded-lg'>
-                  <h4 className='font-medium text-blue-800 mb-3'>Appointment Details</h4>
+                <div className='bg-teal-50 p-4 rounded-lg'>
+                  <h4 className='font-medium text-teal-800 mb-3'>Appointment Details</h4>
                   <div className='grid grid-cols-2 gap-4 text-sm'>
                     <div><span className='text-gray-600'>Date:</span> {formData.date || 'Not selected'}</div>
                     <div><span className='text-gray-600'>Time:</span> {formData.time || 'Not selected'}</div>
@@ -285,13 +285,13 @@ const SetAppointments = ({ isOpen, onClose }) => {
                   </div>
                 </div>
 
-                <div className='bg-blue-50 p-4 rounded-lg'>
-                  <h4 className='font-medium text-blue-800 mb-3'>Reason for Visit</h4>
+                <div className='bg-teal-50 p-4 rounded-lg'>
+                  <h4 className='font-medium text-teal-800 mb-3'>Reason for Visit</h4>
                   <p className='text-sm'>{formData.reason || 'Not provided'}</p>
                 </div>
 
-                <div className='bg-blue-50 p-4 rounded-lg'>
-                  <h4 className='font-medium text-blue-800 mb-3'>Insurance Information</h4>
+                <div className='bg-teal-50 p-4 rounded-lg'>
+                  <h4 className='font-medium text-teal-800 mb-3'>Insurance Information</h4>
                   <div className='grid grid-cols-2 gap-4 text-sm'>
                     <div><span className='text-gray-600'>Provider:</span> {formData.insuranceProvider || 'Not provided'}</div>
                     <div><span className='text-gray-600'>ID:</span> {formData.insuranceId || 'Not provided'}</div>
@@ -331,7 +331,7 @@ const SetAppointments = ({ isOpen, onClose }) => {
             {currentStep < 3 ? (
               <button
                 onClick={nextStep}
-                className='flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
+                className='flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors'
               >
                 Next <FaPlus className='ml-2' />
               </button>

@@ -56,17 +56,17 @@ const Login = () => {
   }, [isDoc]);
 
   return (
-    <main className="min-h-[92vh] w-full bg-blue-50 flex justify-center items-center p-4">
+    <main className="min-h-[92vh] w-full bg-gradient-to-br from-teal-50 via-blue-50 to-white flex justify-center items-center p-4">
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
-        className="w-full max-w-md h-[60vh] bg-white rounded-lg shadow-md overflow-hidden border border-blue-100"
+        className="w-full max-w-md h-[60vh] bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden border border-teal-100"
       >
-        <div className="flex border-b border-blue-200">
+        <div className="flex border-b border-teal-200">
           <button
             className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${
-              isDoc ? 'bg-blue-600 text-white' : 'bg-white text-blue-800'
+              isDoc ? 'bg-teal-600 text-white' : 'bg-white text-teal-800'
             }`}
             onClick={() => setIsDoc(true)}
           >
@@ -75,7 +75,7 @@ const Login = () => {
 
           <button
             className={`flex-1 py-4 flex items-center justify-center gap-2 transition-colors ${
-              !isDoc ? 'bg-blue-600 text-white' : 'bg-white text-blue-800'
+              !isDoc ? 'bg-teal-600 text-white' : 'bg-white text-teal-800'
             }`}
             onClick={() => setIsDoc(false)}
           >
@@ -94,25 +94,25 @@ const Login = () => {
             >
               <div className="grid w-full items-center px-10">
                 <div className="grid p-4">
-                  <label className="p-2 text-blue-700">Email :</label>
+                  <label className="p-2 text-teal-700">Email :</label>
                   <input
                     type="email"
                     placeholder="Enter Your Email"
                     name="email"
                     onChange={handleChange}
                     value={formData.email}
-                    className="border border-blue-200 outline-blue-500 rounded-lg p-2 bg-blue-50"
+                    className="border border-teal-200 outline-teal-500 rounded-lg p-2 bg-teal-50"
                   />
                 </div>
                 <div className="grid p-4">
-                  <label className="p-2 text-blue-700">Password :</label>
+                  <label className="p-2 text-teal-700">Password :</label>
                   <input
                     type="password"
                     placeholder="Enter Your Password"
                     name="password"
                     onChange={handleChange}
                     value={formData.password}
-                    className="border border-blue-200 outline-blue-500 rounded-lg p-2 bg-blue-50"
+                    className="border border-teal-200 outline-teal-500 rounded-lg p-2 bg-teal-50"
                   />
                 </div>
               </div>
@@ -121,7 +121,7 @@ const Login = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="rounded-lg p-2 w-[200px] bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                  className="rounded-lg p-2 w-[200px] bg-teal-600 text-white hover:bg-teal-700 transition-colors"
                   onClick={handleSubmitDoctor}
                 >
                   LogIn
@@ -138,25 +138,25 @@ const Login = () => {
             >
               <div className="grid w-full items-center px-10">
                 <div className="grid p-4">
-                  <label className="p-2 text-blue-700">Email :</label>
+                  <label className="p-2 text-teal-700">Email :</label>
                   <input
                     type="email"
                     placeholder="Enter Your Email"
                     name="email"
                     onChange={handleChange}
                     value={formData.email}
-                    className="border border-blue-200 outline-blue-500 rounded-lg p-2 bg-blue-50"
+                    className="border border-teal-200 outline-teal-500 rounded-lg p-2 bg-teal-50"
                   />
                 </div>
                 <div className="grid p-4">
-                  <label className="p-2 text-blue-700">Password :</label>
+                  <label className="p-2 text-teal-700">Password :</label>
                   <input
                     type="password"
                     placeholder="Enter Your Password"
                     name="password"
                     onChange={handleChange}
                     value={formData.password}
-                    className="border border-blue-200 outline-blue-500 rounded-lg p-2 bg-blue-50"
+                    className="border border-teal-200 outline-teal-500 rounded-lg p-2 bg-teal-50"
                   />
                 </div>
               </div>
@@ -165,7 +165,7 @@ const Login = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="rounded-lg p-2 w-[200px] bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                  className="rounded-lg p-2 w-[200px] bg-teal-600 text-white hover:bg-teal-700 transition-colors"
                   onClick={handleSubmitPatients}
                 >
                   LogIn
@@ -176,7 +176,7 @@ const Login = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="text-center text-blue-600 hover:text-blue-800 cursor-pointer transition-colors"
+                className="text-center text-teal-700 hover:text-teal-900 cursor-pointer transition-colors"
               >
                 Forgot password ?
               </motion.p>

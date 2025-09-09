@@ -68,14 +68,14 @@ const reports = () => {
   );
 
   return (
-    <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
+    <div className="p-4 md:p-6 bg-gradient-to-br from-teal-50 via-blue-50 to-white min-h-screen">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center">
-          <FaFileMedical className="mr-2 text-blue-600" /> Medical Records
+          <FaFileMedical className="mr-2 text-teal-600" /> Medical Records
         </h1>
 
         {/* Search and Tabs */}
-        <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+        <div className="bg-white rounded-lg shadow-md p-4 mb-6 border border-teal-100">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="relative flex-1">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -84,27 +84,27 @@ const reports = () => {
               <input
                 type="text"
                 placeholder="Search reports or prescriptions..."
-                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
-            <div className="flex border border-gray-200 rounded-md overflow-hidden">
+            <div className="flex border border-teal-100 rounded-md overflow-hidden">
               <button
-                className={`px-4 py-2 flex items-center ${activeTab === 'prescriptions' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700'}`}
+                className={`px-4 py-2 flex items-center ${activeTab === 'prescriptions' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'}`}
                 onClick={() => setActiveTab('prescriptions')}
               >
                 <FaPills className="mr-2" /> Prescriptions
               </button>
               <button
-                className={`px-4 py-2 flex items-center ${activeTab === 'reports' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700'}`}
+                className={`px-4 py-2 flex items-center ${activeTab === 'reports' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'}`}
                 onClick={() => setActiveTab('reports')}
               >
                 <MdMedicalServices className="mr-2" /> Medical Reports
               </button>
               <button
-                className={`px-4 py-2 flex items-center ${activeTab === 'history' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700'}`}
+                className={`px-4 py-2 flex items-center ${activeTab === 'history' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'}`}
                 onClick={() => setActiveTab('history')}
               >
                 <FaHistory className="mr-2" /> History
@@ -114,11 +114,11 @@ const reports = () => {
         </div>
 
         {/* Content Area */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden border border-teal-100">
           {activeTab === 'prescriptions' && (
             <div className="p-4">
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <FaPills className="mr-2 text-blue-600" /> Your Prescriptions
+                <FaPills className="mr-2 text-teal-600" /> Your Prescriptions
               </h2>
 
               {filteredPrescriptions.length === 0 ? (
@@ -128,14 +128,14 @@ const reports = () => {
               ) : (
                 <div className="space-y-6">
                   {filteredPrescriptions.map((prescription) => (
-                    <div key={prescription.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div key={prescription.id} className="border border-teal-100 rounded-lg p-4 hover:shadow-md transition-shadow">
                       <div className="flex justify-between items-start mb-3">
                         <div>
-                          <h3 className="font-medium text-lg text-blue-700">Prescription #{prescription.id}</h3>
+                          <h3 className="font-medium text-lg text-teal-700">Prescription #{prescription.id}</h3>
                           <p className="text-gray-600">Date: {prescription.date}</p>
                           <p className="text-gray-600">Prescribed by: {prescription.doctor}</p>
                         </div>
-                        <button className="text-blue-600 hover:text-blue-800 px-3 py-1 rounded-md border border-blue-200 bg-blue-50 flex items-center">
+                        <button className="text-teal-700 hover:text-teal-900 px-3 py-1 rounded-md border border-teal-200 bg-teal-50 flex items-center">
                           <FaDownload className="mr-2" /> Download
                         </button>
                       </div>
@@ -144,7 +144,7 @@ const reports = () => {
                         <h4 className="font-medium text-gray-800 mb-2">Medications:</h4>
                         <div className="space-y-2">
                           {prescription.medicines.map((medicine, index) => (
-                            <div key={index} className="pl-4 border-l-2 border-blue-200">
+                            <div key={index} className="pl-4 border-l-2 border-teal-200">
                               <p className="font-medium">{medicine.name} - {medicine.dosage}</p>
                               <p className="text-gray-600 text-sm">Frequency: {medicine.frequency} for {medicine.duration}</p>
                             </div>
@@ -153,7 +153,7 @@ const reports = () => {
                       </div>
 
                       {prescription.notes && (
-                        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-r">
+                        <div className="bg-amber-50 border-l-4 border-amber-400 p-3 rounded-r">
                           <h4 className="font-medium text-gray-800 mb-1">Doctor's Notes:</h4>
                           <p className="text-gray-700">{prescription.notes}</p>
                         </div>
@@ -168,7 +168,7 @@ const reports = () => {
           {activeTab === 'reports' && (
             <div className="p-4">
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <MdMedicalServices className="mr-2 text-blue-600" /> Medical Reports
+                <MdMedicalServices className="mr-2 text-teal-600" /> Medical Reports
               </h2>
 
               {filteredMedicalReports.length === 0 ? (
@@ -178,14 +178,14 @@ const reports = () => {
               ) : (
                 <div className="space-y-4">
                   {filteredMedicalReports.map((report) => (
-                    <div key={report.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div key={report.id} className="border border-teal-100 rounded-lg p-4 hover:shadow-md transition-shadow">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="font-medium text-lg text-blue-700">{report.type}</h3>
+                          <h3 className="font-medium text-lg text-teal-700">{report.type}</h3>
                           <p className="text-gray-600">Date: {report.date}</p>
                           <p className="text-gray-600">Report by: {report.doctor}</p>
                         </div>
-                        <button className="text-blue-600 hover:text-blue-800 px-3 py-1 rounded-md border border-blue-200 bg-blue-50 flex items-center">
+                        <button className="text-teal-700 hover:text-teal-900 px-3 py-1 rounded-md border border-teal-200 bg-teal-50 flex items-center">
                           <FaDownload className="mr-2" /> Download
                         </button>
                       </div>
@@ -204,21 +204,21 @@ const reports = () => {
           {activeTab === 'history' && (
             <div className="p-4">
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <FaHistory className="mr-2 text-blue-600" /> Medical History
+                <FaHistory className="mr-2 text-teal-600" /> Medical History
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-lg text-blue-800 mb-3">Timeline</h3>
+                <div className="bg-teal-50 p-4 rounded-lg">
+                  <h3 className="font-medium text-lg text-teal-800 mb-3">Timeline</h3>
                   <div className="space-y-4">
                     {[...prescriptions, ...medicalReports]
                       .sort((a, b) => new Date(b.date) - new Date(a.date))
                       .map((item, index) => (
                         <div key={index} className="flex">
                           <div className="flex flex-col items-center mr-4">
-                            <div className="w-3 h-3 bg-blue-500 rounded-full mt-1"></div>
+                            <div className="w-3 h-3 bg-teal-600 rounded-full mt-1"></div>
                             {index < [...prescriptions, ...medicalReports].length - 1 && (
-                              <div className="w-px h-full bg-blue-300"></div>
+                              <div className="w-px h-full bg-teal-200"></div>
                             )}
                           </div>
                           <div className="pb-4">
@@ -235,8 +235,8 @@ const reports = () => {
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 p-4 rounded-lg">
-                  <h3 className="font-medium text-lg text-blue-800 mb-3">Summary</h3>
+                <div className="bg-white border border-teal-100 p-4 rounded-lg">
+                  <h3 className="font-medium text-lg text-teal-800 mb-3">Summary</h3>
                   <div className="space-y-3">
                     <div>
                       <h4 className="font-medium text-gray-800">Current Medications</h4>

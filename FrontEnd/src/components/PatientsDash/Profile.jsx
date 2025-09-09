@@ -27,21 +27,21 @@ const Profile = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white p-6">
       <div className="max-w-6xl mx-auto">
         <div className='flex justify-between items-center p-4 mb-6'>
           <h1 className="text-3xl font-bold text-gray-800">Health Profile</h1>
           <button
             onClick={() => setIsEditModelOpen(true)}
-            className='flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors'
+            className='flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors'
           >
             <MdEdit /> Edit Profile
           </button>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+        <div className="bg-white rounded-xl shadow-md p-6 mb-6 border border-teal-100">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+            <div className="bg-teal-50 p-4 rounded-lg border border-teal-100">
               <div className="flex items-center gap-3 mb-2">
                 <MdBloodtype className="text-red-500 text-xl" />
                 <h3 className="font-medium">Blood Group</h3>
@@ -57,9 +57,9 @@ const Profile = () => {
               <p className="text-gray-700">{patientData.height || "Not specified"}</p>
             </div>
 
-            <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
+            <div className="bg-cyan-50 p-4 rounded-lg border border-cyan-100">
               <div className="flex items-center gap-3 mb-2">
-                <FaHeartbeat className="text-purple-500 text-xl" />
+                <FaHeartbeat className="text-cyan-600 text-xl" />
                 <h3 className="font-medium">Weight</h3>
               </div>
               <p className="text-gray-700">{patientData.weight || "Not specified"}</p>
@@ -77,7 +77,7 @@ const Profile = () => {
           {/* Personal Information Section */}
           <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
             <div className="flex items-center gap-3 mb-4">
-              <FaNotesMedical className="text-blue-600 text-2xl" />
+              <FaNotesMedical className="text-teal-600 text-2xl" />
               <h2 className="text-xl font-bold text-gray-800">Personal Information</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -113,7 +113,7 @@ const Profile = () => {
           {patientData.emergencyContacts.map((contact ,  index) => (
             <div
               key={contact._id}
-              className="bg-blue-50 rounded-lg p-4 shadow-sm border border-blue-100"
+              className="bg-teal-50 rounded-lg p-4 shadow-sm border border-teal-100"
             >
              
               <h3 className=" flex gap-2 font-semibold text-gray-800">

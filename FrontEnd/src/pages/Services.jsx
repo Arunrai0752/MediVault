@@ -25,7 +25,7 @@ const Services = () => {
 
     const services = [
         {
-            icon: <FaNotesMedical className="text-4xl text-blue-600" />,
+            icon: <FaNotesMedical className="text-4xl text-teal-600" />,
             title: "Digital Health Records",
             description: "Access your complete medical history in one secure place. Never worry about lost paperwork or forgotten details again.",
             features: ["Lifetime health record", "Easy retrieval", "Organized medical history"]
@@ -43,19 +43,19 @@ const Services = () => {
             features: ["Instant access", "Emergency contacts", "Critical information"]
         },
         {
-            icon: <FaClinicMedical className="text-4xl text-purple-600" />,
+            icon: <FaClinicMedical className="text-4xl text-cyan-600" />,
             title: "Clinic Management",
             description: "Comprehensive tools for healthcare providers to manage patient records, appointments, and clinic operations.",
             features: ["Patient management", "Appointment scheduling", "Billing system"]
         },
         {
-            icon: <FaShieldAlt className="text-4xl text-green-600" />,
+            icon: <FaShieldAlt className="text-4xl text-emerald-600" />,
             title: "Secure Data Storage",
             description: "Your sensitive health information is protected with bank-level encryption and security protocols.",
             features: ["End-to-end encryption", "Regular backups", "Privacy controls"]
         },
         {
-            icon: <FaPrescription className="text-4xl text-orange-500" />,
+            icon: <FaPrescription className="text-4xl text-sky-600" />,
             title: "E-Prescriptions",
             description: "Doctors can send prescriptions directly to pharmacies, eliminating paper prescriptions and reducing errors.",
             features: ["Digital prescriptions", "Pharmacy integration", "Refill requests"]
@@ -85,7 +85,7 @@ const Services = () => {
     };
 
     return (
-        <section className="py-16 bg-gradient-to-b from-blue-50 to-teal-50" id="services">
+        <section className="py-16 bg-gradient-to-b from-teal-50 via-blue-50 to-white" id="services">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <motion.div
@@ -112,8 +112,8 @@ const Services = () => {
                     className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
                 >
                     {stats.map((stat, index) => (
-                        <div key={index} className="bg-white rounded-xl p-6 text-center shadow-md">
-                            <div className="text-2xl md:text-3xl font-bold text-teal-600 mb-2">{stat.value}</div>
+                        <div key={index} className="bg-white rounded-2xl p-6 text-center shadow-md border border-teal-100">
+                            <div className="text-2xl md:text-3xl font-bold text-teal-700 mb-2">{stat.value}</div>
                             <div className="text-gray-600">{stat.label}</div>
                         </div>
                     ))}
@@ -131,7 +131,7 @@ const Services = () => {
                         <motion.div
                             key={index}
                             variants={item}
-                            className="bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+                            className="bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-teal-100"
                         >
                             <div className="p-6">
                                 <div className="flex justify-center mb-4">{service.icon}</div>
@@ -160,15 +160,15 @@ const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                     viewport={{ once: true }}
-                    className="mt-16 bg-gradient-to-r from-blue-600 to-teal-600 rounded-2xl p-8 md:p-12 text-center text-white"
+                    className="mt-16 bg-gradient-to-r from-teal-600 to-blue-600 rounded-2xl p-8 md:p-12 text-center text-white"
                 >
                     <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to transform your healthcare experience?</h3>
-                    <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+                    <p className="text-teal-100 mb-6 max-w-2xl mx-auto">
                         Join thousands of patients and healthcare providers who trust MediVault with their medical data and practice management.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
                         <button onClick={() => handleNavigation("/register")}
-                            className="bg-white text-blue-600 font-semibold py-3 px-8 rounded-lg hover:bg-blue-50 transition-colors">
+                            className="bg-white text-teal-700 font-semibold py-3 px-8 rounded-lg hover:bg-teal-50 transition-colors">
                             Get Started as Patient
                         </button>
                         <button onClick={() => handleNavigation("/doctorregister")}

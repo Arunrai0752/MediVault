@@ -25,22 +25,22 @@ const Home = () => {
 
   const features = [
     {
-      icon: <FaShieldAlt className="text-4xl text-blue-600" />,
+      icon: <FaShieldAlt className="text-4xl text-teal-600" />,
       title: "Secure Health Records",
       description: "Your medical data is encrypted and securely stored with advanced security protocols.",
-      gradient: "from-blue-50 to-blue-100"
+      gradient: "from-teal-50 to-teal-100"
     },
     {
-      icon: <MdAccessibility className="text-4xl text-green-600" />,
+      icon: <MdAccessibility className="text-4xl text-emerald-600" />,
       title: "Easy Access",
       description: "Access your health records anytime, anywhere with our user-friendly platform.",
-      gradient: "from-green-50 to-green-100"
+      gradient: "from-emerald-50 to-emerald-100"
     },
     {
-      icon: <FaClinicMedical className="text-4xl text-purple-600" />,
+      icon: <FaClinicMedical className="text-4xl text-cyan-600" />,
       title: "Doctor Connectivity",
       description: "Seamlessly connect with healthcare professionals for better treatment outcomes.",
-      gradient: "from-purple-50 to-purple-100"
+      gradient: "from-cyan-50 to-blue-50"
     },
     {
       icon: <FaAmbulance className="text-4xl text-red-500" />,
@@ -55,10 +55,10 @@ const Home = () => {
       gradient: "from-teal-50 to-teal-100"
     },
     {
-      icon: <FaCalendarCheck className="text-4xl text-orange-500" />,
+      icon: <FaCalendarCheck className="text-4xl text-sky-600" />,
       title: "Appointment Management",
       description: "Schedule, reschedule, and manage your doctor appointments with ease.",
-      gradient: "from-orange-50 to-orange-100"
+      gradient: "from-sky-50 to-blue-50"
     }
   ];
 
@@ -101,10 +101,10 @@ const Home = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 overflow-hidden">
+    <main className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white overflow-hidden">
       {/* Hero Section */}
       <section className="relative bg-[url('MedicVaultHome.png')] bg-cover bg-no-repeat h-screen text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-teal-900/30 via-blue-900/20 to-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 flex flex-col md:flex-row items-center justify-between">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -113,9 +113,9 @@ const Home = () => {
             className="md:w-1/2 mb-10 md:mb-0 top-40 relative "
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-              Your Health, <span className="text-blue-200">Our Priority</span>
+              Your Health, <span className="text-teal-200">Our Priority</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
+            <p className="text-xl md:text-2xl mb-8 text-teal-100">
               Secure, accessible, and comprehensive healthcare management for patients and providers.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -123,7 +123,7 @@ const Home = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleNavigation("/register")}
-                className="bg-white text-blue-600 font-semibold py-3 px-8 rounded-lg hover:bg-blue-50 transition-all duration-300 flex items-center justify-center shadow-lg"
+                className="bg-white text-teal-700 font-semibold py-3 px-8 rounded-lg hover:bg-teal-50 transition-all duration-300 flex items-center justify-center shadow-lg"
               >
                 <FaUserInjured className="mr-2" />
                 Get Started as Patient
@@ -132,7 +132,7 @@ const Home = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleNavigation("/doctorregister")}
-                className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center justify-center"
+                className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center justify-center backdrop-blur-sm"
               >
                 <FaUserMd className="mr-2" />
                 Join as Doctor
@@ -157,7 +157,7 @@ const Home = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              Why Choose <span className="text-blue-600">MediVault</span>?
+              Why Choose <span className="text-teal-600">MediVault</span>?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               We provide a comprehensive platform that revolutionizes how you manage your healthcare
@@ -175,7 +175,7 @@ const Home = () => {
               <motion.div
                 key={index}
                 variants={item}
-                className={`bg-gradient-to-br ${feature.gradient} rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100`}
+                className={`bg-gradient-to-br ${feature.gradient} rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-teal-100`}
               >
                 <div className="flex justify-center mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-semibold text-gray-800 text-center mb-3">
@@ -242,7 +242,7 @@ const Home = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleNavigation(service.path)}
-                      className={`bg-${service.color}-600 hover:bg-${service.color}-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 inline-flex items-center`}
+                      className={`${service.color === 'blue' ? 'bg-blue-600 hover:bg-blue-700' : 'bg-teal-600 hover:bg-teal-700'} text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 inline-flex items-center shadow-sm`}
                     >
                       {service.buttonText}
                       <svg
@@ -269,7 +269,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-blue-600 text-white">
+      <section className="py-16 bg-gradient-to-r from-teal-600 to-blue-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -280,14 +280,14 @@ const Home = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Ready to Transform Your Healthcare Experience?
             </h2>
-            <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-teal-100 mb-8 max-w-3xl mx-auto">
               Join thousands of patients and healthcare providers who trust MediVault with their medical data.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleNavigation("/register")}
-              className="bg-white text-blue-600 font-semibold py-3 px-8 rounded-lg hover:bg-blue-50 transition-all duration-300 inline-flex items-center shadow-lg"
+              className="bg-white text-teal-700 font-semibold py-3 px-8 rounded-lg hover:bg-teal-50 transition-all duration-300 inline-flex items-center shadow-lg"
             >
               Get Started Now
               <svg

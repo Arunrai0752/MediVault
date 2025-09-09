@@ -22,7 +22,7 @@ const DoctorDash = () => {
   }, [])
 
   return (
-    <main className='flex h-fit overflow-hidden'>
+    <main className='flex h-fit overflow-hidden bg-gradient-to-br from-teal-50 via-blue-50 to-white'>
 
       <div className='fixed h-full'>
         <Sidebar active={active} setActive={setActive} />

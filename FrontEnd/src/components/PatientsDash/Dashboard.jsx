@@ -154,11 +154,11 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className='min-h-screen bg-gray-100  p-4   md:p-6'>
+    <div className='min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white p-4   md:p-6'>
       <div className='max-w-7xl mx-auto space-y-6 '>
-        <div className='bg-white rounded-xl shadow-sm p-6'>
+        <div className='bg-white rounded-xl shadow-sm p-6 border border-teal-100'>
           <div className='flex flex-col md:flex-row items-center gap-6'>
-            <div className='w-24 h-24 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center text-3xl font-bold text-white'>
+            <div className='w-24 h-24 rounded-full bg-gradient-to-r from-teal-500 to-blue-600 flex items-center justify-center text-3xl font-bold text-white'>
               {patientData.fullName?.charAt(0) || 'U'}
             </div>
             <div className='flex-1 w-full'>
@@ -181,7 +181,7 @@ const Dashboard = () => {
             <div className='flex gap-3'>
               <button
                 onClick={handleBookAppointment}
-                className='bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all shadow-md hover:shadow-lg'
+                className='bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all shadow-md hover:shadow-lg'
               >
                 <FaCalendarAlt /> Request Appointment
               </button>
@@ -191,9 +191,9 @@ const Dashboard = () => {
 
         {/* Health Stats Cards */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-          <div className='bg-white rounded-xl shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-all duration-300 border-l-4 border-blue-500'>
-            <div className='bg-blue-100 p-3 rounded-full'>
-              <FaHeartbeat className='text-blue-600 text-xl' />
+          <div className='bg-white rounded-xl shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-all duration-300 border-l-4 border-teal-500'>
+            <div className='bg-teal-100 p-3 rounded-full'>
+              <FaHeartbeat className='text-teal-600 text-xl' />
             </div>
             <div>
               <h3 className='text-gray-500 text-sm'>Height</h3>
@@ -237,7 +237,7 @@ const Dashboard = () => {
             <div className='bg-white rounded-xl shadow-sm p-6  h-[40vh] overflow-y-auto'>
               <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6'>
                 <div className='flex items-center gap-3 mb-3 sm:mb-0'>
-                  <FaCalendarAlt className='text-blue-600 text-2xl' />
+                  <FaCalendarAlt className='text-teal-600 text-2xl' />
                   <h2 className='text-xl font-bold text-gray-800'> Upcoming Appointments</h2>
                 </div>
 
@@ -304,7 +304,7 @@ const Dashboard = () => {
 
 
                       <div className='mt-3 flex  gap-3 pt-3 border-t border-gray-100'>
-                        <button className='text-blue-600 hover:text-red-400 text-sm font-medium px-3 py-1 bg-blue-50 rounded-md'>
+                        <button className='text-teal-700 hover:text-teal-900 text-sm font-medium px-3 py-1 bg-teal-50 rounded-md'>
                           Cancel
                           &
                           Reschedule
@@ -325,7 +325,7 @@ const Dashboard = () => {
             <div className='bg-white rounded-xl shadow-sm p-6'>
               <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6'>
                 <div className='flex items-center gap-3 mb-3 sm:mb-0'>
-                  <FaFileMedical className='text-blue-600 text-2xl' />
+                  <FaFileMedical className='text-teal-600 text-2xl' />
                   <h2 className='text-xl font-bold text-gray-800'>Medical Reports</h2>
                 </div>
 
@@ -350,7 +350,7 @@ const Dashboard = () => {
                         <p className='text-gray-500 text-sm'>{report.date}</p>
                         <button
                           onClick={() => handleDownload(report.fileUrl , `${report.reportType}`)}
-                          className='text-blue-600 hover:text-blue-800 text-sm mt-1 flex items-center gap-1 sm:justify-end w-full sm:w-auto'
+                          className='text-teal-700 hover:text-teal-900 text-sm mt-1 flex items-center gap-1 sm:justify-end w-full sm:w-auto'
                         >
                           View Report <FaArrowRight className='text-xs' />
                         </button>

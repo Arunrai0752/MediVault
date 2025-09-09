@@ -10,9 +10,9 @@ const Sidebar = ({ active, setActive }) => {
     ];
 
     return (
-        <div className="h-screen w-85  bg-gradient-to-b from-blue-500 to-gray-100 shadow-lg">
-            <div className="w-full flex justify-center border-b border-gray-200 p-6">
-                <h1 className="text-3xl font-semibold text-yellow-500">
+        <div className="h-screen w-85 bg-gradient-to-b from-teal-700 via-teal-600 to-teal-500 text-white shadow-lg">
+            <div className="w-full flex justify-center border-b border-teal-500/40 p-6">
+                <h1 className="text-3xl font-semibold">
                     Patient Dashboard
                 </h1>
             </div>
@@ -24,8 +24,8 @@ const Sidebar = ({ active, setActive }) => {
                             key={item.id}
                             className={`px-4 py-3 rounded-lg text-center cursor-pointer transition-all duration-300
                                 ${active === item.id ? 
-                                    'bg-blue-600 text-white shadow-md' : 
-                                    'bg-white text-gray-700 hover:bg-blue-100 hover:text-blue-600 border border-gray-200'}
+                                    'bg-white text-teal-800 shadow-md' : 
+                                    'bg-teal-600/30 text-teal-50 hover:bg-teal-500/40 hover:text-white border border-teal-400/30'}
                                 hover:shadow-md hover:scale-[1.02] active:scale-100`}
                             onClick={() => setActive(item.id)}
                         >

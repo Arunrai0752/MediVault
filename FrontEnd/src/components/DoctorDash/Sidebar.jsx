@@ -19,8 +19,8 @@ const Sidebar = ({ active, setActive }) => {
   }
  
   return (
-    <aside className='w-70 h-[92vh] bg-teal-700 text-white flex flex-col'>
-      <div className='border-b border-teal-600'>
+    <aside className='w-70 h-[92vh] bg-gradient-to-b from-teal-700 via-teal-600 to-teal-500 text-white flex flex-col shadow-lg'>
+      <div className='border-b border-teal-500/40'>
         <h1 className='text-center text-3xl p-4'>
           Doctor Dashboard
         </h1>
@@ -34,7 +34,7 @@ const Sidebar = ({ active, setActive }) => {
                 onClick={() => setActive(item.name)}
                 className={({ isActive }) => 
                   `flex items-center w-full p-3 rounded-lg transition-colors ${
-                    isActive ? 'bg-teal-600 text-white' : 'hover:bg-teal-800 text-teal-100'
+                    isActive ? 'bg-white text-teal-800' : 'bg-teal-600/30 hover:bg-teal-500/40 text-teal-50'
                   }`
                 }
                 aria-current={active === item.name ? "page" : undefined}
