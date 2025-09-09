@@ -491,3 +491,25 @@ export const FetchAllReports = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const FetchAllDoctors = async (req, res, next) => {
+  try {
+    const doctors = await Doctor.find({});
+
+    if (!doctors || doctors.length === 0) {
+      return res.status(404).json({
+        message: "No doctors found",
+        data: [],
+      });
+    }
+
+    res.status(200).json({
+      message: "Doctors fetched successfully",
+      data: doctors,
+    });
+  } catch (error) {
+    console.error("Error fetching doctors:", error.message);
+    next(error);
+  }
+};

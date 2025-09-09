@@ -1,5 +1,5 @@
 import express from "express";
-import { DocRegister   , DoctorLogin,UpdateDoctors, FetchAllAppointments , FetchAllReports, GetPatientDetail } from "../Controllers/authController.js";
+import { DocRegister , FetchAllDoctors  , DoctorLogin,UpdateDoctors, FetchAllAppointments , FetchAllReports, GetPatientDetail } from "../Controllers/authController.js";
 import { ProtectDoctor  } from "../Middlewares/authmiddleWare.js";
 
 
@@ -12,6 +12,7 @@ router.put("/update/:Did", ProtectDoctor ,   UpdateDoctors)
 router.get("/patient/:id" , ProtectDoctor , GetPatientDetail)
 router.get("/PatientAppointments/:id" , FetchAllAppointments );
 router.get("/PatientReports/:id" , FetchAllReports );
+router.get("/FetchAll" , FetchAllDoctors );
 
 
 

@@ -35,6 +35,8 @@ const Navbar = () => {
     navigate("/");
   };
 
+  
+
   useEffect(() => {
     checkLoginStatus();
   }, []);
@@ -76,16 +78,16 @@ const Navbar = () => {
                 <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full"></span>
               </Link>
 
-              {isLoggedIn && (
-                <Link
-                  to={userData?.role === "Doctor" ? "/doctordash" : "/patientDashboard"}
-                  className="relative text-gray-700 hover:text-teal-700 px-3 py-2 text-sm font-medium transition-colors flex items-center group"
-                >
-                  <CiUser className="mr-1 h-5 w-5" />
-                  Dashboard
-                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full"></span>
-                </Link>
-              )}
+              <Link
+                to="/doctors"
+                className="relative text-gray-700 hover:text-teal-700 px-3 py-2 text-sm font-medium transition-colors flex items-center group"
+              >
+                <FaUserMd className="mr-1 text-teal-600" />
+                Doctors
+                <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full"></span>
+              </Link>
+
+            
             </div>
           </div>
 
@@ -122,7 +124,7 @@ const Navbar = () => {
                 <div className="flex items-center bg-teal-50 px-3 py-1 rounded-full border border-teal-100">
                   <CiUser className="text-teal-700 mr-2" />
                   <span className="text-sm text-teal-800">
-                    {userData?.name || userData?.email}
+                  Dr.  {userData?.fullName || userData?.email}
                   </span>
                 </div>
                 
@@ -134,7 +136,20 @@ const Navbar = () => {
                 </button>
               </div>
             )}
+
+              {isLoggedIn && (
+                <Link
+                  to={userData?.role === "Doctor" ? "/doctordash" : "/patientDashboard"}
+                  className="relative text-gray-700 hover:text-teal-700 px-3 py-2 text-sm font-medium transition-colors flex items-center group"
+                >
+                  <CiUser className="mr-1 h-5 w-5" />
+                  Dashboard
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full"></span>
+                </Link>
+              )}
           </div>
+
+          
 
           <div className="md:hidden flex items-center">
             <button
@@ -164,6 +179,14 @@ const Navbar = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Services
+            </Link>
+
+            <Link
+              to="/doctors"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-700 hover:bg-teal-50"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Doctors
             </Link>
             
             {!isLoggedIn ? (
@@ -200,7 +223,7 @@ const Navbar = () => {
             ) : (
               <>
                 <div className="px-3 py-2 text-sm text-teal-700 border-b border-teal-100">
-                  Welcome, {userData?.name || userData?.email}
+                  Welcome, {userData?.fullNAme || userData?.email}
                 </div>
                 <Link
                   to={userData?.role === "Doctor" ? "/doctordash" : "/patientDashboard"}
