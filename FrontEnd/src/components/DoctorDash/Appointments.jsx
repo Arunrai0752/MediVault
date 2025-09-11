@@ -20,10 +20,11 @@ import api from '../../../Configs/api';
 import { useAuth } from '../../Context/authContext';
 import SetAppointments from './SetAppoinments';
 import RescheduleAppoinmet from './RescheduleAppoinmet';
+import toast from 'react-hot-toast';
 
 const Appointments = () => {
   const [activeTab, setActiveTab] = useState('upcoming');
-  const [activeNote, setActiveNote] = useState(false);
+  const [activeNoteId, setActiveNoteId] = useState(null);
   const [activeReschedule, setActiveReschedule] = useState(false);
   const [noteText, setNoteText] = useState("");
   const [activeAppointmentTab, setActiveAppointmentTab] = useState(false);
@@ -34,6 +35,7 @@ const Appointments = () => {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
+  
   const categorizeAppointments = (appointments) => {
     return {
       upcoming: appointments.filter(app =>
@@ -112,8 +114,14 @@ const Appointments = () => {
 
   const handleSaveNote = async (appointmentId) => {
     try {
-      await api.put(`/doctor/appointments/${appointmentId}/notes`, { notes: noteText });
-      setActiveNote(false);
+      
+     const res =   await api.put(`/doctor/appointments/${appointmentId}/notes`, { notes: noteText });
+      setAppointments(prev =>
+        prev.map(app => app._id === appointmentId ? { ...app, notes: noteText } : app)
+      );
+      setActiveNoteId(null);
+      setNoteText("");
+      toast.success(res.data.message)
     } catch (err) {
       console.error("Error saving note:", err);
     }
@@ -322,20 +330,26 @@ const Appointments = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="hidden lg:flex flex-col items-end">
+                        <div className="hidden lg:flex  items-end">
                           {getStatusBadge(appointment.status)}
                           <span className="mt-2 text-xs text-gray-500 bg-gray-100 rounded-full px-3 py-1">
                             {appointment.appointmentType}
                           </span>
                         </div>
+
+                        
                       </div>
+
+                         
+                        
 
                       <div className="flex flex-wrap items-center gap-4 mt-4">
                         <div className="flex items-center text-sm text-gray-600 bg-teal-50 px-3 py-1.5 rounded-lg">
                           <FaCalendarAlt className="mr-2 text-teal-600" />
                           <span className="font-medium">{formatDate(appointment.date)}</span>
+                          
                         </div>
-                        <div className="flex items-center text-sm text-gray-600 bg-teal-50 px-3 py-1.5 rounded-lg">
+                        <div className="flex items-center   text-sm text-gray-600 bg-teal-50 px-3 py-1.5 rounded-lg">
                           <FaClock className="mr-2 text-teal-600" />
                           <span className="font-medium">{formatTime(appointment.time)}</span>
                         </div>
@@ -349,7 +363,7 @@ const Appointments = () => {
                         </div>
 
                         <div>
-                          {activeNote && (
+                          {activeNoteId === appointment._id && (
                             <div className="h-[10vh] w-[40vw] p-2 absolute bg-white bottom-10 left-100 shadow-lg rounded-lg border">
                               <h1 className="text-sm font-medium text-gray-700 mb-2">Notes</h1>
                               <input
@@ -367,7 +381,7 @@ const Appointments = () => {
                                   Save
                                 </button>
                                 <button
-                                  onClick={() => setActiveNote(false)}
+                                  onClick={() => { setActiveNoteId(null); setNoteText(""); }}
                                   className="bg-gray-300 text-black px-3 py-1 rounded-md text-xs"
                                 >
                                   Cancel
@@ -405,7 +419,7 @@ const Appointments = () => {
                               Reschedule
                             </button>
                             <button
-                              onClick={() => setActiveNote(true)}
+                              onClick={() => { setActiveNoteId(appointment._id); setNoteText(appointment.notes || ""); }}
                               className="px-4 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700 transition-colors flex items-center">
                               <FaNotesMedical className="mr-1" /> Notes
                             </button>
@@ -464,7 +478,7 @@ const Appointments = () => {
                           Reschedule
                         </button>
                         <button
-                          onClick={() => setActiveNote(true)}
+                          onClick={() => { setActiveNoteId(appointment._id); setNoteText(appointment.notes || ""); }}
 
                           className="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
                           <FaNotesMedical className="mr-1" /> Notes

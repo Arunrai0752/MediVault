@@ -263,13 +263,14 @@ export const updateAppointmentNotes = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { notes } = req.body;
+        
 
 
         if (!id || !notes) {
             return res.status(400).json({ message: "Appointment ID and status required" });
         }
 
-        const appointment = await Appointment.findById(id);
+        const appointment = await Appointment.findByIdAndUpdate(id , { notes: notes });
 
         if (!appointment) {
             return res.status(404).json({ message: "Appointment not found" });
@@ -277,9 +278,7 @@ export const updateAppointmentNotes = async (req, res, next) => {
 
 
 
-        appointment.notes = notes;
-
-        await appointment.save();
+       
 
         res.status(200).json({
             message: "Appointment Notes updated successfully",

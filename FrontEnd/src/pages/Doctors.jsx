@@ -30,7 +30,7 @@ const Doctors = () => {
     const navigate = useNavigate();
 
     const filteredDoctors = allDoctors.filter((doctor) =>
-        doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase())
+        doctor.specialization.toLowerCase().includes(searchTerm.toLowerCase()) ||   doctor.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||  doctor.phone.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const FetchAllDoctors = async () => {
@@ -68,11 +68,10 @@ const Doctors = () => {
                     </p>
                 </motion.div>
 
-                {/* Search Bar */}
                 <div className="mb-10 flex justify-center">
                     <input
                         type="text"
-                        placeholder="Search by specialization (e.g., Cardiologist)"
+                        placeholder="Search by Specialization / Name / Number  "
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full max-w-md px-4 py-3 rounded-lg border border-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-500"

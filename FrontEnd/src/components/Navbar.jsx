@@ -13,7 +13,7 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const checkLoginStatus = () => {
     if (user) {
@@ -25,6 +25,8 @@ const Navbar = () => {
       }
     }
   };
+  
+  
 
   const handleLogout = () => {
     sessionStorage.removeItem("Medi_vaultUser");
@@ -35,7 +37,9 @@ const Navbar = () => {
     navigate("/");
   };
 
-  
+
+
+
 
   useEffect(() => {
     checkLoginStatus();
@@ -46,8 +50,8 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center space-x-6">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="flex-shrink-0 flex items-center"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -78,6 +82,7 @@ const Navbar = () => {
                 <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full"></span>
               </Link>
 
+              {user.role === "Patient" && 
               <Link
                 to="/doctors"
                 className="relative text-gray-700 hover:text-teal-700 px-3 py-2 text-sm font-medium transition-colors flex items-center group"
@@ -86,8 +91,8 @@ const Navbar = () => {
                 Doctors
                 <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full"></span>
               </Link>
+             } 
 
-            
             </div>
           </div>
 
@@ -101,7 +106,7 @@ const Navbar = () => {
                   <CiLogin className="mr-2" />
                   Login
                 </Link>
-                
+
                 <div className="flex space-x-2">
                   <Link
                     to="/doctorregister"
@@ -124,10 +129,10 @@ const Navbar = () => {
                 <div className="flex items-center bg-teal-50 px-3 py-1 rounded-full border border-teal-100">
                   <CiUser className="text-teal-700 mr-2" />
                   <span className="text-sm text-teal-800">
-                  Dr.  {userData?.fullName || userData?.email}
+                    Dr.  {userData?.fullName || userData?.email}
                   </span>
                 </div>
-                
+
                 <button
                   onClick={handleLogout}
                   className="flex items-center bg-gray-100 text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-200 transition-all shadow-sm"
@@ -137,19 +142,19 @@ const Navbar = () => {
               </div>
             )}
 
-              {isLoggedIn && (
-                <Link
-                  to={userData?.role === "Doctor" ? "/doctordash" : "/patientDashboard"}
-                  className="relative text-gray-700 hover:text-teal-700 px-3 py-2 text-sm font-medium transition-colors flex items-center group"
-                >
-                  <CiUser className="mr-1 h-5 w-5" />
-                  Dashboard
-                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full"></span>
-                </Link>
-              )}
+            {isLoggedIn && (
+              <Link
+                to={userData?.role === "Doctor" ? "/doctordash" : "/patientDashboard"}
+                className="relative text-gray-700 hover:text-teal-700 px-3 py-2 text-sm font-medium transition-colors flex items-center group"
+              >
+                <CiUser className="mr-1 h-5 w-5" />
+                Dashboard
+                <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-full"></span>
+              </Link>
+            )}
           </div>
 
-          
+
 
           <div className="md:hidden flex items-center">
             <button
@@ -172,7 +177,7 @@ const Navbar = () => {
             >
               Home
             </Link>
-            
+
             <Link
               to="/service"
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-teal-700 hover:bg-teal-50"
@@ -188,7 +193,7 @@ const Navbar = () => {
             >
               Doctors
             </Link>
-            
+
             {!isLoggedIn ? (
               <>
                 <Link
@@ -199,7 +204,7 @@ const Navbar = () => {
                   <CiLogin className="mr-2" />
                   Login
                 </Link>
-                
+
                 <div className="border-t border-teal-100 pt-2 mt-2">
                   <div className="px-3 py-1 text-xs text-teal-600 uppercase font-semibold">Register as:</div>
                   <Link
