@@ -59,7 +59,7 @@ const Register = () => {
   const navigate = useNavigate();
   
   return (
-    <main className='min-h-[92vh] bg-gradient-to-br from-teal-50 via-blue-50 to-white w-full flex justify-center items-center p-4'>
+    <main className='min-h-[100vh] bg-gradient-to-br from-teal-50 via-blue-50 to-white w-full flex justify-center items-center p-4'>
       <motion.div
       animate={{ x:[-2,2,-2,0]}} 
       transition={{ duration: 0.2}}

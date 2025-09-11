@@ -65,8 +65,8 @@ const DoctorRegister = () => {
   ];
 
   return (
-    <main className="h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white w-full flex justify-center items-center p-2 overflow-hidden">
-      <div className="h-[95vh] w-full max-w-5xl bg-white/90 rounded-2xl p-3 flex flex-col shadow-2xl backdrop-blur-sm border border-teal-100 overflow-y-auto">
+    <main className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white w-full flex justify-center items-center p-2 overflow-hidden">
+      <div className="min-h-[100vh] w-full max-w-5xl bg-white/90 rounded-2xl p-3 flex flex-col shadow-2xl backdrop-blur-sm border border-teal-100 overflow-y-auto pt-20">
         <div className="flex justify-between items-center border-b border-gray-200 pb-2 mb-3">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-gray-800">

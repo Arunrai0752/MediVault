@@ -2,8 +2,8 @@ import React from 'react'
 
 const About = () => {
   return (
-    <main className='w-full min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white pt-16 pb-20 px-4'>
-     
+    <main className='w-full min-h-screen bg-teal-50 py-40 px-4'>
+
       <div className='flex justify-center mb-12'>
         <h1 className='text-4xl md:text-5xl lg:text-6xl font-bold text-gray-700 pb-4 border-b-4 border-teal-500'>
           About <span className='text-teal-600'>MediVault</span>
@@ -11,7 +11,7 @@ const About = () => {
       </div>
 
       <div className='w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4'>
-       
+
         <div className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-teal-100 hover:-translate-y-1'>
           <div className='h-60 bg-gradient-to-br from-teal-50 to-blue-50 flex items-center justify-center'>
             <svg className="w-24 h-24 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -55,13 +55,16 @@ const About = () => {
         </div>
       </div>
 
-      <div className='mt-20 max-w-4xl mx-auto text-center px-4'>
-        <h2 className='text-3xl font-bold text-gray-800 mb-6'>Our Mission</h2>
-        <p className='text-lg text-gray-600 leading-relaxed'>
-          At MediVault, we're revolutionizing healthcare by bridging the gap between patients and doctors through technology. 
-          Our platform ensures seamless communication, secure medical record management, and timely healthcare services 
-          to empower both patients and medical professionals.
-        </p>
+      <div className='mt-20 max-w-4xl min-h-[60vh]  flex  items-center mx-auto text-center px-4'>
+        <div>
+
+          <h2 className='text-3xl font-bold text-gray-800 mb-6'>Our Mission</h2>
+          <p className='text-lg text-gray-600 leading-relaxed'>
+            At MediVault, we're revolutionizing healthcare by bridging the gap between patients and doctors through technology.
+            Our platform ensures seamless communication, secure medical record management, and timely healthcare services
+            to empower both patients and medical professionals.
+          </p>
+        </div>
       </div>
     </main>
   )
