@@ -59,7 +59,6 @@ const Profile = () => {
       setIsLoading(true);
       if (user.role === "Doctor") {
         
-        // Ensure arrays are properly initialized
         const services = Array.isArray(user.services) ? user.services : [];
         const languages = Array.isArray(user.languages) ? user.languages : [];
         const education = Array.isArray(user.education) ? user.education : [];
@@ -89,7 +88,6 @@ const Profile = () => {
     toast.success("Profile updated successfully!");
   };
 
-  // Render loading state
   if (isLoading) {
     return (
       <main className='p-4 md:p-6 bg-teal-50 min-h-screen flex items-center justify-center'>
@@ -119,7 +117,7 @@ const Profile = () => {
             <div className='relative mb-4 md:mb-0 md:mr-6'>
               <div className='w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white shadow-lg overflow-hidden'>
                 <img
-                  src="Profile.png"
+                  src={userData.photo || `https://dummyimage.com/400x400/0099ff/ffffff&text=${userData.fullName.split(" ")[0]}`}
                   alt="Doctor Profile"
                   className='w-full h-full object-cover'
                 />

@@ -46,7 +46,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="absolute fixed w-screen top-0 z-50 bg-white/70 backdrop-blur-md shadow-md border-b border-teal-100">
+    <nav className=" sticky w-screen top-0 z-50 bg-white/70 backdrop-blur-md shadow-md border-b border-teal-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center space-x-6">
