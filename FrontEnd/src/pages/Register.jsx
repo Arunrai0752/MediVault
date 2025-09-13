@@ -59,11 +59,11 @@ const Register = () => {
   const navigate = useNavigate();
   
   return (
-    <main className='min-h-[100vh] bg-gradient-to-br from-teal-50 via-blue-50 to-white w-full flex justify-center items-center p-4'>
+    <main className='max-h-[90vh] bg-gradient-to-br from-teal-50 via-blue-50 to-white w-full flex justify-center items-center p-4'>
       <motion.div
       animate={{ x:[-2,2,-2,0]}} 
       transition={{ duration: 0.2}}
-      className='h-auto w-full max-w-4xl bg-white/90 rounded-2xl mt-10 p-6 flex flex-col shadow-2xl backdrop-blur-sm border border-teal-100'>
+      className='h-900px w-full max-w-4xl bg-white/90 rounded-2xl mt-10 p-6 flex flex-col shadow-2xl backdrop-blur-sm border  border-teal-100'>
         <div className='flex justify-between items-center border-b border-gray-300 pb-4 mb-6'>
           <h1 className='text-2xl md:text-3xl font-bold text-gray-800'>
             Patient <span className='text-teal-700'>Registration</span>
