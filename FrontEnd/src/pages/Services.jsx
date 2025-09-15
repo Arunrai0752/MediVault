@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
 
 
 const Services = () => {
@@ -85,7 +86,8 @@ const Services = () => {
     };
 
     return (
-        <section className="py-16 bg-gradient-to-b from-teal-50 via-blue-50 to-white" id="services">
+     <main>
+           <section className="py-16 bg-gradient-to-b from-teal-50 via-blue-50 to-white" id="services">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
                 <motion.div
@@ -154,31 +156,10 @@ const Services = () => {
                     ))}
                 </motion.div>
 
-                {/* CTA Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    viewport={{ once: true }}
-                    className="mt-16 bg-gradient-to-r from-teal-600 to-blue-600 rounded-2xl p-8 md:p-12 text-center text-white"
-                >
-                    <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to transform your healthcare experience?</h3>
-                    <p className="text-teal-100 mb-6 max-w-2xl mx-auto">
-                        Join thousands of patients and healthcare providers who trust MediVault with their medical data and practice management.
-                    </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-4">
-                        <button onClick={() => handleNavigation("/register")}
-                            className="bg-white text-teal-700 font-semibold py-3 px-8 rounded-lg hover:bg-teal-50 transition-colors">
-                            Get Started as Patient
-                        </button>
-                        <button onClick={() => handleNavigation("/doctorregister")}
-                            className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-lg hover:bg-white/10 transition-colors">
-                            Join as Healthcare Provider
-                        </button>
-                    </div>
-                </motion.div>
             </div>
         </section>
+            <Footer/>
+     </main>
     );
 };
 

@@ -11,10 +11,13 @@ import {
   FaCalendarCheck,
   FaChartLine
 } from "react-icons/fa";
-import { MdAccessibility, MdHealthAndSafety } from "react-icons/md";
-import { RiCustomerService2Fill } from "react-icons/ri";
+import { MdAccessibility } from "react-icons/md";
+// import { RiCustomerService2Fill } from "react-icons/ri";
 import About from "../components/About";
 import { motion } from "framer-motion"; 
+import Footer from "../components/Footer";
+
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -145,8 +148,7 @@ const Home = () => {
       
       <About />
 
-      {/* Features Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gradient-to-br from-teal-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -174,7 +176,8 @@ const Home = () => {
               <motion.div
                 key={index}
                 variants={item}
-                className={`bg-gradient-to-br ${feature.gradient} rounded-2xl p-6 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-teal-100`}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className={`bg-gradient-to-br ${feature.gradient} rounded-2xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-teal-100`}
               >
                 <div className="flex justify-center mb-4">{feature.icon}</div>
                 <h3 className="text-xl font-semibold text-gray-800 text-center mb-3">
@@ -218,6 +221,7 @@ const Home = () => {
               <motion.div
                 key={index}
                 variants={item}
+                whileHover={{ scale: 1.02, y: -5 }}
                 className="bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl"
               >
                 <div className="p-8">
@@ -266,47 +270,7 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-teal-600 to-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Transform Your Healthcare Experience?
-            </h2>
-            <p className="text-xl text-teal-100 mb-8 max-w-3xl mx-auto">
-              Join thousands of patients and healthcare providers who trust MediVault with their medical data.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => handleNavigation("/register")}
-              className="bg-white text-teal-700 font-semibold py-3 px-8 rounded-lg hover:bg-teal-50 transition-all duration-300 inline-flex items-center shadow-lg"
-            >
-              Get Started Now
-              <svg
-                className="w-5 h-5 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                ></path>
-              </svg>
-            </motion.button>
-          </motion.div>
-        </div>
-      </section>
+      <Footer/>
     </main>
   );
 };
