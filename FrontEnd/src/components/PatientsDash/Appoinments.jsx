@@ -182,17 +182,7 @@ const Appointments = () => {
           </div>
 
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <div className="relative">
-              <button className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition-shadow text-blue-600">
-                <FaBell size={18} />
-              </button>
-              {unreadNotifications > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {unreadNotifications}
-                </span>
-              )}
-            </div>
-
+            
             <button
               onClick={() => setShowRequestForm(true)}
               className="flex items-center px-4 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
@@ -463,29 +453,6 @@ const Appointments = () => {
 
 
 
-            <div className="bg-white rounded-xl shadow-sm border p-5">
-              <h3 className="text-lg font-semibold text-blue-900 mb-4 flex items-center">
-                <FaBell className="mr-2 text-blue-600" /> Notifications
-              </h3>
-
-              <div className="space-y-4">
-                {notifications.map(notification => (
-                  <div
-                    key={notification.id}
-                    className={`p-3 rounded-lg border ${notification.read ? 'bg-gray-50 border-gray-200' : 'bg-blue-50 border-blue-200'}`}
-                  >
-                    <p className={`text-sm ${notification.read ? 'text-gray-700' : 'text-blue-700 font-medium'}`}>
-                      {notification.message}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
-                  </div>
-                ))}
-
-                {notifications.length === 0 && (
-                  <p className="text-gray-500 text-center py-4">No notifications</p>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </div>

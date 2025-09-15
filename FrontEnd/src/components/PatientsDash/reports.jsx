@@ -1,72 +1,79 @@
-import React, { useState } from 'react';
-import { FaFileMedical, FaPills, FaHistory, FaDownload, FaSearch } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaFileMedical, FaPills, FaHistory, FaDownload, FaSearch , FaArrowRight } from 'react-icons/fa';
 import { MdMedicalServices } from 'react-icons/md';
+import { useAuth } from '../../Context/authContext';
+import api from '../../../Configs/api';
+
+
 
 const reports = () => {
   const [activeTab, setActiveTab] = useState('prescriptions');
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [medicalReports, setMedicalReports] = useState([]);
 
-  // Sample data - replace with actual API calls
-  const prescriptions = [
-    {
-      id: 1,
-      date: '2023-10-15',
-      doctor: 'Dr. Sharma',
-      medicines: [
-        { name: 'Metformin', dosage: '500mg', frequency: 'Twice daily', duration: '30 days' },
-        { name: 'Atorvastatin', dosage: '20mg', frequency: 'Once at bedtime', duration: '30 days' }
-      ],
-      notes: 'Take after meals. Monitor blood sugar regularly.'
-    },
-    {
-      id: 2,
-      date: '2023-09-20',
-      doctor: 'Dr. Patel',
-      medicines: [
-        { name: 'Amoxicillin', dosage: '500mg', frequency: 'Every 8 hours', duration: '7 days' }
-      ],
-      notes: 'Complete full course. May cause mild stomach upset.'
-    }
-  ];
 
-  const medicalReports = [
-    {
-      id: 1,
-      date: '2023-10-10',
-      type: 'Blood Test Report',
-      doctor: 'Dr. Gupta',
-      findings: 'Hemoglobin: 14.2 g/dL, WBC: 7,500/μL, Platelets: 250,000/μL',
-      attachment: 'blood_test_oct2023.pdf'
-    },
-    {
-      id: 2,
-      date: '2023-08-05',
-      type: 'X-Ray Report',
-      doctor: 'Dr. Khan',
-      findings: 'No fractures detected. Mild arthritis in right knee.',
-      attachment: 'xray_report_aug2023.pdf'
-    },
-    {
-      id: 3,
-      date: '2023-06-15',
-      type: 'ECG Report',
-      doctor: 'Dr. Sharma',
-      findings: 'Normal sinus rhythm. No signs of ischemia.',
-      attachment: 'ecg_report_jun2023.pdf'
+  const [prescriptions, setprescriptions] = useState([]);
+  const {user} = useAuth()
+  
+
+  const fetchAllReports = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get(`/user/reports/${user._id}`);
+      if (res.data.success) {
+        setMedicalReports(res.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching reports:', error , "uhewiouhew");
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+   const fetchAllprescriptions = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get(`/user/prescriptions/${user._id}`);
+      if (res.data.success) {
+        setprescriptions(res.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching reports:', error , "uhewiouhew");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+   const handleDownload = (fileUrl, fileName) => {
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.target = "_Blank";
+        link.setAttribute('download', fileName || 'medical-report');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+
 
   const filteredPrescriptions = prescriptions.filter(prescription =>
-    prescription.doctor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    prescription.medicines.some(med => med.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    prescription.doctorId.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    prescription.notes.toLowerCase().includes(searchTerm.toLowerCase()) 
   );
 
   const filteredMedicalReports = medicalReports.filter(report =>
-    report.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    report.doctor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    report.findings.toLowerCase().includes(searchTerm.toLowerCase())
+    (report.reportType?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+    (report.doctorId?.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+    (report.findings?.toLowerCase().includes(searchTerm.toLowerCase()) || false)
   );
 
+  useEffect(() => {
+    fetchAllReports(),
+    fetchAllprescriptions()
+  }, []);
+
+  
   return (
     <div className="p-4 md:p-6 bg-gradient-to-br from-teal-50 via-blue-50 to-white min-h-screen">
       <div className="max-w-6xl mx-auto">
@@ -74,7 +81,6 @@ const reports = () => {
           <FaFileMedical className="mr-2 text-teal-600" /> Medical Records
         </h1>
 
-        {/* Search and Tabs */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6 border border-teal-100">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="relative flex-1">
@@ -113,7 +119,6 @@ const reports = () => {
           </div>
         </div>
 
-        {/* Content Area */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden border border-teal-100">
           {activeTab === 'prescriptions' && (
             <div className="p-4">
@@ -128,29 +133,33 @@ const reports = () => {
               ) : (
                 <div className="space-y-6">
                   {filteredPrescriptions.map((prescription) => (
-                    <div key={prescription.id} className="border border-teal-100 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex justify-between items-start mb-3">
+                    <div key={prescription._id} className="border border-teal-100 rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3'>
                         <div>
-                          <h3 className="font-medium text-lg text-teal-700">Prescription #{prescription.id}</h3>
-                          <p className="text-gray-600">Date: {prescription.date}</p>
-                          <p className="text-gray-600">Prescribed by: {prescription.doctor}</p>
+                          <h3 className='font-medium text-lg'>{prescription.reportType}</h3>
+                          <div className='flex flex-wrap gap-2 mt-1'>
+                            <span className='bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs'>
+                              Dr. {prescription.doctorId.fullName}
+                            </span>
+                            <span className='bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs'>
+                              {prescription.doctorId.hospital}
+                            </span>
+                          </div>
                         </div>
-                        <button className="text-teal-700 hover:text-teal-900 px-3 py-1 rounded-md border border-teal-200 bg-teal-50 flex items-center">
-                          <FaDownload className="mr-2" /> Download
-                        </button>
+                        <div className='sm:text-right'>
+                          <p className='text-gray-500 text-sm'>{prescription.date}</p>
+                          <button
+                            onClick={() => handleDownload(prescription.fileUrl, `${prescription.reportType}`)}
+                            className='text-teal-700 hover:text-teal-900 text-sm mt-1 flex items-center gap-1 sm:justify-end w-full sm:w-auto'
+                          >
+                            View Report <FaArrowRight className='text-xs' />
+                          </button>
+
+
+                        </div>
                       </div>
 
-                      <div className="mb-4">
-                        <h4 className="font-medium text-gray-800 mb-2">Medications:</h4>
-                        <div className="space-y-2">
-                          {prescription.medicines.map((medicine, index) => (
-                            <div key={index} className="pl-4 border-l-2 border-teal-200">
-                              <p className="font-medium">{medicine.name} - {medicine.dosage}</p>
-                              <p className="text-gray-600 text-sm">Frequency: {medicine.frequency} for {medicine.duration}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                      
 
                       {prescription.notes && (
                         <div className="bg-amber-50 border-l-4 border-amber-400 p-3 rounded-r">
@@ -179,21 +188,32 @@ const reports = () => {
                 <div className="space-y-4">
                   {filteredMedicalReports.map((report) => (
                     <div key={report.id} className="border border-teal-100 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex justify-between items-start">
+                      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3'>
                         <div>
-                          <h3 className="font-medium text-lg text-teal-700">{report.type}</h3>
-                          <p className="text-gray-600">Date: {report.date}</p>
-                          <p className="text-gray-600">Report by: {report.doctor}</p>
+                          <h3 className='font-medium text-lg'>{report.reportType}</h3>
+                          <div className='flex flex-wrap gap-2 mt-1'>
+                            <span className='bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs'>
+                              Dr. {report.doctorId.fullName}
+                            </span>
+                            <span className='bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs'>
+                              {report.doctorId.hospital}
+                            </span>
+                          </div>
                         </div>
-                        <button className="text-teal-700 hover:text-teal-900 px-3 py-1 rounded-md border border-teal-200 bg-teal-50 flex items-center">
-                          <FaDownload className="mr-2" /> Download
-                        </button>
+                        <div className='sm:text-right'>
+                          <p className='text-gray-500 text-sm'>{report.date}</p>
+                          <button
+                            onClick={() => handleDownload(report.fileUrl, `${report.reportType}`)}
+                            className='text-teal-700 hover:text-teal-900 text-sm mt-1 flex items-center gap-1 sm:justify-end w-full sm:w-auto'
+                          >
+                            View Report <FaArrowRight className='text-xs' />
+                          </button>
+
+
+                        </div>
                       </div>
 
-                      <div className="mt-3">
-                        <h4 className="font-medium text-gray-800 mb-1">Findings:</h4>
-                        <p className="text-gray-700">{report.findings}</p>
-                      </div>
+
                     </div>
                   ))}
                 </div>

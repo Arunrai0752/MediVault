@@ -30,7 +30,7 @@ const Profile = () => {
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white p-6">
       <div className="max-w-6xl mx-auto">
         <div className='flex justify-between items-center p-4 mb-6'>
-          <h1 className="text-3xl font-bold text-gray-800">Health Profile</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Patient Profile</h1>
           <button
             onClick={() => setIsEditModelOpen(true)}
             className='flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors'
@@ -40,41 +40,7 @@ const Profile = () => {
         </div>
 
         <div className="bg-white rounded-xl shadow-md p-6 mb-6 border border-teal-100">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <div className="bg-teal-50 p-4 rounded-lg border border-teal-100">
-              <div className="flex items-center gap-3 mb-2">
-                <MdBloodtype className="text-red-500 text-xl" />
-                <h3 className="font-medium">Blood Group</h3>
-              </div>
-              <p className="text-gray-700">{patientData.bloodGroup || "Not specified"}</p>
-            </div>
-
-            <div className="bg-green-50 p-4 rounded-lg border border-green-100">
-              <div className="flex items-center gap-3 mb-2">
-                <FaHeartbeat className="text-green-500 text-xl" />
-                <h3 className="font-medium">Height</h3>
-              </div>
-              <p className="text-gray-700">{patientData.height || "Not specified"}</p>
-            </div>
-
-            <div className="bg-cyan-50 p-4 rounded-lg border border-cyan-100">
-              <div className="flex items-center gap-3 mb-2">
-                <FaHeartbeat className="text-cyan-600 text-xl" />
-                <h3 className="font-medium">Weight</h3>
-              </div>
-              <p className="text-gray-700">{patientData.weight || "Not specified"}</p>
-            </div>
-
-            <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
-              <div className="flex items-center gap-3 mb-2">
-                <FaCalendarAlt className="text-yellow-500 text-xl" />
-                <h3 className="font-medium">Last Checkup</h3>
-              </div>
-              <p className="text-gray-700">{patientData.lastCheckup || "No record"}</p>
-            </div>
-          </div>
-
-          {/* Personal Information Section */}
+         
           <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
             <div className="flex items-center gap-3 mb-4">
               <FaNotesMedical className="text-teal-600 text-2xl" />
@@ -117,7 +83,7 @@ const Profile = () => {
             >
              
               <h3 className=" flex gap-2 font-semibold text-gray-800">
-               <h1>{index+1}.</h1> <h1> {contact.name || "Unknown"}</h1>
+               <span>{index+1}.</span> <h1> {contact.name || "Unknown"}</h1>
               </h3>
               <p className="text-sm text-gray-600">
                 Relation: {contact.relation || "N/A"}

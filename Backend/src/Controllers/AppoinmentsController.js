@@ -1,7 +1,9 @@
 import Appointment from "../Models/AppoinmentModel.js";
 import Doctor from "../Models/DoctorModel.js";
 import Patient from "../Models/PatientsModel.js";
+import Prescription from "../Models/Prescription.js";
 import Report from "../Models/Reports.js";
+
 
 
 
@@ -120,7 +122,7 @@ export const PatientReports = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: Reports,
-      message: "Patient All Appointment fetched successfully"
+      message: "Patient All Reports fetched successfully"
     });
 
   } catch (error) {
@@ -128,6 +130,30 @@ export const PatientReports = async (req, res, next) => {
   }
 };
 
+export const PatientPrescriptions = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      const error = new Error("Login Again");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const Prescriptions = await Prescription.find({ patientId: id })
+      .populate("doctorId", "fullName specialization email phone fee hospital");
+
+    
+    res.status(200).json({
+      success: true,
+      data: Prescriptions,
+      message: "Patient All Prescription fetched successfully"
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 

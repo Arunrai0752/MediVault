@@ -3,11 +3,10 @@ import { FaHeartbeat, FaFileMedical, FaUserMd , FaArrowRight } from 'react-icons
 import {
   FaCalendarAlt,
   FaHistory,
-  FaTimes
+  FaTimes,
+  FaAllergies 
 } from 'react-icons/fa';
 import { MdBloodtype, MdVaccines, MdWork, MdEmergency } from 'react-icons/md';
-import { GiMedicines } from 'react-icons/gi';
-import { BsDroplet, BsClipboardPlus } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Context/authContext.jsx';
@@ -42,12 +41,6 @@ const Dashboard = () => {
     };
   };
 
-
-
-
-
-
-
   const fetchUser = () => {
     const res = sessionStorage.getItem("Medi_vaultUser");
     if (res) {
@@ -79,7 +72,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const res = await api.get(`/user/appointments/${user._id}`);
-      console.log(res.data.message);
+      
 
       if (res.data.success) {
         setAppointments(res.data.data);
@@ -93,12 +86,10 @@ const Dashboard = () => {
 
 
 
-
   const fetchAllReports = async () => {
     try {
       setLoading(true);
       const res = await api.get(`/user/reports/${user._id}`);
-      console.log(res.data.data);
 
       if (res.data.success) {
         setMedicalReports(res.data.data);
@@ -122,7 +113,6 @@ const Dashboard = () => {
     e.preventDefault();
     const res = api.post(`/user/requestAppoinment/${user._id}`, appointmentRequest)
 
-    console.log('Appointment request:', appointmentRequest);
     alert('Appointment request submitted successfully!');
     setShowRequestForm(false);
     setAppointmentRequest({
@@ -189,7 +179,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Health Stats Cards */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
           <div className='bg-white rounded-xl shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-all duration-300 border-l-4 border-teal-500'>
             <div className='bg-teal-100 p-3 rounded-full'>
@@ -234,7 +223,7 @@ const Dashboard = () => {
 
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
           <div className='lg:col-span-2 space-y-6'>
-            <div className='bg-white rounded-xl shadow-sm p-6  h-[40vh] overflow-y-auto'>
+            <div className='bg-white rounded-xl shadow-sm p-6'>
               <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6'>
                 <div className='flex items-center gap-3 mb-3 sm:mb-0'>
                   <FaCalendarAlt className='text-teal-600 text-2xl' />
@@ -305,9 +294,7 @@ const Dashboard = () => {
 
                       <div className='mt-3 flex  gap-3 pt-3 border-t border-gray-100'>
                         <button className='text-teal-700 hover:text-teal-900 text-sm font-medium px-3 py-1 bg-teal-50 rounded-md'>
-                          Cancel
-                          &
-                          Reschedule
+                          Reschedule Request
                         </button>
                       </div>
 
@@ -386,11 +373,33 @@ const Dashboard = () => {
               </ul>
             </div>
 
+            <div className='bg-white rounded-xl shadow-sm p-6'>
+              <div className='flex items-center gap-3 mb-4'>
+                <FaAllergies  className='text-red-600 text-2xl' />
+                <h2 className='text-xl font-bold text-gray-800'>Allergies</h2>
+              </div>
+              <ul className='space-y-3'>
+                {patientData.allergies && patientData.allergies.length > 0 ? (
+                  patientData.allergies.map((allergies, index) => (
+                    <li key={index} className='flex items-start gap-3 p-2 hover:bg-gray-50 rounded-lg'>
+                      <span className='w-2 h-2 rounded-full bg-red-500 mt-2 flex-shrink-0'></span>
+                      <div>
+                        <p className='font-medium'>{allergies}</p>
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <p className='text-gray-500 text-sm'>No allergies  </p>
+                )}
+              </ul>
+            </div>
+
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center gap-3 mb-4">
                 <MdEmergency className="text-red-600 text-2xl" />
                 <h2 className="text-xl font-bold text-gray-800">Emergency Contacts</h2>
               </div>
+
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {patientData.emergencyContacts && patientData.emergencyContacts.length > 0 ? (
@@ -418,8 +427,8 @@ const Dashboard = () => {
               </div>
             </div>
 
-
           </div>
+
         </div>
       </div>
 
@@ -550,3 +559,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+
