@@ -50,6 +50,17 @@ const Login = () => {
       toast.error(error.message);
     }
   };
+    const handleForgotPassDoctor = () => { 
+
+      alert("D Team Working on it ")
+    }
+
+
+    const handleForgotPassPatient = () => { 
+
+      alert("P 7Team Working on it ")
+    }
+
 
   useEffect(() => {
     setFormData({ email: '', password: '' });
@@ -127,6 +138,17 @@ const Login = () => {
                   LogIn
                 </motion.button>
               </div>
+
+               <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="text-center text-teal-700 hover:text-teal-900 cursor-pointer transition-colors"
+                onClick={handleForgotPassDoctor}
+              >
+                Forgot password ?
+              </motion.p> 
+
             </motion.div>
           ) : (
             <motion.div
@@ -170,6 +192,7 @@ const Login = () => {
                 >
                   LogIn
                 </motion.button>
+
               </div>
 
               <motion.p
@@ -177,6 +200,7 @@ const Login = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
                 className="text-center text-teal-700 hover:text-teal-900 cursor-pointer transition-colors"
+                onClick={handleForgotPassPatient}
               >
                 Forgot password ?
               </motion.p>

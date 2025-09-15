@@ -53,7 +53,6 @@ const Doctors = () => {
     return (
         <main className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white py-16">
             <section className=" mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Hero Section */}
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -82,7 +81,7 @@ const Doctors = () => {
                     variants={container}
                     initial="hidden"
                     animate="show"
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+                    className=" sm:grid-cols-2 lg:grid-cols-3 flex flex-wrap justify-center gap-8"
                 >
                     {filteredDoctors.length > 0 ? (
                         filteredDoctors.map((doctor) => (

@@ -22,23 +22,39 @@ const DoctorSchema = mongoose.Schema(
       unique: true,
       match: [/^\d{10}$/, "Phone must be 10 digits"],
     },
+
     specialization: {
       type: String,
       required: true,
       enum: [
+        "General Physician",
+        "Dentist",
         "Cardiologist",
-        "Neurologist",
         "Dermatologist",
         "ENT",
         "Orthopedic",
-        "General Physician",
         "Pediatrician",
         "Psychiatrist",
         "Gynecologist",
-        "Other",
+        "Neurologist",
+        "Ophthalmologist",
+        "Oncologist",
+        "Pulmonologist",
+        "Urologist",
+        "Gastroenterologist",
+        "Nephrologist",
+        "Endocrinologist",
+        "Hematologist",
+        "Rheumatologist",
+        "Plastic Surgeon",
+        "Anesthesiologist",
+        "Radiologist",
+        "Pathologist",
+        "Other"
       ],
       default: "General Physician",
     },
+
     experience: {
       type: Number,
       required: true,
@@ -133,10 +149,8 @@ const DoctorSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-
   }
 );
-
 
 const Doctor = mongoose.model("Doctor", DoctorSchema);
 

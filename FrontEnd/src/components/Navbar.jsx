@@ -129,7 +129,7 @@ const Navbar = () => {
                 <div className="flex items-center bg-teal-50 px-3 py-1 rounded-full border border-teal-100">
                   <CiUser className="text-teal-700 mr-2" />
                   <span className="text-sm text-teal-800">
-                    Dr.  {userData?.fullName || userData?.email}
+                     {userData?.fullName || userData?.email}
                   </span>
                 </div>
 

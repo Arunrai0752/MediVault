@@ -30,13 +30,13 @@ const DoctorRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-    
+
     try {
       const response = await api.post("/doctors/register", formData);
       console.log("Registration successful:", response.data);
@@ -52,17 +52,32 @@ const DoctorRegister = () => {
   };
 
   const specializations = [
-    "Cardiologist",
-    "Neurologist",
-    "Dermatologist",
-    "ENT",
-    "Orthopedic",
-    "General Physician",
-    "Pediatrician",
-    "Psychiatrist",
-    "Gynecologist",
-    "Other"
+    { key: "general_physician", label: "General Physician" },
+    { key: "dentist", label: "Dentist" },
+    { key: "cardiologist", label: "Cardiologist" },
+    { key: "dermatologist", label: "Dermatologist" },
+    { key: "ent", label: "ENT (Ear, Nose, Throat)" },
+    { key: "orthopedic", label: "Orthopedic" },
+    { key: "pediatrician", label: "Pediatrician" },
+    { key: "psychiatrist", label: "Psychiatrist" },
+    { key: "gynecologist", label: "Gynecologist" },
+    { key: "neurologist", label: "Neurologist" },
+    { key: "ophthalmologist", label: "Ophthalmologist" },
+    { key: "oncologist", label: "Oncologist" },
+    { key: "pulmonologist", label: "Pulmonologist" },
+    { key: "urologist", label: "Urologist" },
+    { key: "gastroenterologist", label: "Gastroenterologist" },
+    { key: "nephrologist", label: "Nephrologist" },
+    { key: "endocrinologist", label: "Endocrinologist" },
+    { key: "hematologist", label: "Hematologist" },
+    { key: "rheumatologist", label: "Rheumatologist" },
+    { key: "plastic_surgeon", label: "Plastic Surgeon" },
+    { key: "anesthesiologist", label: "Anesthesiologist" },
+    { key: "radiologist", label: "Radiologist" },
+    { key: "pathologist", label: "Pathologist" },
+    { key: "other", label: "Other" }
   ];
+
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white w-full flex justify-center items-center p-2 overflow-hidden">
@@ -76,8 +91,8 @@ const DoctorRegister = () => {
               Join our network of healthcare professionals
             </p>
           </div>
-          <Link 
-            to="/" 
+          <Link
+            to="/"
             className="text-xl text-gray-500 hover:text-red-600 transition-all duration-300 transform hover:scale-110"
           >
             <IoMdCloseCircleOutline />
@@ -152,9 +167,12 @@ const DoctorRegister = () => {
                   className="w-full border border-gray-300 rounded-lg p-2 outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent transition-all"
                 >
                   {specializations.map(spec => (
-                    <option key={spec} value={spec}>{spec}</option>
+                    <option key={spec.key} value={spec.label}>
+                      {spec.label}
+                    </option>
                   ))}
                 </select>
+
               </div>
             </div>
           </div>
