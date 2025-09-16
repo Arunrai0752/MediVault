@@ -45,15 +45,23 @@ const reports = () => {
     }
   };
 
-   const handleDownload = (fileUrl, fileName) => {
+    const handleDownload = (fileUrl, fileName) => {
+    fetch(fileUrl, { mode: 'cors' })
+      .then(response => response.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.href = fileUrl;
-        link.target = "_Blank";
-        link.setAttribute('download', fileName || 'medical-report');
+        link.href = url;
+        link.download = fileName || 'medical-report';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    };
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error('Download failed:', error);
+      });
+  };
 
 
 
@@ -127,46 +135,70 @@ const reports = () => {
               </h2>
 
               {filteredPrescriptions.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                  No prescriptions found matching your search.
+                <div className="text-center py-12 text-gray-500">
+                  <FaPills className="mx-auto text-6xl text-gray-300 mb-4" />
+                  <p className="text-lg">No prescriptions found matching your search.</p>
                 </div>
               ) : (
-                <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredPrescriptions.map((prescription) => (
-                    <div key={prescription._id} className="border border-teal-100 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3'>
-                        <div>
-                          <h3 className='font-medium text-lg'>{prescription.reportType}</h3>
-                          <div className='flex flex-wrap gap-2 mt-1'>
-                            <span className='bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs'>
-                              Dr. {prescription.doctorId.fullName}
-                            </span>
-                            <span className='bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs'>
-                              {prescription.doctorId.hospital}
-                            </span>
+                    <div key={prescription._id} className="bg-gradient-to-br from-white to-teal-50 border border-teal-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="bg-teal-100 p-3 rounded-full">
+                            <FaPills className="text-teal-600 text-xl" />
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-lg text-gray-800">{prescription.reportType || 'Prescription'}</h3>
+                            <p className="text-sm text-gray-500">{prescription.date}</p>
                           </div>
                         </div>
-                        <div className='sm:text-right'>
-                          <p className='text-gray-500 text-sm'>{prescription.date}</p>
-                          <button
-                            onClick={() => handleDownload(prescription.fileUrl, `${prescription.reportType}`)}
-                            className='text-teal-700 hover:text-teal-900 text-sm mt-1 flex items-center gap-1 sm:justify-end w-full sm:w-auto'
-                          >
-                            View Report <FaArrowRight className='text-xs' />
-                          </button>
-
-
-                        </div>
+                        <button
+                          onClick={() => handleDownload(prescription.fileUrl, `${prescription.reportType || 'Prescription'}`)}
+                          className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors shadow-md"
+                        >
+                          <FaDownload className="text-sm" />
+                          Download
+                        </button>
                       </div>
 
-                      
-
-                      {prescription.notes && (
-                        <div className="bg-amber-50 border-l-4 border-amber-400 p-3 rounded-r">
-                          <h4 className="font-medium text-gray-800 mb-1">Doctor's Notes:</h4>
-                          <p className="text-gray-700">{prescription.notes}</p>
+                      <div className="space-y-3">
+                        <div className="flex flex-wrap gap-2">
+                          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                            Dr. {prescription.doctorId?.fullName}
+                          </span>
+                          <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                            {prescription.doctorId?.hospital}
+                          </span>
                         </div>
-                      )}
+
+                        {prescription.medicines && prescription.medicines.length > 0 && (
+                          <div className="bg-white rounded-lg p-4 border border-teal-100">
+                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                              <MdMedicalServices className="text-teal-600" />
+                              Medications
+                            </h4>
+                            <div className="space-y-2">
+                              {prescription.medicines.map((medicine, index) => (
+                                <div key={index} className="flex justify-between items-center bg-gray-50 p-2 rounded">
+                                  <span className="font-medium text-gray-700">{medicine.name}</span>
+                                  <span className="text-sm text-gray-600">{medicine.dosage}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {prescription.notes && (
+                          <div className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r">
+                            <h4 className="font-semibold text-gray-800 mb-1 flex items-center gap-2">
+                              <FaFileMedical className="text-amber-600" />
+                              Doctor's Notes
+                            </h4>
+                            <p className="text-gray-700 text-sm">{prescription.notes}</p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -181,39 +213,55 @@ const reports = () => {
               </h2>
 
               {filteredMedicalReports.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                  No medical reports found matching your search.
+                <div className="text-center py-12 text-gray-500">
+                  <MdMedicalServices className="mx-auto text-6xl text-gray-300 mb-4" />
+                  <p className="text-lg">No medical reports found matching your search.</p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredMedicalReports.map((report) => (
-                    <div key={report.id} className="border border-teal-100 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3'>
-                        <div>
-                          <h3 className='font-medium text-lg'>{report.reportType}</h3>
-                          <div className='flex flex-wrap gap-2 mt-1'>
-                            <span className='bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs'>
-                              Dr. {report.doctorId.fullName}
-                            </span>
-                            <span className='bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs'>
-                              {report.doctorId.hospital}
-                            </span>
+                    <div key={report.id} className="bg-gradient-to-br from-white to-blue-50 border border-blue-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="bg-blue-100 p-3 rounded-full">
+                            <MdMedicalServices className="text-blue-600 text-xl" />
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-lg text-gray-800">{report.reportType}</h3>
+                            <p className="text-sm text-gray-500">{report.date}</p>
                           </div>
                         </div>
-                        <div className='sm:text-right'>
-                          <p className='text-gray-500 text-sm'>{report.date}</p>
-                          <button
-                            onClick={() => handleDownload(report.fileUrl, `${report.reportType}`)}
-                            className='text-teal-700 hover:text-teal-900 text-sm mt-1 flex items-center gap-1 sm:justify-end w-full sm:w-auto'
-                          >
-                            View Report <FaArrowRight className='text-xs' />
-                          </button>
-
-
-                        </div>
+                        <button
+                          onClick={() => handleDownload(report.fileUrl, `${report.reportType}`)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors shadow-md"
+                        >
+                          <FaDownload className="text-sm" />
+                          Download
+                        </button>
                       </div>
 
+                      <div className="space-y-3">
+                        <div className="flex flex-wrap gap-2">
+                          <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                            Dr. {report.doctorId?.fullName}
+                          </span>
+                          <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+                            {report.doctorId?.hospital}
+                          </span>
+                        </div>
 
+                        {report.findings && (
+                          <div className="bg-white rounded-lg p-4 border border-blue-100">
+                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                              <FaFileMedical className="text-blue-600" />
+                              Key Findings
+                            </h4>
+                            <p className="text-gray-700 text-sm line-clamp-3">
+                              {report.findings.length > 150 ? `${report.findings.substring(0, 150)}...` : report.findings}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>

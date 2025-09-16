@@ -1,12 +1,13 @@
 import React from 'react';
-import { FaHeartbeat, FaFileMedical, FaUserMd , FaArrowRight } from 'react-icons/fa';
+import { FaHeartbeat, FaFileMedical, FaUserMd } from 'react-icons/fa';
 import {
   FaCalendarAlt,
   FaHistory,
   FaTimes,
-  FaAllergies 
+  FaAllergies,
+  FaDownload
 } from 'react-icons/fa';
-import { MdBloodtype, MdVaccines, MdWork, MdEmergency } from 'react-icons/md';
+import { MdBloodtype,MdWork, MdEmergency, MdMedicalServices } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Context/authContext.jsx';
@@ -72,7 +73,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const res = await api.get(`/user/appointments/${user._id}`);
-      
+
 
       if (res.data.success) {
         setAppointments(res.data.data);
@@ -125,22 +126,32 @@ const Dashboard = () => {
     });
   };
 
+
+
   const handleDownload = (fileUrl, fileName) => {
+    fetch(fileUrl, { mode: 'cors' })
+      .then(response => response.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.href = fileUrl;
-        link.target = "_Blank";
-        link.setAttribute('download', fileName || 'medical-report');
+        link.href = url;
+        link.download = fileName || 'medical-report';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    };
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error('Download failed:', error);
+      });
+  };
 
   const appointmentsData = categorizeAppointments(appointments);
 
   useEffect(() => {
     fetchUser();
     fetchAllAppointments(),
-    fetchAllReports()
+      fetchAllReports()
   }, []);
 
   return (
@@ -319,34 +330,60 @@ const Dashboard = () => {
               </div>
 
               <div className='space-y-4'>
-                {medicalReports.map((report, index) => (
-                  <div key={index} className='border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow'>
-                    <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3'>
-                      <div>
-                        <h3 className='font-medium text-lg'>{report.reportType}</h3>
-                        <div className='flex flex-wrap gap-2 mt-1'>
-                          <span className='bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs'>
-                            Dr. {report.doctorId.fullName}
-                          </span>
-                          <span className='bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs'>
-                            {report.doctorId.hospital}
-                          </span>
+                {medicalReports.length === 0 ? (
+                  <div className="text-center py-12 text-gray-500">
+                    <MdMedicalServices className="mx-auto text-6xl text-gray-300 mb-4" />
+                    <p className="text-lg">No medical reports available.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-6">
+                    {medicalReports.map((report, index) => (
+                      <div key={index} className="bg-gradient-to-br from-white to-blue-50 border border-blue-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-blue-100 p-3 rounded-full">
+                              <MdMedicalServices className="text-blue-600 text-xl" />
+                            </div>
+                            <div>
+                              <h3 className="font-bold text-lg text-gray-800">{report.reportType}</h3>
+                              <p className="text-sm text-gray-500">{report.date}</p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => handleDownload(report.fileUrl, `${report.reportType}`)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors shadow-md"
+                          >
+                            <FaDownload className="text-sm" />
+                            Download
+                          </button>
+                        </div>
+
+                        <div className="space-y-3">
+                          <div className="flex flex-wrap gap-2">
+                            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                              Dr. {report.doctorId?.fullName}
+                            </span>
+                            <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
+                              {report.doctorId?.hospital}
+                            </span>
+                          </div>
+
+                          {report.findings && (
+                            <div className="bg-white rounded-lg p-4 border border-blue-100">
+                              <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                <FaFileMedical className="text-blue-600" />
+                                Key Findings
+                              </h4>
+                              <p className="text-gray-700 text-sm line-clamp-3">
+                                {report.findings.length > 150 ? `${report.findings.substring(0, 150)}...` : report.findings}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
-                      <div className='sm:text-right'>
-                        <p className='text-gray-500 text-sm'>{report.date}</p>
-                        <button
-                          onClick={() => handleDownload(report.fileUrl , `${report.reportType}`)}
-                          className='text-teal-700 hover:text-teal-900 text-sm mt-1 flex items-center gap-1 sm:justify-end w-full sm:w-auto'
-                        >
-                          View Report <FaArrowRight className='text-xs' />
-                        </button>
-
-                        
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
@@ -375,7 +412,7 @@ const Dashboard = () => {
 
             <div className='bg-white rounded-xl shadow-sm p-6'>
               <div className='flex items-center gap-3 mb-4'>
-                <FaAllergies  className='text-red-600 text-2xl' />
+                <FaAllergies className='text-red-600 text-2xl' />
                 <h2 className='text-xl font-bold text-gray-800'>Allergies</h2>
               </div>
               <ul className='space-y-3'>
