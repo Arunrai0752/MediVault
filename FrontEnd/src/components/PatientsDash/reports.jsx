@@ -6,15 +6,30 @@ import api from '../../../Configs/api';
 
 
 
-const reports = () => {
+const Reports = () => {
   const [activeTab, setActiveTab] = useState('prescriptions');
   const [searchTerm, setSearchTerm] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [medicalReports, setMedicalReports] = useState([]);
 
 
   const [prescriptions, setprescriptions] = useState([]);
   const {user} = useAuth()
+  
+  // helper to format dates (accepts epoch, numeric string, or ISO)
+  const formatDate = (d) => {
+    if (d === null || d === undefined || d === '') return '-';
+    try {
+      let date;
+      if (typeof d === 'number') date = new Date(d);
+      else if (!isNaN(Number(d))) date = new Date(Number(d));
+      else date = new Date(d);
+      if (isNaN(date.getTime())) return String(d);
+      return date.toLocaleString('en-IN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      return String(d);
+    }
+  }
   
 
   const fetchAllReports = async () => {
@@ -58,9 +73,9 @@ const reports = () => {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
       })
-      .catch(error => {
-        console.error('Download failed:', error);
-      });
+      .catch(_error => {
+          console.error('Download failed:', _error);
+        });
   };
 
 
@@ -150,7 +165,7 @@ const reports = () => {
                           </div>
                           <div>
                             <h3 className="font-bold text-lg text-gray-800">{prescription.reportType || 'Prescription'}</h3>
-                            <p className="text-sm text-gray-500">{prescription.date}</p>
+                            <p className="text-sm text-gray-500">{formatDate(prescription.date)}</p>
                           </div>
                         </div>
                         <button
@@ -228,7 +243,7 @@ const reports = () => {
                           </div>
                           <div>
                             <h3 className="font-bold text-lg text-gray-800">{report.reportType}</h3>
-                            <p className="text-sm text-gray-500">{report.date}</p>
+                            <p className="text-sm text-gray-500">{formatDate(report.date)}</p>
                           </div>
                         </div>
                         <button
@@ -293,7 +308,7 @@ const reports = () => {
                             <p className="font-medium text-gray-800">
                               {item.type || `Prescription #${item.id}`}
                             </p>
-                            <p className="text-sm text-gray-600">{item.date}</p>
+                            <p className="text-sm text-gray-600">{formatDate(item.date)}</p>
                             <p className="text-sm text-gray-700 mt-1">
                               {item.doctor || item.prescribedBy}
                             </p>
@@ -323,7 +338,7 @@ const reports = () => {
                     <div>
                       <h4 className="font-medium text-gray-800">Last Consultation</h4>
                       <p className="text-gray-700 mt-1">
-                        {prescriptions[0].date} with {prescriptions[0].doctor}
+                        {prescriptions && prescriptions.length > 0 ? `${formatDate(prescriptions[0].date)} with ${prescriptions[0].doctor || prescriptions[0].doctorId?.fullName || ''}` : '-'}
                       </p>
                     </div>
                   </div>
@@ -337,4 +352,4 @@ const reports = () => {
   );
 };
 
-export default reports;
+export default Reports;

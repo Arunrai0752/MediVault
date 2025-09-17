@@ -6,6 +6,8 @@ import api from '../../../Configs/api';
 import { MdOutlineFileUpload } from "react-icons/md";
 import { FileText, Calendar, User, ExternalLink } from 'lucide-react';
 import LoadingPage from './loadingpage';
+import { useAuth } from '../../Context/authContext';
+
 
 const PatientProfile = ({ isOpen, onClose, patientData }) => {
     if (!isOpen || !patientData) return null;
@@ -15,12 +17,19 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
     const [reportData, setReportData] = useState([]);
     const [preview, setPreview] = useState(null);
     const [prescription, setPrescription] = useState(null);
-    const [prescriptionNotes, setPrescriptionNotes] = useState("");
     const [reports, setReports] = useState([]);
     const [reportTypes, setReportTypes] = useState({});
     const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
     const [showReportsForm, setShowReportsForm] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [diagnosis, setDiagnosis] = useState("");
+    const [medicines, setMedicines] = useState([{ name: "", dose: "", duration: "" }]);
+    const [prescriptionNotes, setPrescriptionNotes] = useState("");
+    const [nextVisit, setNextVisit] = useState("");
+    const { user } = useAuth();
+
+
+
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -38,11 +47,10 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
         const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
-                                     
+
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
-
         return age;
     };
 
@@ -55,15 +63,23 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
         return 'File';
     };
 
-    const handleDownload = (fileUrl, fileName) => {
+     const handleDownload = (fileUrl, fileName) => {
+    fetch(fileUrl, { mode: 'cors' })
+      .then(response => response.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.href = fileUrl;
-        link.target = "_Blank";
-        link.setAttribute('download', fileName || 'medical-report');
+        link.href = url;
+        link.download = fileName || 'medical-report';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    };
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error('Download failed:', error);
+      });
+  };
 
     const handleMedical = async () => {
         if (showMedical) {
@@ -93,14 +109,6 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
         }
     };
 
-    const handlePrescription = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        setPreview(URL.createObjectURL(file));
-        setPrescription(file);
-        setShowPrescriptionForm(true);
-    };
 
     const handleReport = (e) => {
         const files = Array.from(e.target.files);
@@ -125,34 +133,53 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
         }));
     };
 
-    const uploadPrescription = async () => {
-        if (!prescription) return alert("No file selected");
-        if (!prescriptionNotes.trim()) return alert("Please add notes/instructions for the prescription");
 
-        const formData = new FormData();
-        formData.append("file", prescription);
-        formData.append("notes", prescriptionNotes);
+    const handleMedicineChange = (index, field, value) => {
+        const updated = [...medicines];
+        updated[index][field] = value;
+        setMedicines(updated);
+    };
 
-        setPrescription(null);
-        setPrescriptionNotes("");
-        setShowPrescriptionForm(false);
+    const addMedicineField = () => {
+        setMedicines([...medicines, { name: "", dose: "", duration: "" }]);
+    };
 
+
+    const savePrescription = async () => {
         try {
-            const res = await api.post(
-                `/upload/prescription/${patientData._id}`,
-                formData,
-                {
-                    headers: { "Content-Type": "multipart/form-data" },
-                }
-            );
+            if (!diagnosis || medicines.length === 0) {
+                alert("Please fill all required fields");
+                return;
+            }
 
-            alert("Prescription Upload Success ✅");
-            console.log(res.data);
-        } catch (error) {
-            console.error("Upload failed:", error);
-            alert("Prescription Upload Failed ❌");
+            const payload = {
+                diagnosis,
+                medicines,
+                notes : prescriptionNotes,
+                nextVisit,
+            };
+
+            const res = await api.post(`/upload/prescription/${patientData._id}`, payload);
+
+
+            console.log("Prescription saved:", res.data.message);
+
+            alert("Prescription saved successfully!");
+            setShowPrescriptionForm(false);
+            setDiagnosis("");
+            setMedicines([]);
+            setPrescriptionNotes("");
+            setNextVisit("");
+        } catch (err) {
+            console.error(err);
+            alert("Error saving prescription");
         }
     };
+
+
+
+
+
 
     const uploadReports = async () => {
         if (!reports.length) return alert("No files selected");
@@ -256,10 +283,14 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                                     </div>
                                 </div>
                                 <div className="flex gap-4 relative">
-                                    <label className="flex gap-2 items-center cursor-pointer bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
-                                        <input type="file" name='file' className="hidden" onChange={handlePrescription} accept="image/*,.pdf,.doc,.docx" />
-                                        <MdOutlineFileUpload className="text-xl" />Prescription
-                                    </label>
+                                    <button
+                                        onClick={() => setShowPrescriptionForm(true)}
+                                        className="flex gap-2 items-center cursor-pointer bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition"
+                                    >
+                                        <MdOutlineFileUpload className="text-xl" />
+                                        New Prescription
+                                    </button>
+
 
                                     <label className="flex gap-2 items-center cursor-pointer bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
                                         <input type="file" name='files' className="hidden" multiple onChange={handleReport} accept="image/*,.pdf,.doc,.docx" />
@@ -268,40 +299,91 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                                 </div>
                             </div>
                         </div>
-
                         {showPrescriptionForm && (
-                            <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
-                                <div className="bg-white rounded-lg p-6 w-full max-w-md">
-                                    <h3 className="text-xl font-bold mb-4">Upload Prescription</h3>
+                            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                                <div className="bg-white rounded-lg p-6 w-full max-w-lg">
+                                    <h3 className="text-xl font-bold mb-4">Write Prescription</h3>
 
-                                    {preview && (
-                                        <div className="mb-4">
-                                            <p className="text-sm font-medium mb-2">Preview:</p>
-                                            <img
-                                                src={preview}
-                                                alt="Prescription preview"
-                                                className="w-full h-48 object-contain border rounded"
-                                            />
-                                        </div>
-                                    )}
-
+                                    {/* Diagnosis */}
                                     <div className="mb-4">
-                                        <label className="block text-sm font-medium mb-2">Doctor's Notes/Instructions:</label>
-                                        <textarea
-                                            value={prescriptionNotes}
-                                            onChange={(e) => setPrescriptionNotes(e.target.value)}
-                                            rows="4"
+                                        <label className="block text-sm font-medium mb-2">Diagnosis</label>
+                                        <input
+                                            type="text"
+                                            value={diagnosis}
+                                            onChange={(e) => setDiagnosis(e.target.value)}
                                             className="w-full p-2 border rounded-md"
-                                            placeholder="Enter instructions for the patient..."
+                                            placeholder="Enter diagnosis..."
                                             required
                                         />
                                     </div>
 
+                                    <div className="mb-4">
+                                        <label className="block text-sm font-medium mb-2">Medicines</label>
+                                        {medicines.map((med, index) => (
+                                            <div key={index} className="flex gap-2 mb-2">
+                                                <input
+                                                    value={med.name}
+                                                    onChange={(e) => handleMedicineChange(index, "name", e.target.value)}
+                                                    placeholder="Medicine"
+                                                    className="flex-1 p-2 border rounded-md"
+                                                    required
+                                                />
+                                                <input
+                                                    value={med.dose}
+                                                    onChange={(e) => handleMedicineChange(index, "dose", e.target.value)}
+                                                    placeholder="Dose (e.g. 1-0-1)"
+                                                    className="w-28 p-2 border rounded-md"
+                                                    required
+                                                />
+                                                <input
+                                                    value={med.duration}
+                                                    onChange={(e) => handleMedicineChange(index, "duration", e.target.value)}
+                                                    placeholder="Days"
+                                                    className="w-20 p-2 border rounded-md"
+                                                    required
+                                                />
+                                            </div>
+                                        ))}
+                                        <button
+                                            type="button"
+                                            onClick={addMedicineField}
+                                            className="text-blue-600 text-sm underline"
+                                        >
+                                            + Add Medicine
+                                        </button>
+                                    </div>
+
+                                    {/* Notes */}
+                                    <div className="mb-4">
+                                        <label className="block text-sm font-medium mb-2">Doctor's Notes / Advice</label>
+                                        <textarea
+                                            value={prescriptionNotes}
+                                            onChange={(e) => setPrescriptionNotes(e.target.value)}
+                                            rows="3"
+                                            className="w-full p-2 border rounded-md"
+                                            placeholder="Enter instructions..."
+                                        />
+                                    </div>
+
+                               
+                                    <div className="mb-4">
+                                        <label className="block text-sm font-medium mb-2">Next Visit</label>
+                                        <input
+                                            type="date"
+                                            value={nextVisit}
+                                            onChange={(e) => setNextVisit(e.target.value)}
+                                            className="w-full p-2 border rounded-md"
+                                        />
+                                    </div>
+
+                                    {/* Buttons */}
                                     <div className="flex justify-end gap-3">
                                         <button
                                             onClick={() => {
-                                                setPrescription(null);
+                                                setDiagnosis("");
+                                                setMedicines([{ name: "", dose: "", duration: "" }]);
                                                 setPrescriptionNotes("");
+                                                setNextVisit("");
                                                 setShowPrescriptionForm(false);
                                             }}
                                             className="px-4 py-2 bg-gray-300 rounded-md"
@@ -309,15 +391,16 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                                             Cancel
                                         </button>
                                         <button
-                                            onClick={uploadPrescription}
+                                            onClick={savePrescription}
                                             className="px-4 py-2 bg-blue-600 text-white rounded-md"
                                         >
-                                            Upload
+                                            Save
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         )}
+
 
                         {showReportsForm && (
                             <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
@@ -635,7 +718,7 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                                                                     {report.doctorId?.specialization || "N/A"}
                                                                 </p>
                                                             </div>
-                                                           
+
 
                                                             <div>
                                                                 <p className="text-sm text-gray-500">Report Type</p>

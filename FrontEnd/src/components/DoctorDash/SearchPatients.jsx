@@ -32,7 +32,6 @@ const SearchPatients = () => {
         try {
             const response = await api.get(`/doctors/patient/${patientId}`);
             setPatientData(response.data.data);
-            console.log("Patient data:", response.data);
         } catch (err) {
             console.error("Error fetching patient:", err);
             setError("Patient not found. Please check the ID and try again.");
