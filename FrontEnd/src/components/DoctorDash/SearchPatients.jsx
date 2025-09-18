@@ -61,8 +61,8 @@ const SearchPatients = () => {
     };
 
     return (
-        <motion.main 
-            className='w-full min-h-screen bg-gray-50'
+        <motion.main
+            className='w-full min-h-screen bg-white/80 backdrop-blur-md'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}

@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { FaUserInjured, FaCalendarAlt, FaFileMedical, FaChartLine, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { MdOutlinePersonSearch } from "react-icons/md";
 
-
 const Sidebar = ({ active, setActive }) => {
   const navigate = useNavigate();
 
@@ -19,9 +18,9 @@ const Sidebar = ({ active, setActive }) => {
   }
  
   return (
-    <aside className='w-70 h-[92vh] bg-gradient-to-b from-teal-700 via-teal-600 to-teal-500 text-white flex flex-col shadow-lg'>
-      <div className='border-b border-teal-500/40'>
-        <h1 className='text-center text-3xl p-4'>
+    <aside className='w-70 h-[92vh] bg-gradient-to-b from-sky-100 via-sky-50 to-sky-100 text-blue-900 flex flex-col shadow-lg border-r border-blue-200'>
+      <div className='border-b border-blue-200'>
+        <h1 className='text-center text-2xl font-semibold p-4 text-blue-800'>
           Doctor Dashboard
         </h1>
       </div>
@@ -34,7 +33,9 @@ const Sidebar = ({ active, setActive }) => {
                 onClick={() => setActive(item.name)}
                 className={({ isActive }) => 
                   `flex items-center w-full p-3 rounded-lg transition-colors ${
-                    isActive ? 'bg-white text-teal-800' : 'bg-teal-600/30 hover:bg-teal-500/40 text-teal-50'
+                    isActive 
+                      ? 'bg-blue-500 text-white shadow-md' 
+                      : 'bg-white text-blue-700 hover:bg-blue-100 border border-blue-100'
                   }`
                 }
                 aria-current={active === item.name ? "page" : undefined}
@@ -50,7 +51,7 @@ const Sidebar = ({ active, setActive }) => {
       <div className='p-4'>
         <button 
           onClick={handleLogout}
-          className='w-full py-3 px-4 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors duration-300 flex items-center justify-center'
+          className='w-full py-3 px-4 rounded-lg bg-blue-400 hover:bg-blue-500 text-white transition-colors duration-300 flex items-center justify-center shadow hover:shadow-md'
           aria-label="Log out"
         >
           <FaSignOutAlt className="mr-2" />

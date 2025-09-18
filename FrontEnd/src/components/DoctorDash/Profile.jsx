@@ -6,22 +6,17 @@ import {
   FaIdCard, 
   FaPhone, 
   FaEnvelope, 
-  FaStethoscope,
   FaMoneyBillWave,
   FaCalendarAlt,
-  FaUserShield,
-  FaClinicMedical,
-  FaBriefcaseMedical,
   FaGraduationCap,
   FaLanguage,
-  FaStar,
   FaMapMarkerAlt,
   FaClock,
-  FaEdit
+  FaEdit,
+  FaStethoscope
 } from 'react-icons/fa';
 import { MdWork, MdMedicalServices, MdSchedule, MdEmergency } from 'react-icons/md';
 import { GiMedicines } from 'react-icons/gi';
-import api from '../../../Configs/api';
 import EditModel from './editModel.jsx';
 import { useAuth } from '../../Context/authContext.jsx';
 
@@ -90,17 +85,17 @@ const Profile = () => {
 
   if (isLoading) {
     return (
-      <main className='p-4 md:p-6 bg-teal-50 min-h-screen flex items-center justify-center'>
+      <main className='p-4 md:p-6 bg-blue-50 min-h-screen flex items-center justify-center'>
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full mx-auto">
           <div className="flex flex-col items-center">
-            <div className="w-24 h-24 bg-teal-100 rounded-full mb-4 flex items-center justify-center">
-              <div className="animate-pulse bg-teal-200 w-16 h-16 rounded-full"></div>
+            <div className="w-24 h-24 bg-blue-100 rounded-full mb-4 flex items-center justify-center">
+              <div className="animate-pulse bg-blue-200 w-16 h-16 rounded-full"></div>
             </div>
-            <div className="w-48 h-6 bg-teal-100 rounded mb-4 animate-pulse"></div>
-            <div className="w-32 h-4 bg-teal-100 rounded mb-8 animate-pulse"></div>
+            <div className="w-48 h-6 bg-blue-100 rounded mb-4 animate-pulse"></div>
+            <div className="w-32 h-4 bg-blue-100 rounded mb-8 animate-pulse"></div>
             <div className="w-full space-y-3">
               {[1, 2, 3, 4].map(item => (
-                <div key={item} className="w-full h-4 bg-teal-100 rounded animate-pulse"></div>
+                <div key={item} className="w-full h-4 bg-blue-100 rounded animate-pulse"></div>
               ))}
             </div>
           </div>
@@ -110,40 +105,43 @@ const Profile = () => {
   }
 
   return (
-    <main className='p-4 md:p-6 bg-gradient-to-br from-teal-50 via-blue-50 to-white min-h-screen'>
+    <main className='p-4 md:p-6 bg-blue-50 min-h-screen'>
       <div className='max-w-6xl mx-auto'>
-        <div className='bg-white rounded-xl shadow-md p-6 mb-6 border border-teal-100'>
+        <div className='bg-white rounded-xl shadow-md p-6 mb-6 border border-blue-100'>
           <div className='flex flex-col md:flex-row items-center'>
             <div className='relative mb-4 md:mb-0 md:mr-6'>
               <div className='w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white shadow-lg overflow-hidden'>
                 <img
-                  src={userData.photo || `https://dummyimage.com/400x400/0099ff/ffffff&text=${userData.fullName.split(" ")[0]}`}
+                  src={userData.photo || `https://dummyimage.com/400x400/3b82f6/ffffff&text=${userData.fullName.split(" ")[0]}`}
                   alt="Doctor Profile"
                   className='w-full h-full object-cover'
                 />
               </div>
-              <div className='absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-teal-600 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center'>
+              <div className='absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center'>
                 <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
                 {userData.status}
               </div>
             </div>
             
             <div className='flex-1 text-center md:text-left'>
-              <h1 className='text-2xl md:text-3xl font-bold text-teal-800'>Dr. {userData.fullName}</h1>
-              <p className='text-teal-700 font-medium'>{userData.specialization}</p>
+              <h1 className='text-2xl md:text-3xl font-bold text-blue-800'>Dr. {userData.fullName}</h1>
+              <p className='text-blue-700 font-medium flex items-center justify-center md:justify-start'>
+                <FaStethoscope className='mr-2 text-blue-600' /> 
+                {userData.specialization}
+              </p>
               <div className='flex items-center justify-center md:justify-start mt-2'>
                
               </div>
               <div className='mt-3 flex flex-wrap items-center justify-center md:justify-start gap-2'>
-                <span className='flex items-center text-sm text-gray-600'><FaMapMarkerAlt className='mr-1 text-teal-600' /> {userData.hospital || 'Medical Center'}</span>
-                <span className='flex items-center text-sm text-gray-600'><FaClock className='mr-1 text-teal-600' /> {userData.consultationHours || '9:00 AM - 5:00 PM'}</span>
+                <span className='flex items-center text-sm text-gray-600'><FaMapMarkerAlt className='mr-1 text-blue-600' /> {userData.hospital || 'Medical Center'}</span>
+                <span className='flex items-center text-sm text-gray-600'><FaClock className='mr-1 text-blue-600' /> {userData.consultationHours || '9:00 AM - 5:00 PM'}</span>
               </div>
             </div>
             
             <div className='mt-4 md:mt-0'>
               <button
                 onClick={() => setisEditModelOpen(true)}
-                className='px-5 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-medium transition-all duration-300 flex items-center shadow-md hover:shadow-lg'
+                className='px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-300 flex items-center shadow-md hover:shadow-lg'
               >
                 <FaEdit className='mr-2' /> Edit Profile
               </button>
@@ -157,7 +155,7 @@ const Profile = () => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-4 font-medium flex items-center transition-colors ${activeTab === tab ? 'text-teal-700 border-b-2 border-teal-600 bg-teal-50' : 'text-gray-600 hover:text-teal-600'}`}
+                className={`px-6 py-4 font-medium flex items-center transition-colors ${activeTab === tab ? 'text-blue-700 border-b-2 border-blue-600 bg-blue-50' : 'text-gray-600 hover:text-blue-600'}`}
               >
                 {tab === 'overview' && <FaUserMd className='mr-2' />}
                 {tab === 'professional' && <MdWork className='mr-2' />}
@@ -176,41 +174,41 @@ const Profile = () => {
             <div className='p-6'>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                 <div className='md:col-span-2'>
-                  <h3 className='text-xl font-semibold text-teal-800 mb-4 pb-2 border-b border-teal-100 flex items-center'>
-                    <FaUserMd className='mr-2 text-teal-600' /> Personal Information
+                  <h3 className='text-xl font-semibold text-blue-800 mb-4 pb-2 border-b border-blue-100 flex items-center'>
+                    <FaUserMd className='mr-2 text-blue-600' /> Personal Information
                   </h3>
                 </div>
 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
                     <FaEnvelope className='mr-2' /> Email
                   </label>
                   <p className='text-gray-800 font-medium'>{userData.email || 'Not specified'}</p>
                 </div>
 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
                     <FaPhone className='mr-2' /> Phone
                   </label>
                   <p className='text-gray-800 font-medium'>{userData.phone || 'Not specified'}</p>
                 </div>
                 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
                     <FaMapMarkerAlt className='mr-2' /> Address
                   </label>
                   <p className='text-gray-800 font-medium'>{userData.address || 'Not specified'}</p>
                 </div>
                 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
                     <MdEmergency className='mr-2' /> Emergency Contact
                   </label>
                   <p className='text-gray-800 font-medium'>{userData.emergencyContact || 'Not specified'}</p>
                 </div>
 
-                <div className='md:col-span-2 bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
+                <div className='md:col-span-2 bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
                     <FaIdCard className='mr-2' /> Biography
                   </label>
                   <p className='text-gray-800'>
@@ -226,50 +224,50 @@ const Profile = () => {
             <div className='p-6'>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                 <div className='md:col-span-2'>
-                  <h3 className='text-xl font-semibold text-teal-800 mb-4 pb-2 border-b border-teal-100 flex items-center'>
-                    <MdWork className='mr-2 text-teal-600' /> Professional Information
+                  <h3 className='text-xl font-semibold text-blue-800 mb-4 pb-2 border-b border-blue-100 flex items-center'>
+                    <MdWork className='mr-2 text-blue-600' /> Professional Information
                   </h3>
                 </div>
 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2'>Specialization</label>
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2'>Specialization</label>
                   <p className='text-gray-800 font-medium'>{userData.specialization}</p>
                 </div>
 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2'>Years of Experience</label>
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2'>Years of Experience</label>
                   <p className='text-gray-800 font-medium'>{userData.experience || '0'}+ years</p>
                 </div>
 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
-                    <FaHospital className='mr-2 text-teal-600' /> Hospital/Clinic
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
+                    <FaHospital className='mr-2 text-blue-600' /> Hospital/Clinic
                   </label>
                   <p className='text-gray-800 font-medium'>{userData.hospital || 'Not specified'}</p>
                 </div>
 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2'>Department</label>
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2'>Department</label>
                   <p className='text-gray-800 font-medium'>{userData.department || 'Not specified'}</p>
                 </div>
 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
-                    <FaIdCard className='mr-2 text-teal-600' /> License Number
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
+                    <FaIdCard className='mr-2 text-blue-600' /> License Number
                   </label>
                   <p className='text-gray-800 font-medium'>{userData.licenseNumber || 'Not specified'}</p>
                 </div>
 
-                <div className='bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
-                    <FaMoneyBillWave className='mr-2 text-teal-600' /> Consultation Fee
+                <div className='bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
+                    <FaMoneyBillWave className='mr-2 text-blue-600' /> Consultation Fee
                   </label>
                   <p className='text-gray-800 font-medium'>₹{userData.fee || '500'}</p>
                 </div>
                 
-                <div className='md:col-span-2 bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
-                    <FaGraduationCap className='mr-2 text-teal-600' /> Education
+                <div className='md:col-span-2 bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
+                    <FaGraduationCap className='mr-2 text-blue-600' /> Education
                   </label>
                   <div className='text-gray-800'>
                     {userData.education && userData.education.length > 0 ? (
@@ -282,14 +280,14 @@ const Profile = () => {
                   </div>
                 </div>
                 
-                <div className='md:col-span-2 bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
-                    <FaLanguage className='mr-2 text-teal-600' /> Languages Spoken
+                <div className='md:col-span-2 bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
+                    <FaLanguage className='mr-2 text-blue-600' /> Languages Spoken
                   </label>
                   <div className='flex flex-wrap gap-2'>
                     {userData.languages && userData.languages.length > 0 ? (
                       userData.languages.map((language, index) => (
-                        <span key={index} className='bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-medium'>
+                        <span key={index} className='bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium'>
                           {language}
                         </span>
                       ))
@@ -307,13 +305,13 @@ const Profile = () => {
             <div className='p-6'>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                 <div className='md:col-span-2'>
-                  <h3 className='text-xl font-semibold text-teal-800 mb-4 pb-2 border-b border-teal-100 flex items-center'>
-                    <FaCalendarAlt className='mr-2 text-teal-600' /> Availability
+                  <h3 className='text-xl font-semibold text-blue-800 mb-4 pb-2 border-b border-blue-100 flex items-center'>
+                    <FaCalendarAlt className='mr-2 text-blue-600' /> Availability
                   </h3>
                 </div>
 
-                <div className='md:col-span-2 bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
+                <div className='md:col-span-2 bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
                     <MdSchedule className='mr-2' /> Consultation Hours
                   </label>
                   <p className='text-gray-800 font-medium'>
@@ -321,9 +319,9 @@ const Profile = () => {
                   </p>
                 </div>
 
-                <div className='md:col-span-2 bg-teal-50 p-4 rounded-lg'>
-                  <label className='block text-teal-700 mb-2 flex items-center'>
-                    <FaClock className='mr-2 text-teal-600' /> Availability Status
+                <div className='md:col-span-2 bg-blue-50 p-4 rounded-lg'>
+                  <label className='block text-blue-700 mb-2 flex items-center'>
+                    <FaClock className='mr-2 text-blue-600' /> Availability Status
                   </label>
                   <p className='text-gray-800 font-medium'>
                     {userData.availability || 'Not specified. Please update your availability status.'}
@@ -331,14 +329,14 @@ const Profile = () => {
                 </div>
                 
                 <div className='md:col-span-2'>
-                  <div className='bg-gradient-to-r from-teal-50 to-blue-50 p-6 rounded-lg'>
-                    <h4 className='font-semibold text-teal-800 mb-3 flex items-center'>
-                      <FaCalendarAlt className='mr-2 text-teal-600' /> Weekly Schedule
+                  <div className='bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg'>
+                    <h4 className='font-semibold text-blue-800 mb-3 flex items-center'>
+                      <FaCalendarAlt className='mr-2 text-blue-600' /> Weekly Schedule
                     </h4>
                     <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
                       {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
                         <div key={day} className='bg-white p-3 rounded-lg shadow-sm text-center'>
-                          <p className='font-medium text-teal-800'>{day}</p>
+                          <p className='font-medium text-blue-800'>{day}</p>
                           <p className='text-sm text-green-600 mt-1'>9:00 AM - 5:00 PM</p>
                         </div>
                       ))}
@@ -354,22 +352,22 @@ const Profile = () => {
             <div className='p-6'>
               <div className='grid grid-cols-1 gap-6'>
                 <div>
-                  <h3 className='text-xl font-semibold text-teal-800 mb-4 pb-2 border-b border-teal-100 flex items-center'>
-                    <GiMedicines className='mr-2 text-teal-600' /> Services Offered
+                  <h3 className='text-xl font-semibold text-blue-800 mb-4 pb-2 border-b border-blue-100 flex items-center'>
+                    <GiMedicines className='mr-2 text-blue-600' /> Services Offered
                   </h3>
                 </div>
 
-                <div className='bg-teal-50 p-6 rounded-lg'>
+                <div className='bg-blue-50 p-6 rounded-lg'>
                   <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
                     {userData.services && userData.services.length > 0 ? (
                       userData.services.map((service, index) => (
-                        <div key={index} className='bg-white p-4 rounded-lg shadow-sm border-l-4 border-teal-500 hover:shadow-md transition-shadow'>
+                        <div key={index} className='bg-white p-4 rounded-lg shadow-sm border-l-4 border-blue-500 hover:shadow-md transition-shadow'>
                           <div className='flex items-start'>
-                            <div className='bg-teal-100 p-2 rounded-md mr-3'>
-                              <MdMedicalServices className='text-teal-600 text-xl' />
+                            <div className='bg-blue-100 p-2 rounded-md mr-3'>
+                              <MdMedicalServices className='text-blue-600 text-xl' />
                             </div>
                             <div>
-                              <h4 className='font-medium text-teal-800'>{service}</h4>
+                              <h4 className='font-medium text-blue-800'>{service}</h4>
                               <p className='text-sm text-gray-600 mt-1'>Comprehensive care and treatment</p>
                             </div>
                           </div>
@@ -377,10 +375,10 @@ const Profile = () => {
                       ))
                     ) : (
                       <div className='md:col-span-3 text-center py-8'>
-                        <div className='bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4'>
-                          <GiMedicines className='text-teal-600 text-2xl' />
+                        <div className='bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4'>
+                          <GiMedicines className='text-blue-600 text-2xl' />
                         </div>
-                        <h4 className='font-medium text-teal-800 mb-2'>No services added yet</h4>
+                        <h4 className='font-medium text-blue-800 mb-2'>No services added yet</h4>
                         <p className='text-gray-600'>Add the medical services you provide to help patients find you</p>
                       </div>
                     )}

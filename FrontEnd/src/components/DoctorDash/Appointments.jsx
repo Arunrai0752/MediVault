@@ -4,7 +4,6 @@ import {
   FaClock,
   FaUserInjured,
   FaStethoscope,
-  FaHospital,
   FaPlus,
   FaCheckCircle,
   FaHourglassHalf,
@@ -188,7 +187,7 @@ const Appointments = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white flex items-center justify-center">
+      <div className="min-h-screen bg-white/80 backdrop-blur-md flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
           <p className="mt-4 text-teal-800">Loading appointments...</p>
@@ -198,7 +197,7 @@ const Appointments = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-white">
+    <div className="min-h-screen bg-white/80 backdrop-blur-md">
       <main className="p-6 max-w-7xl mx-auto">
 
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
