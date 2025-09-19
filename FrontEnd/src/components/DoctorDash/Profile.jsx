@@ -20,7 +20,7 @@ import { GiMedicines } from 'react-icons/gi';
 import EditModel from './editModel.jsx';
 import { useAuth } from '../../Context/authContext.jsx';
 
-const Profile = () => {
+const Profile = ({ specialization }) => {
   const [editModelOpen, setisEditModelOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +38,7 @@ const Profile = () => {
     status: 'Active',
     qualifications: '',
     consultationHours: '',
-    emergencyContact: '', 
+    emergencyContact: '',
     department: '',
     biography: '',
     services: [],
@@ -48,6 +48,19 @@ const Profile = () => {
     rating: 4.8,
     totalReviews: 124
   });
+
+
+
+const specializationThemes = {
+  "General Physician": "bg-gradient-to-br from-green-100 via-green-200 to-green-300",
+  "Dentist": "bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300",
+  "Cardiologist": "bg-gradient-to-br from-red-100 via-red-200 to-red-300",
+  "Dermatologist": "bg-gradient-to-br from-pink-100 via-pink-200 to-pink-300",
+  "ENT": "bg-gradient-to-br from-yellow-100 via-yellow-200 to-yellow-300",
+  "Orthopedic": "bg-gradient-to-br from-purple-100 via-purple-200 to-purple-300",
+  "Gynecologist": "bg-gradient-to-br from-indigo-100 via-indigo-200 to-indigo-300",
+}
+
 
   const fetchDoctorData = async () => {
     try {
@@ -104,8 +117,13 @@ const Profile = () => {
     );
   }
 
+
+
+  const themeClass = specializationThemes[specialization] || "bg-gradient-to-br from-teal-50 via-blue-50 to-white";
+
+
   return (
-    <main className='p-4 md:p-6 bg-blue-50 min-h-screen'>
+    <main className={`p-4 md:p-6 min-h-screen ${themeClass}`}>
       <div className='max-w-6xl mx-auto'>
         <div className='bg-white rounded-xl shadow-md p-6 mb-6 border border-blue-100'>
           <div className='flex flex-col md:flex-row items-center'>

@@ -104,7 +104,7 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
         "Neurologist",
         "Dermatologist",
         "ENT",
-        "Orthopedic",
+        "Dentist",
         "General Physician",
         "Pediatrician",
         "Psychiatrist",
