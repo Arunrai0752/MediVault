@@ -5,7 +5,6 @@ import Appointments from '../components/DoctorDash/Appointments.jsx'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context/authContext.jsx'
 import SearchPatients from '../components/DoctorDash/SearchPatients.jsx'
-import { FaStethoscope, FaTooth, FaHeartbeat, FaBone, FaFemale } from 'react-icons/fa'
 
 
 const DoctorDash = () => {
@@ -18,6 +17,7 @@ const DoctorDash = () => {
   }, [])
 
   const userSpecialization = user?.specialization || "General Physician";
+  
 
   return (
     <main >
