@@ -53,188 +53,188 @@ const Profile = ({ specialization }) => {
 
   const specializationThemes = {
     "General Physician": {
-      bg: "bg-gradient-to-br from-green-50 via-green-100 to-green-200",
-      card: "from-green-50 to-green-100",
-      text: "text-green-800",
-      border: "border-green-200",
-      accent: "bg-green-500",
-      button: "bg-green-600 hover:bg-green-700"
-    },
-    "Dentist": {
-      bg: "bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200",
-      card: "from-blue-50 to-blue-100",
-      text: "text-blue-800",
-      border: "border-blue-200",
-      accent: "bg-blue-500",
-      button: "bg-blue-600 hover:bg-blue-700"
-    },
-    "Cardiologist": {
-      bg: "bg-gradient-to-br from-red-50 via-red-100 to-red-200",
-      card: "from-red-50 to-red-100",
-      text: "text-red-800",
-      border: "border-red-200",
-      accent: "bg-red-500",
-      button: "bg-red-600 hover:bg-red-700"
-    },
-    "Dermatologist": {
-      bg: "bg-gradient-to-br from-pink-50 via-pink-100 to-pink-200",
-      card: "from-pink-50 to-pink-100",
-      text: "text-pink-800",
-      border: "border-pink-200",
-      accent: "bg-pink-500",
-      button: "bg-pink-600 hover:bg-pink-700"
-    },
-    "ENT": {
-      bg: "bg-gradient-to-br from-yellow-50 via-yellow-100 to-yellow-200",
-      card: "from-yellow-50 to-yellow-100",
-      text: "text-yellow-800",
-      border: "border-yellow-200",
-      accent: "bg-yellow-500",
-      button: "bg-yellow-600 hover:bg-yellow-700"
-    },
-    "Orthopedic": {
-      bg: "bg-gradient-to-br from-purple-50 via-purple-100 to-purple-200",
-      card: "from-purple-50 to-purple-100",
-      text: "text-purple-800",
-      border: "border-purple-200",
-      accent: "bg-purple-500",
-      button: "bg-purple-600 hover:bg-purple-700"
-    },
-    "Gynecologist": {
-      bg: "bg-gradient-to-br from-indigo-50 via-indigo-100 to-indigo-200",
-      card: "from-indigo-50 to-indigo-100",
-      text: "text-indigo-800",
-      border: "border-indigo-200",
-      accent: "bg-indigo-500",
-      button: "bg-indigo-600 hover:bg-indigo-700"
-    },
-    "Pediatrician": {
-      bg: "bg-gradient-to-br from-cyan-50 via-cyan-100 to-cyan-200",
-      card: "from-cyan-50 to-cyan-100",
-      text: "text-cyan-800",
-      border: "border-cyan-200",
-      accent: "bg-cyan-500",
-      button: "bg-cyan-600 hover:bg-cyan-700"
-    },
-    "Psychiatrist": {
-      bg: "bg-gradient-to-br from-teal-50 via-teal-100 to-teal-200",
-      card: "from-teal-50 to-teal-100",
-      text: "text-teal-800",
-      border: "border-teal-200",
-      accent: "bg-teal-500",
-      button: "bg-teal-600 hover:bg-teal-700"
-    },
-    "Neurologist": {
-      bg: "bg-gradient-to-br from-violet-50 via-violet-100 to-violet-200",
-      card: "from-violet-50 to-violet-100",
-      text: "text-violet-800",
-      border: "border-violet-200",
-      accent: "bg-violet-500",
-      button: "bg-violet-600 hover:bg-violet-700"
-    },
-    "Ophthalmologist": {
-      bg: "bg-gradient-to-br from-amber-50 via-amber-100 to-amber-200",
-      card: "from-amber-50 to-amber-100",
-      text: "text-amber-800",
-      border: "border-amber-200",
-      accent: "bg-amber-500",
-      button: "bg-amber-600 hover:bg-amber-700"
-    },
-    "Oncologist": {
-      bg: "bg-gradient-to-br from-rose-50 via-rose-100 to-rose-200",
-      card: "from-rose-50 to-rose-100",
-      text: "text-rose-800",
-      border: "border-rose-200",
-      accent: "bg-rose-500",
-      button: "bg-rose-600 hover:bg-rose-700"
-    },
-    "Pulmonologist": {
-      bg: "bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-200",
-      card: "from-emerald-50 to-emerald-100",
+      bg: "bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50",
+      card: "from-emerald-50 to-green-100",
       text: "text-emerald-800",
       border: "border-emerald-200",
       accent: "bg-emerald-500",
-      button: "bg-emerald-600 hover:bg-emerald-700"
+      button: "bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 shadow-lg"
     },
-    "Urologist": {
-      bg: "bg-gradient-to-br from-lime-50 via-lime-100 to-lime-200",
-      card: "from-lime-50 to-lime-100",
-      text: "text-lime-800",
-      border: "border-lime-200",
-      accent: "bg-lime-500",
-      button: "bg-lime-600 hover:bg-lime-700"
-    },
-    "Gastroenterologist": {
-      bg: "bg-gradient-to-br from-sky-50 via-sky-100 to-sky-200",
-      card: "from-sky-50 to-sky-100",
-      text: "text-sky-800",
-      border: "border-sky-200",
-      accent: "bg-sky-500",
-      button: "bg-sky-600 hover:bg-sky-700"
-    },
-    "Nephrologist": {
-      bg: "bg-gradient-to-br from-orange-50 via-orange-100 to-orange-200",
-      card: "from-orange-50 to-orange-100",
-      text: "text-orange-800",
-      border: "border-orange-200",
-      accent: "bg-orange-500",
-      button: "bg-orange-600 hover:bg-orange-700"
-    },
-    "Endocrinologist": {
-      bg: "bg-gradient-to-br from-fuchsia-50 via-fuchsia-100 to-fuchsia-200",
-      card: "from-fuchsia-50 to-fuchsia-100",
-      text: "text-fuchsia-800",
-      border: "border-fuchsia-200",
-      accent: "bg-fuchsia-500",
-      button: "bg-fuchsia-600 hover:bg-fuchsia-700"
-    },
-    "Hematologist": {
-      bg: "bg-gradient-to-br from-rose-50 via-rose-100 to-rose-200",
-      card: "from-rose-50 to-rose-100",
-      text: "text-rose-800",
-      border: "border-rose-200",
-      accent: "bg-rose-500",
-      button: "bg-rose-600 hover:bg-rose-700"
-    },
-    "Rheumatologist": {
-      bg: "bg-gradient-to-br from-purple-50 via-purple-100 to-purple-200",
-      card: "from-purple-50 to-purple-100",
-      text: "text-purple-800",
-      border: "border-purple-200",
-      accent: "bg-purple-500",
-      button: "bg-purple-600 hover:bg-purple-700"
-    },
-    "Plastic Surgeon": {
-      bg: "bg-gradient-to-br from-pink-50 via-pink-100 to-pink-200",
-      card: "from-pink-50 to-pink-100",
-      text: "text-pink-800",
-      border: "border-pink-200",
-      accent: "bg-pink-500",
-      button: "bg-pink-600 hover:bg-pink-700"
-    },
-    "Anesthesiologist": {
-      bg: "bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200",
-      card: "from-gray-50 to-gray-100",
-      text: "text-gray-800",
-      border: "border-gray-200",
-      accent: "bg-gray-500",
-      button: "bg-gray-600 hover:bg-gray-700"
-    },
-    "Radiologist": {
-      bg: "bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200",
-      card: "from-blue-50 to-blue-100",
+    "Dentist": {
+      bg: "bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50",
+      card: "from-blue-50 to-sky-100",
       text: "text-blue-800",
       border: "border-blue-200",
       accent: "bg-blue-500",
-      button: "bg-blue-600 hover:bg-blue-700"
+      button: "bg-gradient-to-r from-blue-500 to-sky-600 hover:from-blue-600 hover:to-sky-700 shadow-lg"
     },
-    "Pathologist": {
-      bg: "bg-gradient-to-br from-indigo-50 via-indigo-100 to-indigo-200",
-      card: "from-indigo-50 to-indigo-100",
+    "Cardiologist": {
+      bg: "bg-gradient-to-br from-red-50 via-rose-50 to-pink-50",
+      card: "from-red-50 to-rose-100",
+      text: "text-red-800",
+      border: "border-red-200",
+      accent: "bg-red-500",
+      button: "bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 shadow-lg"
+    },
+    "Dermatologist": {
+      bg: "bg-gradient-to-br from-pink-50 via-rose-50 to-fuchsia-50",
+      card: "from-pink-50 to-rose-100",
+      text: "text-pink-800",
+      border: "border-pink-200",
+      accent: "bg-pink-500",
+      button: "bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 shadow-lg"
+    },
+    "ENT": {
+      bg: "bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50",
+      card: "from-amber-50 to-yellow-100",
+      text: "text-amber-800",
+      border: "border-amber-200",
+      accent: "bg-amber-500",
+      button: "bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 shadow-lg"
+    },
+    "Orthopedic": {
+      bg: "bg-gradient-to-br from-purple-50 via-violet-50 to-indigo-50",
+      card: "from-purple-50 to-violet-100",
+      text: "text-purple-800",
+      border: "border-purple-200",
+      accent: "bg-purple-500",
+      button: "bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 shadow-lg"
+    },
+    "Gynecologist": {
+      bg: "bg-gradient-to-br from-fuchsia-50 via-pink-50 to-rose-50",
+      card: "from-fuchsia-50 to-pink-100",
+      text: "text-fuchsia-800",
+      border: "border-fuchsia-200",
+      accent: "bg-fuchsia-500",
+      button: "bg-gradient-to-r from-fuchsia-500 to-pink-600 hover:from-fuchsia-600 hover:to-pink-700 shadow-lg"
+    },
+    "Pediatrician": {
+      bg: "bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-50",
+      card: "from-cyan-50 to-sky-100",
+      text: "text-cyan-800",
+      border: "border-cyan-200",
+      accent: "bg-cyan-500",
+      button: "bg-gradient-to-r from-cyan-500 to-sky-600 hover:from-cyan-600 hover:to-sky-700 shadow-lg"
+    },
+    "Psychiatrist": {
+      bg: "bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50",
+      card: "from-indigo-50 to-blue-100",
       text: "text-indigo-800",
       border: "border-indigo-200",
       accent: "bg-indigo-500",
-      button: "bg-indigo-600 hover:bg-indigo-700"
+      button: "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 shadow-lg"
+    },
+    "Neurologist": {
+      bg: "bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50",
+      card: "from-violet-50 to-purple-100",
+      text: "text-violet-800",
+      border: "border-violet-200",
+      accent: "bg-violet-500",
+      button: "bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 shadow-lg"
+    },
+    "Ophthalmologist": {
+      bg: "bg-gradient-to-br from-amber-50 via-yellow-50 to-lime-50",
+      card: "from-amber-50 to-yellow-100",
+      text: "text-amber-800",
+      border: "border-amber-200",
+      accent: "bg-amber-500",
+      button: "bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 shadow-lg"
+    },
+    "Oncologist": {
+      bg: "bg-gradient-to-br from-rose-50 via-pink-50 to-red-50",
+      card: "from-rose-50 to-pink-100",
+      text: "text-rose-800",
+      border: "border-rose-200",
+      accent: "bg-rose-500",
+      button: "bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg"
+    },
+    "Pulmonologist": {
+      bg: "bg-gradient-to-br from-teal-50 via-emerald-50 to-green-50",
+      card: "from-teal-50 to-emerald-100",
+      text: "text-teal-800",
+      border: "border-teal-200",
+      accent: "bg-teal-500",
+      button: "bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 shadow-lg"
+    },
+    "Urologist": {
+      bg: "bg-gradient-to-br from-lime-50 via-green-50 to-emerald-50",
+      card: "from-lime-50 to-green-100",
+      text: "text-lime-800",
+      border: "border-lime-200",
+      accent: "bg-lime-500",
+      button: "bg-gradient-to-r from-lime-500 to-green-600 hover:from-lime-600 hover:to-green-700 shadow-lg"
+    },
+    "Gastroenterologist": {
+      bg: "bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50",
+      card: "from-emerald-50 to-teal-100",
+      text: "text-emerald-800",
+      border: "border-emerald-200",
+      accent: "bg-emerald-500",
+      button: "bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 shadow-lg"
+    },
+    "Nephrologist": {
+      bg: "bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50",
+      card: "from-sky-50 to-blue-100",
+      text: "text-sky-800",
+      border: "border-sky-200",
+      accent: "bg-sky-500",
+      button: "bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-lg"
+    },
+  "Endocrinologist": {
+    bg: "bg-gradient-to-br from-fuchsia-50 via-purple-50 to-violet-50",
+    card: "from-fuchsia-50 to-purple-100",
+    text: "text-fuchsia-800",
+    border: "border-fuchsia-200",
+    accent: "bg-fuchsia-500",
+    button: "bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700 shadow-lg"
+  },
+    "Hematologist": {
+      bg: "bg-gradient-to-br from-red-50 via-rose-50 to-pink-50",
+      card: "from-red-50 to-rose-100",
+      text: "text-red-800",
+      border: "border-red-200",
+      accent: "bg-red-500",
+      button: "bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 shadow-lg"
+    },
+    "Rheumatologist": {
+      bg: "bg-gradient-to-br from-purple-50 via-violet-50 to-indigo-50",
+      card: "from-purple-50 to-violet-100",
+      text: "text-purple-800",
+      border: "border-purple-200",
+      accent: "bg-purple-500",
+      button: "bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 shadow-lg"
+    },
+    "Plastic Surgeon": {
+      bg: "bg-gradient-to-br from-pink-50 via-rose-50 to-fuchsia-50",
+      card: "from-pink-50 to-rose-100",
+      text: "text-pink-800",
+      border: "border-pink-200",
+      accent: "bg-pink-500",
+      button: "bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 shadow-lg"
+    },
+    "Anesthesiologist": {
+      bg: "bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50",
+      card: "from-slate-50 to-gray-100",
+      text: "text-slate-800",
+      border: "border-slate-200",
+      accent: "bg-slate-500",
+      button: "bg-gradient-to-r from-slate-500 to-gray-600 hover:from-slate-600 hover:to-gray-700 shadow-lg"
+    },
+    "Radiologist": {
+      bg: "bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50",
+      card: "from-blue-50 to-sky-100",
+      text: "text-blue-800",
+      border: "border-blue-200",
+      accent: "bg-blue-500",
+      button: "bg-gradient-to-r from-blue-500 to-sky-600 hover:from-blue-600 hover:to-sky-700 shadow-lg"
+    },
+    "Pathologist": {
+      bg: "bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50",
+      card: "from-indigo-50 to-blue-100",
+      text: "text-indigo-800",
+      border: "border-indigo-200",
+      accent: "bg-indigo-500",
+      button: "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 shadow-lg"
     }
   };
 

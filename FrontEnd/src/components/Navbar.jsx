@@ -18,187 +18,187 @@ const Navbar = () => {
 const  specialization =  user.specialization ||  "General Physician" ;
 const specializationThemes = {
   "General Physician": {
-    primary: "bg-green-600 hover:bg-green-700",
-    secondary: "bg-green-50 text-green-800 border-green-200",
-    accent: "text-green-600",
-    border: "border-green-200",
-    gradient: "from-green-50 via-green-100 to-green-200",
-    text: "text-green-700"
-  },
-  "Dentist": {
-    primary: "bg-blue-600 hover:bg-blue-700",
-    secondary: "bg-blue-50 text-blue-800 border-blue-200",
-    accent: "text-blue-600",
-    border: "border-blue-200",
-    gradient: "from-blue-50 via-blue-100 to-blue-200",
-    text: "text-blue-700"
-  },
-  "Cardiologist": {
-    primary: "bg-red-600 hover:bg-red-700",
-    secondary: "bg-red-50 text-red-800 border-red-200",
-    accent: "text-red-600",
-    border: "border-red-200",
-    gradient: "from-red-50 via-red-100 to-red-200",
-    text: "text-red-700"
-  },
-  "Dermatologist": {
-    primary: "bg-pink-600 hover:bg-pink-700",
-    secondary: "bg-pink-50 text-pink-800 border-pink-200",
-    accent: "text-pink-600",
-    border: "border-pink-200",
-    gradient: "from-pink-50 via-pink-100 to-pink-200",
-    text: "text-pink-700"
-  },
-  "ENT": {
-    primary: "bg-yellow-600 hover:bg-yellow-700",
-    secondary: "bg-yellow-50 text-yellow-800 border-yellow-200",
-    accent: "text-yellow-600",
-    border: "border-yellow-200",
-    gradient: "from-yellow-50 via-yellow-100 to-yellow-200",
-    text: "text-yellow-700"
-  },
-  "Orthopedic": {
-    primary: "bg-purple-600 hover:bg-purple-700",
-    secondary: "bg-purple-50 text-purple-800 border-purple-200",
-    accent: "text-purple-600",
-    border: "border-purple-200",
-    gradient: "from-purple-50 via-purple-100 to-purple-200",
-    text: "text-purple-700"
-  },
-  "Pediatrician": {
-    primary: "bg-cyan-600 hover:bg-cyan-700",
-    secondary: "bg-cyan-50 text-cyan-800 border-cyan-200",
-    accent: "text-cyan-600",
-    border: "border-cyan-200",
-    gradient: "from-cyan-50 via-cyan-100 to-cyan-200",
-    text: "text-cyan-700"
-  },
-  "Psychiatrist": {
-    primary: "bg-teal-600 hover:bg-teal-700",
-    secondary: "bg-teal-50 text-teal-800 border-teal-200",
-    accent: "text-teal-600",
-    border: "border-teal-200",
-    gradient: "from-teal-50 via-teal-100 to-teal-200",
-    text: "text-teal-700"
-  },
-  "Gynecologist": {
-    primary: "bg-fuchsia-600 hover:bg-fuchsia-700",
-    secondary: "bg-fuchsia-50 text-fuchsia-800 border-fuchsia-200",
-    accent: "text-fuchsia-600",
-    border: "border-fuchsia-200",
-    gradient: "from-fuchsia-50 via-fuchsia-100 to-fuchsia-200",
-    text: "text-fuchsia-700"
-  },
-  "Neurologist": {
-    primary: "bg-violet-600 hover:bg-violet-700",
-    secondary: "bg-violet-50 text-violet-800 border-violet-200",
-    accent: "text-violet-600",
-    border: "border-violet-200",
-    gradient: "from-violet-50 via-violet-100 to-violet-200",
-    text: "text-violet-700"
-  },
-  "Ophthalmologist": {
-    primary: "bg-amber-600 hover:bg-amber-700",
-    secondary: "bg-amber-50 text-amber-800 border-amber-200",
-    accent: "text-amber-600",
-    border: "border-amber-200",
-    gradient: "from-amber-50 via-amber-100 to-amber-200",
-    text: "text-amber-700"
-  },
-  "Oncologist": {
-    primary: "bg-rose-600 hover:bg-rose-700",
-    secondary: "bg-rose-50 text-rose-800 border-rose-200",
-    accent: "text-rose-600",
-    border: "border-rose-200",
-    gradient: "from-rose-50 via-rose-100 to-rose-200",
-    text: "text-rose-700"
-  },
-  "Pulmonologist": {
-    primary: "bg-emerald-600 hover:bg-emerald-700",
+    primary: "bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 shadow-lg",
     secondary: "bg-emerald-50 text-emerald-800 border-emerald-200",
     accent: "text-emerald-600",
     border: "border-emerald-200",
-    gradient: "from-emerald-50 via-emerald-100 to-emerald-200",
+    gradient: "from-emerald-50 via-green-50 to-teal-50",
     text: "text-emerald-700"
   },
-  "Urologist": {
-    primary: "bg-lime-600 hover:bg-lime-700",
-    secondary: "bg-lime-50 text-lime-800 border-lime-200",
-    accent: "text-lime-600",
-    border: "border-lime-200",
-    gradient: "from-lime-50 via-lime-100 to-lime-200",
-    text: "text-lime-700"
-  },
-  "Gastroenterologist": {
-    primary: "bg-sky-600 hover:bg-sky-700",
-    secondary: "bg-sky-50 text-sky-800 border-sky-200",
-    accent: "text-sky-600",
-    border: "border-sky-200",
-    gradient: "from-sky-50 via-sky-100 to-sky-200",
-    text: "text-sky-700"
-  },
-  "Nephrologist": {
-    primary: "bg-orange-600 hover:bg-orange-700",
-    secondary: "bg-orange-50 text-orange-800 border-orange-200",
-    accent: "text-orange-600",
-    border: "border-orange-200",
-    gradient: "from-orange-50 via-orange-100 to-orange-200",
-    text: "text-orange-700"
-  },
-  "Endocrinologist": {
-    primary: "bg-fuchsia-600 hover:bg-fuchsia-700",
-    secondary: "bg-fuchsia-50 text-fuchsia-800 border-fuchsia-200",
-    accent: "text-fuchsia-600",
-    border: "border-fuchsia-200",
-    gradient: "from-fuchsia-50 via-fuchsia-100 to-fuchsia-200",
-    text: "text-fuchsia-700"
-  },
-  "Hematologist": {
-    primary: "bg-red-600 hover:bg-red-700",
-    secondary: "bg-red-50 text-red-800 border-red-200",
-    accent: "text-red-600",
-    border: "border-red-200",
-    gradient: "from-red-50 via-red-100 to-red-200",
-    text: "text-red-700"
-  },
-  "Rheumatologist": {
-    primary: "bg-purple-600 hover:bg-purple-700",
-    secondary: "bg-purple-50 text-purple-800 border-purple-200",
-    accent: "text-purple-600",
-    border: "border-purple-200",
-    gradient: "from-purple-50 via-purple-100 to-purple-200",
-    text: "text-purple-700"
-  },
-  "Plastic Surgeon": {
-    primary: "bg-pink-600 hover:bg-pink-700",
-    secondary: "bg-pink-50 text-pink-800 border-pink-200",
-    accent: "text-pink-600",
-    border: "border-pink-200",
-    gradient: "from-pink-50 via-pink-100 to-pink-200",
-    text: "text-pink-700"
-  },
-  "Anesthesiologist": {
-    primary: "bg-gray-600 hover:bg-gray-700",
-    secondary: "bg-gray-50 text-gray-800 border-gray-200",
-    accent: "text-gray-600",
-    border: "border-gray-200",
-    gradient: "from-gray-50 via-gray-100 to-gray-200",
-    text: "text-gray-700"
-  },
-  "Radiologist": {
-    primary: "bg-blue-600 hover:bg-blue-700",
+  "Dentist": {
+    primary: "bg-gradient-to-r from-blue-500 to-sky-600 hover:from-blue-600 hover:to-sky-700 shadow-lg",
     secondary: "bg-blue-50 text-blue-800 border-blue-200",
     accent: "text-blue-600",
     border: "border-blue-200",
-    gradient: "from-blue-50 via-blue-100 to-blue-200",
+    gradient: "from-blue-50 via-sky-50 to-cyan-50",
     text: "text-blue-700"
   },
-  "Pathologist": {
-    primary: "bg-indigo-600 hover:bg-indigo-700",
+  "Cardiologist": {
+    primary: "bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 shadow-lg",
+    secondary: "bg-red-50 text-red-800 border-red-200",
+    accent: "text-red-600",
+    border: "border-red-200",
+    gradient: "from-red-50 via-rose-50 to-pink-50",
+    text: "text-red-700"
+  },
+  "Dermatologist": {
+    primary: "bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 shadow-lg",
+    secondary: "bg-pink-50 text-pink-800 border-pink-200",
+    accent: "text-pink-600",
+    border: "border-pink-200",
+    gradient: "from-pink-50 via-rose-50 to-fuchsia-50",
+    text: "text-pink-700"
+  },
+  "ENT": {
+    primary: "bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 shadow-lg",
+    secondary: "bg-amber-50 text-amber-800 border-amber-200",
+    accent: "text-amber-600",
+    border: "border-amber-200",
+    gradient: "from-amber-50 via-yellow-50 to-orange-50",
+    text: "text-amber-700"
+  },
+  "Orthopedic": {
+    primary: "bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 shadow-lg",
+    secondary: "bg-purple-50 text-purple-800 border-purple-200",
+    accent: "text-purple-600",
+    border: "border-purple-200",
+    gradient: "from-purple-50 via-violet-50 to-indigo-50",
+    text: "text-purple-700"
+  },
+  "Pediatrician": {
+    primary: "bg-gradient-to-r from-cyan-500 to-sky-600 hover:from-cyan-600 hover:to-sky-700 shadow-lg",
+    secondary: "bg-cyan-50 text-cyan-800 border-cyan-200",
+    accent: "text-cyan-600",
+    border: "border-cyan-200",
+    gradient: "from-cyan-50 via-sky-50 to-blue-50",
+    text: "text-cyan-700"
+  },
+  "Psychiatrist": {
+    primary: "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 shadow-lg",
     secondary: "bg-indigo-50 text-indigo-800 border-indigo-200",
     accent: "text-indigo-600",
     border: "border-indigo-200",
-    gradient: "from-indigo-50 via-indigo-100 to-indigo-200",
+    gradient: "from-indigo-50 via-blue-50 to-purple-50",
+    text: "text-indigo-700"
+  },
+  "Gynecologist": {
+    primary: "bg-gradient-to-r from-fuchsia-500 to-pink-600 hover:from-fuchsia-600 hover:to-pink-700 shadow-lg",
+    secondary: "bg-fuchsia-50 text-fuchsia-800 border-fuchsia-200",
+    accent: "text-fuchsia-600",
+    border: "border-fuchsia-200",
+    gradient: "from-fuchsia-50 via-pink-50 to-rose-50",
+    text: "text-fuchsia-700"
+  },
+  "Neurologist": {
+    primary: "bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 shadow-lg",
+    secondary: "bg-violet-50 text-violet-800 border-violet-200",
+    accent: "text-violet-600",
+    border: "border-violet-200",
+    gradient: "from-violet-50 via-purple-50 to-indigo-50",
+    text: "text-violet-700"
+  },
+  "Ophthalmologist": {
+    primary: "bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 shadow-lg",
+    secondary: "bg-amber-50 text-amber-800 border-amber-200",
+    accent: "text-amber-600",
+    border: "border-amber-200",
+    gradient: "from-amber-50 via-yellow-50 to-lime-50",
+    text: "text-amber-700"
+  },
+  "Oncologist": {
+    primary: "bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 shadow-lg",
+    secondary: "bg-rose-50 text-rose-800 border-rose-200",
+    accent: "text-rose-600",
+    border: "border-rose-200",
+    gradient: "from-rose-50 via-pink-50 to-red-50",
+    text: "text-rose-700"
+  },
+  "Pulmonologist": {
+    primary: "bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 shadow-lg",
+    secondary: "bg-teal-50 text-teal-800 border-teal-200",
+    accent: "text-teal-600",
+    border: "border-teal-200",
+    gradient: "from-teal-50 via-emerald-50 to-green-50",
+    text: "text-teal-700"
+  },
+  "Urologist": {
+    primary: "bg-gradient-to-r from-lime-500 to-green-600 hover:from-lime-600 hover:to-green-700 shadow-lg",
+    secondary: "bg-lime-50 text-lime-800 border-lime-200",
+    accent: "text-lime-600",
+    border: "border-lime-200",
+    gradient: "from-lime-50 via-green-50 to-emerald-50",
+    text: "text-lime-700"
+  },
+  "Gastroenterologist": {
+    primary: "bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 shadow-lg",
+    secondary: "bg-emerald-50 text-emerald-800 border-emerald-200",
+    accent: "text-emerald-600",
+    border: "border-emerald-200",
+    gradient: "from-emerald-50 via-teal-50 to-cyan-50",
+    text: "text-emerald-700"
+  },
+  "Nephrologist": {
+    primary: "bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 shadow-lg",
+    secondary: "bg-sky-50 text-sky-800 border-sky-200",
+    accent: "text-sky-600",
+    border: "border-sky-200",
+    gradient: "from-sky-50 via-blue-50 to-indigo-50",
+    text: "text-sky-700"
+  },
+  "Endocrinologist": {
+    primary: "bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700 shadow-lg",
+    secondary: "bg-fuchsia-50 text-fuchsia-800 border-fuchsia-200",
+    accent: "text-fuchsia-600",
+    border: "border-fuchsia-200",
+    gradient: "from-fuchsia-50 via-purple-50 to-violet-50",
+    text: "text-fuchsia-700"
+  },
+  "Hematologist": {
+    primary: "bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 shadow-lg",
+    secondary: "bg-red-50 text-red-800 border-red-200",
+    accent: "text-red-600",
+    border: "border-red-200",
+    gradient: "from-red-50 via-rose-50 to-pink-50",
+    text: "text-red-700"
+  },
+  "Rheumatologist": {
+    primary: "bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 shadow-lg",
+    secondary: "bg-purple-50 text-purple-800 border-purple-200",
+    accent: "text-purple-600",
+    border: "border-purple-200",
+    gradient: "from-purple-50 via-violet-50 to-indigo-50",
+    text: "text-purple-700"
+  },
+  "Plastic Surgeon": {
+    primary: "bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 shadow-lg",
+    secondary: "bg-pink-50 text-pink-800 border-pink-200",
+    accent: "text-pink-600",
+    border: "border-pink-200",
+    gradient: "from-pink-50 via-rose-50 to-fuchsia-50",
+    text: "text-pink-700"
+  },
+  "Anesthesiologist": {
+    primary: "bg-gradient-to-r from-slate-500 to-gray-600 hover:from-slate-600 hover:to-gray-700 shadow-lg",
+    secondary: "bg-slate-50 text-slate-800 border-slate-200",
+    accent: "text-slate-600",
+    border: "border-slate-200",
+    gradient: "from-slate-50 via-gray-50 to-zinc-50",
+    text: "text-slate-700"
+  },
+  "Radiologist": {
+    primary: "bg-gradient-to-r from-blue-500 to-sky-600 hover:from-blue-600 hover:to-sky-700 shadow-lg",
+    secondary: "bg-blue-50 text-blue-800 border-blue-200",
+    accent: "text-blue-600",
+    border: "border-blue-200",
+    gradient: "from-blue-50 via-sky-50 to-cyan-50",
+    text: "text-blue-700"
+  },
+  "Pathologist": {
+    primary: "bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 shadow-lg",
+    secondary: "bg-indigo-50 text-indigo-800 border-indigo-200",
+    accent: "text-indigo-600",
+    border: "border-indigo-200",
+    gradient: "from-indigo-50 via-blue-50 to-purple-50",
     text: "text-indigo-700"
   }
 };
