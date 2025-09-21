@@ -100,15 +100,29 @@ const DoctorEditModel = ({ isOpen, onClose, oldData, onUpdate }) => {
     if (!isOpen) return null;
 
     const specializations = [
+         "General Physician",
+        "Dentist",
         "Cardiologist",
-        "Neurologist",
         "Dermatologist",
         "ENT",
-        "Dentist",
-        "General Physician",
+        "Orthopedic",
         "Pediatrician",
         "Psychiatrist",
         "Gynecologist",
+        "Neurologist",
+        "Ophthalmologist",
+        "Oncologist",
+        "Pulmonologist",
+        "Urologist",
+        "Gastroenterologist",
+        "Nephrologist",
+        "Endocrinologist",
+        "Hematologist",
+        "Rheumatologist",
+        "Plastic Surgeon",
+        "Anesthesiologist",
+        "Radiologist",
+        "Pathologist",
         "Other"
     ];
 

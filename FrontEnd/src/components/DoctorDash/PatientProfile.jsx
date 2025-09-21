@@ -7,6 +7,7 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import { FileText, Calendar, User, ExternalLink } from 'lucide-react';
 import LoadingPage from './loadingpage';
 import { useAuth } from '../../Context/authContext';
+import toast from 'react-hot-toast';
 
 
 const specializationThemes = {
@@ -393,12 +394,10 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
                 nextVisit,
             };
 
-            const res = await api.post(`/upload/prescription/${patientData._id}`, payload);
+           await api.post(`/upload/prescription/${patientData._id}`, payload);
+            // toast.success("Prescription saved:", res.data.message);
 
-
-            console.log("Prescription saved:", res.data.message);
-
-            alert("Prescription saved successfully!");
+            toast.success("Prescription saved successfully!");
             setShowPrescriptionForm(false);
             setDiagnosis("");
             setMedicines([]);
@@ -435,15 +434,14 @@ const PatientProfile = ({ isOpen, onClose, patientData }) => {
 
         try {
             setIsLoading(true);
-            const res = await api.post(
+            await api.post(
                 `/upload/reports/${patientData._id}`,
                 formData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },
                 }
             );
-
-            alert("Reports Upload Success ✅");
+            toast.success("Reports Upload Success ✅");
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);

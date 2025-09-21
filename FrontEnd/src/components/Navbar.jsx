@@ -4,7 +4,6 @@ import { CiUser, CiLogout, CiLogin } from "react-icons/ci";
 import { IoMdMenu } from "react-icons/io";
 import { FaUserMd, FaUserInjured, FaStethoscope } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-import toast from "react-hot-toast";
 import { useAuth } from '../Context/authContext';
 import { RiServiceLine } from "react-icons/ri";
 
@@ -222,13 +221,12 @@ const specializationThemes = {
     setIsLoggedIn(false);
     setUserData(null);
     setMobileMenuOpen(false);
-    toast.success("Logged out successfully");
     navigate("/");
   };
 
   useEffect(() => {
     checkLoginStatus();
-  }, []);
+  }, [user]);
 
   return (
     <nav className={`sticky w-screen top-0 z-50 bg-white/70 backdrop-blur-md shadow-md border-b ${theme.border}`}>
