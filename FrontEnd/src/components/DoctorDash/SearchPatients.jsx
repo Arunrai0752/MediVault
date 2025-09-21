@@ -313,7 +313,7 @@ const specializationThemes = {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-2xl font-bold text-white text-center">
+  <h1 className={`text-2xl font-bold text-center ${theme.text}` }>
           Patient Search
         </h1>
       </motion.div>

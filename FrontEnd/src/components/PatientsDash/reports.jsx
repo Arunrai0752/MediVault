@@ -9,14 +9,13 @@ import api from '../../../Configs/api';
 const Reports = () => {
   const [activeTab, setActiveTab] = useState('prescriptions');
   const [searchTerm, setSearchTerm] = useState('');
-  const [, setLoading] = useState(true);
+  // const [loading , setLoading] = useState(true);
   const [medicalReports, setMedicalReports] = useState([]);
 
 
   const [prescriptions, setprescriptions] = useState([]);
   const {user} = useAuth()
   
-  // helper to format dates (accepts epoch, numeric string, or ISO)
   const formatDate = (d) => {
     if (d === null || d === undefined || d === '') return '-';
     try {
@@ -110,7 +109,7 @@ const Reports = () => {
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <FaSearch className="text-gray-400" />
               </div>
-              <input
+              <input 
                 type="text"
                 placeholder="Search reports or prescriptions..."
                 className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-teal-600 focus:border-teal-600"
@@ -120,6 +119,8 @@ const Reports = () => {
             </div>
 
             <div className="flex border border-teal-100 rounded-md overflow-hidden">
+
+
               <button
                 className={`px-4 py-2 flex items-center ${activeTab === 'prescriptions' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'}`}
                 onClick={() => setActiveTab('prescriptions')}
@@ -132,12 +133,14 @@ const Reports = () => {
               >
                 <MdMedicalServices className="mr-2" /> Medical Reports
               </button>
-              <button
+
+
+              {/* <button
                 className={`px-4 py-2 flex items-center ${activeTab === 'history' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'}`}
                 onClick={() => setActiveTab('history')}
               >
                 <FaHistory className="mr-2" /> History
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -284,7 +287,7 @@ const Reports = () => {
             </div>
           )}
 
-          {activeTab === 'history' && (
+          {/* {activeTab === 'history' && (
             <div className="p-4">
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
                 <FaHistory className="mr-2 text-teal-600" /> Medical History
@@ -345,7 +348,7 @@ const Reports = () => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
