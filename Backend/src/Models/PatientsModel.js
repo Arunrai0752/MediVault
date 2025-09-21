@@ -80,6 +80,11 @@ const patientSchema = new mongoose.Schema({
     type: String,
 
   },
+  photo: {
+    type: String,
+    default: "https://res.cloudinary.com/dzcmadjlq/image/upload/v1696116226/MedicalDoc/patientsprofile/user_ozm3wb.png"
+  },
+  
   allergies: {
     type: [],
 

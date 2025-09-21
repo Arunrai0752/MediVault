@@ -17,13 +17,13 @@ export const saveTypedPrescription = async (req, res) => {
     const patientId = req.params.id;
     const doctorId = req.user?._id;
 
-    const patient = await Patient.findById({_id : patientId})
-    const doctor =await  Doctor.findById({_id : doctorId})
+    const patient = await Patient.findById({ _id: patientId })
+    const doctor = await Doctor.findById({ _id: doctorId })
 
     if (!diagnosis || !medicines?.length) {
       return res.status(400).json({ message: "Missing required fields" });
     }
-  const html = `
+    const html = `
     <!doctype html>
     <html>
       <head>
@@ -208,5 +208,77 @@ export const uploadReports = async (req, res) => {
       message: "Upload failed ❌",
       error: error.message,
     });
+  }
+};
+
+
+
+export const uploadimageDoctor = async (req, res) => {
+  try {
+    const Id = req.params.id;
+    const profileImage = req.file;
+
+    if (!profileImage) return res.status(400).json({ message: "No file uploaded" });
+
+    const fileBase64 = profileImage.buffer.toString("base64");
+    const dataURI = `data:${profileImage.mimetype};base64,${fileBase64}`;
+
+    const result = await cloudinary.uploader.upload(dataURI, {
+      folder: "MedicalDoc/Doctorsprofile",
+      resource_type: "auto",
+    });
+
+    await Doctor.findByIdAndUpdate(
+      Id,
+      { photo: result.secure_url },  // yaha Cloudinary ka URL save ho raha hai
+      { new: true }                  // updated document return kare
+    );
+
+
+    res.status(200).json({
+      success: true,
+      message: "Profile uploaded successfully",
+      data: { url: result.secure_url, public_id: result.public_id },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Upload failed" });
+  }
+};
+
+
+
+
+
+export const uploadimagePatient = async (req, res) => {
+  try {
+    const Id = req.params.id;
+    const profileImage = req.file;
+
+    if (!profileImage) return res.status(400).json({ message: "No file uploaded" });
+
+    const fileBase64 = profileImage.buffer.toString("base64");
+    const dataURI = `data:${profileImage.mimetype};base64,${fileBase64}`;
+
+    const result = await cloudinary.uploader.upload(dataURI, {
+      folder: "MedicalDoc/patientsprofile",
+      resource_type: "auto",
+    });
+
+    await Patient.findByIdAndUpdate(
+      Id,
+      { photo: result.secure_url },  // yaha Cloudinary ka URL save ho raha hai
+      { new: true }                  // updated document return kare
+    );
+
+
+    res.status(200).json({
+      success: true,
+      message: "Profile uploaded successfully",
+      data: { url: result.secure_url, public_id: result.public_id },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Upload failed" });
   }
 };

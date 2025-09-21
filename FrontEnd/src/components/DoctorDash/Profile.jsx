@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import toast from 'react-hot-toast';
+import api from '../../../Configs/api';
 import { 
   FaUserMd, 
   FaHospital, 
@@ -27,6 +28,8 @@ const Profile = ({ specialization }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const [isLoading, setIsLoading] = useState(true);
   const {user} = useAuth();
+  const [preview , setpreview] = useState(null);
+
   const [userData, setUserData] = useState({
     fullName: '',
     email: '',
@@ -272,6 +275,48 @@ const Profile = ({ specialization }) => {
     toast.success("Profile updated successfully!");
   };
 
+  const fileInputRef = useRef(null);
+  const handleImageClick = () => {
+    try {
+      fileInputRef.current?.click();
+    } catch (err) {
+      console.error('file input not available', err);
+    }
+  };
+
+  const handleUploadImg = async () => {
+    if (!preview) return toast.error('No image selected');
+
+    const formData = new FormData();
+    formData.append('file', preview);
+
+    try {
+      const t = toast.loading('Uploading image...');
+      const res = await api.post(`/upload/profileD/${user._id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      toast.dismiss(t);
+
+      // Try a few probable response locations for the uploaded url
+      const uploadedUrl = res?.data?.data?.secure_url || res?.data?.data?.url || res?.data?.url || res?.data?.secure_url || res?.data?.imageUrl;
+      if (uploadedUrl) {
+        setUserData(prev => ({ ...prev, photo: uploadedUrl }));
+        setpreview(null);
+        toast.success('Profile image uploaded');
+      } else if (res?.data?.success) {
+        setpreview(null);
+        toast.success(res.data.message || 'Uploaded');
+      } else {
+        console.error('unexpected upload response', res?.data);
+        toast.error('Upload failed');
+      }
+    } catch (err) {
+      console.error('Upload error', err);
+      toast.error('Upload failed');
+    }
+  };
+
+
   if (isLoading) {
     const theme = specializationThemes[specialization] || specializationThemes["General Physician"];
     return (
@@ -298,11 +343,24 @@ const Profile = ({ specialization }) => {
         <div className={`bg-gradient-to-br ${theme.card} rounded-xl shadow-md p-6 mb-6 border ${theme.border}`}>
           <div className='flex flex-col md:flex-row items-center'>
             <div className='relative mb-4 md:mb-0 md:mr-6'>
-              <div className='w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white shadow-lg overflow-hidden'>
+              <div className='w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white shadow-lg overflow-hidden cursor-pointer' onClick={handleImageClick}>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  className="hidden"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setpreview(file)
+                      toast.success("Profile image selected successfully!");
+                    }
+                  }}
+                />
                 <img
                   src={userData.photo || `https://dummyimage.com/400x400/3b82f6/ffffff&text=${userData.fullName.split(" ")[0]}`}
                   alt="Doctor Profile"
-                  className='w-full h-full object-cover'
+                  className='w-full h-full object-cover hover:opacity-80 transition-opacity duration-200'
                 />
               </div>
               <div className={`absolute -bottom-2 left-1/2 transform -translate-x-1/2 ${theme.accent} text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center`}>
@@ -310,6 +368,38 @@ const Profile = ({ specialization }) => {
                 {userData.status}
               </div>
             </div>
+
+
+                { preview && (
+                  <div className="absolute inset-0 flex items-start justify-center pt-24 z-50">
+                    <div className="bg-white rounded-lg shadow-lg border p-4 w-72 flex flex-col items-center">
+                      <div className="w-60 h-40 overflow-hidden rounded-md mb-3">
+                        <img
+                          src={typeof preview === 'string' ? preview : URL.createObjectURL(preview)}
+                          alt="preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex gap-3">
+                        <button
+                          onClick={handleUploadImg}
+                          className={`px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md`}
+                        >
+                          Upload
+                        </button>
+                        <button
+                          onClick={() => setpreview(null)}
+                          className="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded-md"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+
+
             
             <div className='flex-1 text-center md:text-left'>
               <h1 className={`text-2xl md:text-3xl font-bold ${theme.text}`}>Dr. {userData.fullName}</h1>

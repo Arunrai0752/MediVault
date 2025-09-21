@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { FaHeartbeat, FaFileMedical, FaUserMd } from 'react-icons/fa';
 import {
   FaCalendarAlt,
@@ -7,11 +7,12 @@ import {
   FaAllergies,
   FaDownload
 } from 'react-icons/fa';
-import { MdBloodtype,MdWork, MdEmergency, MdMedicalServices } from 'react-icons/md';
+import { MdBloodtype, MdWork, MdEmergency, MdMedicalServices } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Context/authContext.jsx';
 import api from '../../../Configs/api.js';
+import toast from 'react-hot-toast';
 
 const Dashboard = () => {
 
@@ -46,8 +47,8 @@ const Dashboard = () => {
     const res = sessionStorage.getItem("Medi_vaultUser");
     if (res) {
       try {
-        const userData = JSON.parse(res);
-        setPatientData(prev => ({ ...prev, ...userData }));
+        const patientData = JSON.parse(res);
+        setPatientData(prev => ({ ...prev, ...patientData }));
       } catch (error) {
         console.error("Error parsing user data:", error);
         sessionStorage.removeItem("Medi_vaultUser");
@@ -148,6 +149,53 @@ const Dashboard = () => {
 
   const appointmentsData = categorizeAppointments(appointments);
 
+
+  const [preview, setpreview] = useState(null);
+  const fileInputRef = useRef(null);
+
+
+  const handleImageClick = () => {
+    try {
+      fileInputRef.current?.click();
+    } catch (err) {
+      console.error('file input not available', err);
+    }
+  };
+
+  const handleUploadImg = async () => {
+    if (!preview) return toast.error('No image selected');
+
+    const formData = new FormData();
+    formData.append('file', preview);
+
+    try {
+      const t = toast.loading('Uploading image...');
+      const res = await api.post(`/upload/profileP/${user._id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      toast.dismiss(t);
+
+      // Try a few probable response locations for the uploaded url
+      const uploadedUrl = res?.data?.data?.secure_url || res?.data?.data?.url || res?.data?.url || res?.data?.secure_url || res?.data?.imageUrl;
+      if (uploadedUrl) {
+        setPatientData(prev => ({ ...prev, photo: uploadedUrl }));
+        setpreview(null);
+        toast.success('Profile image uploaded');
+      } else if (res?.data?.success) {
+        setpreview(null);
+        toast.success(res.data.message || 'Uploaded');
+      } else {
+        console.error('unexpected upload response', res?.data);
+        toast.error('Upload failed');
+      }
+    } catch (err) {
+      console.error('Upload error', err);
+      toast.error('Upload failed');
+    }
+  };
+
+
+
   useEffect(() => {
     fetchUser();
     fetchAllAppointments(),
@@ -159,8 +207,21 @@ const Dashboard = () => {
       <div className='max-w-7xl mx-auto space-y-6 '>
         <div className='bg-white rounded-xl shadow-sm p-6 border border-teal-100'>
           <div className='flex flex-col md:flex-row items-center gap-6'>
-            <div className='w-24 h-24 rounded-full bg-gradient-to-r from-teal-500 to-blue-600 flex items-center justify-center text-3xl font-bold text-white'>
-              {patientData.fullName?.charAt(0) || 'U'}
+            <div className='w-24 h-24 rounded-full bg-gradient-to-r from-teal-500 to-blue-600 flex items-center justify-center text-3xl font-bold text-white' onClick={handleImageClick} >
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    setpreview(file)
+                    toast.success("Profile image selected successfully!");
+                  }
+                }}
+              />
+              <img src={patientData.photo} alt="Patient Profile" className='w-full h-full object-cover rounded-full  hover:opacity-80 transition-opacity duration-200' />
             </div>
             <div className='flex-1 w-full'>
               <h1 className='text-2xl md:text-3xl font-bold text-gray-800'>{patientData.fullName || 'User Name'}</h1>
@@ -189,6 +250,36 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+
+        {preview && (
+          <div className="absolute inset-0 flex items-start justify-center pt-24 z-50">
+            <div className="bg-white rounded-lg shadow-lg border p-4 w-72 flex flex-col items-center">
+              <div className="w-60 h-40 overflow-hidden rounded-md mb-3">
+                <img
+                  src={typeof preview === 'string' ? preview : URL.createObjectURL(preview)}
+                  alt="preview"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleUploadImg}
+                  className={`px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md`}
+                >
+                  Upload
+                </button>
+                <button
+                  onClick={() => setpreview(null)}
+                  className="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded-md"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
           <div className='bg-white rounded-xl shadow-sm p-5 flex items-center gap-4 hover:shadow-md transition-all duration-300 border-l-4 border-teal-500'>
