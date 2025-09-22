@@ -9,13 +9,14 @@ import api from '../../../Configs/api';
 const Reports = () => {
   const [activeTab, setActiveTab] = useState('prescriptions');
   const [searchTerm, setSearchTerm] = useState('');
-  // const [loading , setLoading] = useState(true);
+  const [loading , setLoading] = useState(true);
   const [medicalReports, setMedicalReports] = useState([]);
 
 
   const [prescriptions, setprescriptions] = useState([]);
   const {user} = useAuth()
   
+  // helper to format dates (accepts epoch, numeric string, or ISO)
   const formatDate = (d) => {
     if (d === null || d === undefined || d === '') return '-';
     try {
@@ -135,12 +136,7 @@ const Reports = () => {
               </button>
 
 
-              {/* <button
-                className={`px-4 py-2 flex items-center ${activeTab === 'history' ? 'bg-teal-600 text-white' : 'bg-white text-gray-700'}`}
-                onClick={() => setActiveTab('history')}
-              >
-                <FaHistory className="mr-2" /> History
-              </button> */}
+          
             </div>
           </div>
         </div>
@@ -287,68 +283,7 @@ const Reports = () => {
             </div>
           )}
 
-          {/* {activeTab === 'history' && (
-            <div className="p-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <FaHistory className="mr-2 text-teal-600" /> Medical History
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-teal-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-lg text-teal-800 mb-3">Timeline</h3>
-                  <div className="space-y-4">
-                    {[...prescriptions, ...medicalReports]
-                      .sort((a, b) => new Date(b.date) - new Date(a.date))
-                      .map((item, index) => (
-                        <div key={index} className="flex">
-                          <div className="flex flex-col items-center mr-4">
-                            <div className="w-3 h-3 bg-teal-600 rounded-full mt-1"></div>
-                            {index < [...prescriptions, ...medicalReports].length - 1 && (
-                              <div className="w-px h-full bg-teal-200"></div>
-                            )}
-                          </div>
-                          <div className="pb-4">
-                            <p className="font-medium text-gray-800">
-                              {item.type || `Prescription #${item.id}`}
-                            </p>
-                            <p className="text-sm text-gray-600">{formatDate(item.date)}</p>
-                            <p className="text-sm text-gray-700 mt-1">
-                              {item.doctor || item.prescribedBy}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-                <div className="bg-white border border-teal-100 p-4 rounded-lg">
-                  <h3 className="font-medium text-lg text-teal-800 mb-3">Summary</h3>
-                  <div className="space-y-3">
-                    <div>
-                      <h4 className="font-medium text-gray-800">Current Medications</h4>
-                      <ul className="list-disc pl-5 text-gray-700 mt-1">
-                        {prescriptions[0].medicines.map((med, idx) => (
-                          <li key={idx}>{med.name} ({med.dosage})</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-800">Recent Findings</h4>
-                      <p className="text-gray-700 mt-1">
-                        {medicalReports[0].findings.substring(0, 100)}...
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-800">Last Consultation</h4>
-                      <p className="text-gray-700 mt-1">
-                        {prescriptions && prescriptions.length > 0 ? `${formatDate(prescriptions[0].date)} with ${prescriptions[0].doctor || prescriptions[0].doctorId?.fullName || ''}` : '-'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )} */}
+      
         </div>
       </div>
     </div>

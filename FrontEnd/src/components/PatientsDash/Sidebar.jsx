@@ -10,9 +10,9 @@ const Sidebar = ({ active, setActive }) => {
     ];
 
     return (
-        <div className="h-screen w-85 bg-gradient-to-b from-teal-700 via-teal-600 to-teal-500 text-white shadow-lg">
+        <div className="h-screen w-75 bg-gradient-to-b from-teal-700 via-teal-600 to-teal-500 text-white shadow-lg">
             <div className="w-full flex justify-center border-b border-teal-500/40 p-6">
-                <h1 className="text-3xl font-semibold">
+                <h1 className="text-2xl font-semibold">
                     Patient Dashboard
                 </h1>
             </div>
