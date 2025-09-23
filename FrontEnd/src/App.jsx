@@ -4,7 +4,7 @@ import Navbar from './components/Navbar'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import About from './components/About'
-import DoctorDash from './pages/DoctorDash'
+import DoctorDash from './pages/DoctorDashboard'
 import DoctorRegister from './pages/DoctorRegister'
 import PaientDashBoard from "./pages/PatientDashboard"
 import { Toaster } from 'react-hot-toast'
@@ -12,6 +12,7 @@ import Services from './pages/Services'
 import Doctors from './pages/Doctors'
 import Loader from './components/loader'
 import { useEffect, useState } from 'react'
+import Admin from './pages/Admin'
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -39,6 +40,7 @@ function App() {
             <Route path="/patientDashboard" element={<PaientDashBoard />} />
             <Route path="/service" element={<Services />} />
             <Route path="/doctors" element={<Doctors />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </BrowserRouter>
       )}
