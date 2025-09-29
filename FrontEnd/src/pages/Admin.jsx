@@ -15,9 +15,7 @@ const Admin = () => {
             <div className="flex  min-h-screen bg-gray-50">
             
                         <div className='w-[20vw] h-screen fixed '>
-
                             <Sidebar active={active}  setActive= {setActive} />
-
                         </div>
                         <div className="flex-1 p-6 ps-[23%]">
                             {active === 'dashboard' && <Dashboard />}
@@ -26,7 +24,6 @@ const Admin = () => {
                             {active === 'appointments' && <AppoinmentManage />}
                          
                         </div>
-            
             </div>
     )
 }
