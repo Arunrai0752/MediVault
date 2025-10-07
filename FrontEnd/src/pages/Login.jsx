@@ -30,7 +30,7 @@ const Login = () => {
       setUser(res.data.data);
       setIsDoctor(true);
       sessionStorage.setItem('Medi_vaultUser', JSON.stringify(res.data.data));
-      navigate('/doctordash');
+      navigate('/GPDashboard');
     } catch (error) {
       toast.error(error.message);
     }
