@@ -211,7 +211,7 @@ const Sidebar = ({ active, setActive, specialization }) => {
   const icon = specializationIcons[specialization] || <FaUserInjured />;
 
   return (
-    <aside className={`w-70 h-[92vh] ${theme.sidebar} flex flex-col shadow-lg border-r ${theme.text}`}>
+    <aside className={`w-full md:w-72 lg:w-70 max-w-[18rem] md:max-w-[18rem] h-auto md:h-[92vh] ${theme.sidebar} flex flex-col shadow-lg border-r ${theme.text}`}>
       <div className='border-b border-opacity-30 border-current'>
         <h1 className='text-center text-2xl font-semibold p-4 flex items-center justify-center gap-2'>
           <span className='text-2xl'>{icon}</span>
@@ -219,7 +219,7 @@ const Sidebar = ({ active, setActive, specialization }) => {
         </h1>
       </div>
 
-      <nav className='flex-1 p-4 overflow-y-auto'>
+      <nav className='flex-1 p-4 overflow-y-auto overflow-x-hidden'>
         <ul className='space-y-2'>
           {navItems.map((item) => (
             <li key={item.name}>

@@ -5,7 +5,7 @@ import Appointments from '../components/Diff_Doc_Dash/General_Physician/Appointm
 import UploadDoc from '../components/Diff_Doc_Dash/General_Physician/UploadDoc'
 import SearchPatients from '../components/Diff_Doc_Dash/General_Physician/SearchPatients'
 import PatientsList from '../components/Diff_Doc_Dash/General_Physician/PatientsList'
-import Setting from '../components/Diff_Doc_Dash/General_Physician/Setting'
+import Setting from '../components/Setting'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context/authContext'
 

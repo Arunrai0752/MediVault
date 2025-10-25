@@ -9,12 +9,12 @@ const navItems = [
 
 const Sidebar = ({ active, setActive }) => {
   return (
-    <aside className="w-64 h-[90vh] sticky top-0 bg-gradient-to-b from-red-900 to-red-800 text-red-100 shadow-xl">
+    <aside className="w-full sm:w-64 md:w-64 h-auto sm:h-[90vh] sticky top-0 bg-gradient-to-b from-red-900 to-red-800 text-red-100 shadow-xl overflow-x-hidden">
       <div className="px-4 py-6 border-b border-red-700">
         <div className="text-xl font-semibold tracking-wide">Admin Panel</div>
       </div>
 
-      <nav className="px-2 py-4 space-y-1">
+  <nav className="px-2 py-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const isActive = active === item.key
           return (
